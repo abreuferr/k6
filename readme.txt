@@ -2,8 +2,9 @@
 
 # log
 #
-$ git log
-$ git log --oneline
+$ git log # log do git
+$ git log --oneline # cada log em uma única linha
+$ git log --graph # log em formato gráfico
 
 # ir até um determinado commit
 #
@@ -29,9 +30,10 @@ $ git log --oneline # log
 
 # branch
 #
-$ git status
+$ git status # listar as branch existentes
 $ git branch <BRANCH_NAME> # criar uma branch
 $ git checkout <BRANCH_NAME> # acessar uma branch
+$ git branch -b <BRANCH_NAME> # cria uma nova branch e acessa a branch <BRANCH_NAME>
 $ git branch --delete <BRANCH_NAME> # apagar uma branch
 
 # branch (MERGE)
