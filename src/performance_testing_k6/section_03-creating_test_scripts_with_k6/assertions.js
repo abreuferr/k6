@@ -1,7 +1,9 @@
-// Title : HTTP Request
-// Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-// Description : Requisição HTTP
-// Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+/* 
+Title : HTTP Request
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : Requisição HTTP
+Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+*/
 
 // importa a biblioteca HTTP do k6.
 import http from 'k6/http';
@@ -10,6 +12,7 @@ import http from 'k6/http';
 As chaves {} em volta do 'check' importa apenas a função check do módulo k6.
 Usada para fazer verificações na resposta da requisição.
 */
+
 import { check } from 'k6';
 
 export default function () {

@@ -1,10 +1,12 @@
-// Title : Breakpoint Test
-// Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-// Description : Testa a capacidade máxima de um sistema, 
-// aumentando gradualmente a carga para um valor alto até que 
-// o aplicativo comece a quebrar e tem uma duração bem maior, 
-// é necessário ser interrompido manualmente.
-// Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+/*
+Title : Breakpoint Test
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : Testa a capacidade máxima de um sistema, 
+aumentando gradualmente a carga para um valor alto até que 
+o aplicativo comece a quebrar e tem uma duração bem maior, 
+é necessário ser interrompido manualmente.
+Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+*/
 
 // importa a biblioteca HTTP do k6.
 import http from 'k6/http';

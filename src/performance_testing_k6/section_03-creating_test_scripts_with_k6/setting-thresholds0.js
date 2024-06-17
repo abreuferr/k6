@@ -1,7 +1,9 @@
-// Title : Thresholds
-// Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-// Description : Teste básico, existência de uma URL e um conteúdo
-// Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+/* 
+Title : Thresholds
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : Teste básico, existência de uma URL e um conteúdo
+Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+*/
 
 // importa a biblioteca HTTP do k6.
 import http from 'k6/http';

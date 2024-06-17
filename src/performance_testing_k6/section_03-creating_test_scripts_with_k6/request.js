@@ -1,7 +1,9 @@
-// Title : Status
-// Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-// Description : 
-// Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+/* 
+Title : Status
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : 
+Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+*/
 
 // importa a biblioteca HTTP do k6.
 import http from 'k6/http';

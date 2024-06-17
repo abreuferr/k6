@@ -1,16 +1,17 @@
-// Title : Thresholds
-// Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-// Description : São utilizados para definir limites aceitáveis em relação as métricas de teste. 
-//              Caso não atenda as métricas especificadas o teste terminará com status de falha.
-// Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+/* 
+Title : Thresholds
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : São utilizados para definir limites aceitáveis em relação as métricas de teste. 
+             Caso não atenda as métricas especificadas o teste terminará com status de falha.
+Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
 
-// Exemplo de respostas que podem ser utilizadas para criar métricas personalizadas, doc: "https://grafana.com/docs/k6/latest/javascript-api/k6-http/response/"
-
-// testar criação com está métrica "Response.timings.tls_handshaking"
+Exemplo de respostas que podem ser utilizadas para criar métricas personalizadas, doc: "https://grafana.com/docs/k6/latest/javascript-api/k6-http/response/"
+*/
 
 // importa a biblioteca HTTP do k6.
 import http from 'k6/http';
 import { sleep } from 'k6';
+
 // métricas personalizadas que podem ser adicionadas (Counter, Gauge, Rate e Trend). 
 // Mais informações na doc: "https://grafana.com/docs/k6/latest/javascript-api/k6-metrics/"
 import { Counter, Trend } from 'k6/metrics';
