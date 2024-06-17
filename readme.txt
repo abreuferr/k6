@@ -30,6 +30,7 @@ $ git log --oneline # log
 # branch
 #
 $ git status
+$ git branch # listar todas as branch existentes
 $ git branch <BRANCH_NAME> # criar uma branch
 $ git checkout <BRANCH_NAME> # acessar uma branch
 $ git branch --delete <BRANCH_NAME> # apagar uma branch
