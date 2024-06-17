@@ -26,3 +26,16 @@ $ git log --oneline # log
 $ git log --oneline # obter o ID do commit
 $ git reset <ID_COMMIT> # reverter um determinado commit
 $ git log --oneline # log
+
+# branch
+#
+$ git status
+$ git branch <BRANCH_NAME> # criar uma branch
+$ git checkout <BRANCH_NAME> # acessar uma branch
+$ git branch --delete <BRANCH_NAME> # apagar uma branch
+
+# branch (MERGE)
+#
+$ git checkout main
+$ git merge <BRANCH_NAME>
+$ git log
