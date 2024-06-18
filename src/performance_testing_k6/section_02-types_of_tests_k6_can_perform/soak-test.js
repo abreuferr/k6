@@ -1,10 +1,10 @@
-// Title : Soak Test
-// Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-// Description : Testa como o sistema se saí em um período maior com vários usuários acessando ao mesmo tempo, 
-// útil para identificar vazamentos de memória e esgotamento de recursos que podem aparecer após períodos maiores e de uso contínuo.
-// Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
-
-/*:   */
+/* 
+Title : Soak Test
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : Testa como o sistema se saí em um período maior com vários usuários acessando ao mesmo tempo, 
+útil para identificar vazamentos de memória e esgotamento de recursos que podem aparecer após períodos maiores e de uso contínuo.
+Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+*/
 
 // importa a biblioteca HTTP do k6.
 import http from 'k6/http';
@@ -18,7 +18,6 @@ São executadas três fases neste teste.
 3. a terceira carga é reduzida gradualmente de 1000 para 0 usuários ao longo de 48 minutos.
 
 A primeira e terceira fase devem ser 10% da duração total do teste.
-
 */
 
 // importante: não é indicado enviar grandes volumes de cargas para a API de teste do k6, é apenas um exemplo.

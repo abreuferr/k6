@@ -1,7 +1,9 @@
-// Title : Stress Test
-// Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-// Description : Leva o sistema ao seu ponto de ruptura. Avalia o desempenho do sistema com cargas acima do normal.
-// Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+/* 
+Title : Stress Test
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : Leva o sistema ao seu ponto de ruptura. Avalia o desempenho do sistema com cargas acima do normal.
+Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+*/
 
 // importa a biblioteca HTTP do k6.
 import http from 'k6/http';

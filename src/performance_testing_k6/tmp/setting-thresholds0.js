@@ -1,8 +1,9 @@
-// Title : Thresholds
-// Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-// Description : São utilizados para definir limites aceitavéis em relação as métricas de teste. 
-//               Caso não atenda as métricas especificadas o teste terminará com status de falha.
-// Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+/* 
+Title : Thresholds
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : Teste básico, existência de uma URL e um conteúdo
+Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+*/
 
 // importa a biblioteca HTTP do k6.
 import http from 'k6/http';
@@ -15,15 +16,6 @@ export const options = {
 
     // duração do teste
     duration: '1s',
-
-    //limites aceitáveis
-    thresholds: {
-        //o tempo de duração da requisição http em p(95) deve ser menor que 300ms, caso contrário haverá um erro.
-        http_req_duration: ['p(95)<300'],
-        
-        // a quantidade de erros HTTP deve ser inferior a 1%.
-        http_req_failed: ['rate<0.01']
-    }
 }
 
 export default function () {
@@ -38,3 +30,6 @@ export default function () {
     });
     sleep(2);
 }
+
+// ✓ status is 200
+// ✓ page is startpage
