@@ -1,15 +1,17 @@
 /* 
 Title : Thresholds
 Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
-Description : Thresholds: São utilizados para definir limites aceitavéis em relação as métricas de teste. 
+Description : Thresholds: São utilizados para definir limites aceitáveis em relação as métricas de teste. 
               Caso não atenda as métricas especificadas o teste terminará com status de falha.
 Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
 */
 
-// importa a biblioteca HTTP do k6.
+// importa bibliotecas do k6
 import http from 'k6/http';
 import { check } from 'k6';
 import { sleep } from 'k6';
+
+// biblioteca utilizada para obter informações sobre a execução do k6
 import exec from 'k6/execution';
 
 export const options = {
@@ -32,12 +34,14 @@ export const options = {
         http_req_failed: ['rate<0.03'],
 
         // essa métrica define que devem ocorrer mais de 20 requisições.
+        // ✓ http_reqs......................: 50     4.375327/s
         http_reqs: ['count>20'],
 
         // essa métrica defina que a quantidade de requisições por segundo deve ser maior que 4 para ser aceitável.
         http_reqs: ['rate>4'],
 
-        // define que deve ter peço menos 9 usuários ou mais para ser aceitável.
+        // define que deve ter pelo menos 9 usuários ou mais para ser aceitável.
+        // ✓ vus............................: 10     min=10     max=10
         vus: ['value>9'],
 
         // está métrica significa que caso uma requisição falhe é aceitável.
@@ -47,11 +51,13 @@ export const options = {
 }
 
 export default function () {
-    // realiza requisições GET e realiza duas verificações na resposta.
-    // ✗ status is 200
-    // ↳  97% — ✓ 45 / ✗ 1
-    // ✗ page is startpage
-    // ↳  97% — ✓ 45 / ✗ 1
+    /* 
+    realiza requisições GET e realiza duas verificações na resposta.
+    ✗ status is 200
+    ↳  97% — ✓ 45 / ✗ 1
+    ✗ page is startpage
+    ↳  97% — ✓ 45 / ✗ 1
+    */
     const res = http.get('https://test.k6.io/' + (exec.scenario.iterationInTest === 1 ? 'foo' : '')); // simula que uma requisição falhou.
 
     // mostra a quantidade de iterações na saída.
