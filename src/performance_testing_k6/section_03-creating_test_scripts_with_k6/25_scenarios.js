@@ -2,7 +2,7 @@
 Title : Making HTTP Requests with K6
 Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
 Description : Faz a verificação da existência ou não de uma URL durante um determinado tempo
-Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+Options : 
 */
 
 // importa a biblioteca HTTP do k6.

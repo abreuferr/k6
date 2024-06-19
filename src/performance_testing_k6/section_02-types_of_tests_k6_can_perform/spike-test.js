@@ -4,7 +4,7 @@ Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
 Description : Aumenta e diminuí repentinamente a carga no sistema. 
               Útil para identificar cenários em que o sistema tem um aumento repentino, além do tráfego normal. 
               Avalia a capacidade do sistema de lidar com aumentos inesperados e como ele se recupera.
-Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+Options : 
 */
 
 // importa a biblioteca HTTP do k6.

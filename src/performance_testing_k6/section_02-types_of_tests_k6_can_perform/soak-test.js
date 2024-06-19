@@ -3,7 +3,7 @@ Title : Soak Test
 Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
 Description : Testa como o sistema se saí em um período maior com vários usuários acessando ao mesmo tempo, 
 útil para identificar vazamentos de memória e esgotamento de recursos que podem aparecer após períodos maiores e de uso contínuo.
-Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+Options : 
 */
 
 // importa a biblioteca HTTP do k6.

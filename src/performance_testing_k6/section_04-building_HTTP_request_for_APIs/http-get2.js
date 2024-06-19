@@ -2,7 +2,7 @@
 Title : HTTP Get
 Author : "Caio Abreu Ferreira" <cferreira@senhasegura.com>
 Description : Obtendo registro, ${crocodileId} = 7, através da API do protocolo HTTP
-Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+Options : 
 */
 
 // importando a bibliotecas HTTP do k6.

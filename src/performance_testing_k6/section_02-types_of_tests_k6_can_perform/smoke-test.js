@@ -3,7 +3,7 @@ Title : Smoke Test
 Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
 Description : Testa se o script escrito funciona de acordo com o esperado, como pouca duração e usuários. 
               Deve ser realizado antes de testes mais aprofundados.
-Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+Options : 
 */
 
 // importa a biblioteca HTTP do k6.

@@ -3,7 +3,7 @@ Title : Thresholds
 Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
 Description : Thresholds: São utilizados para definir limites aceitáveis em relação as métricas de teste. 
               Caso não atenda as métricas especificadas o teste terminará com status de falha.
-Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+Options : 
 */
 
 // importa bibliotecas do k6

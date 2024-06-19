@@ -3,10 +3,8 @@ Title : Custom Metrics
 Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
 Description : São utilizados para definir limites aceitáveis em relação as métricas de teste. 
               Caso não atenda as métricas especificadas o teste terminará com status de falha.
-Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
-
-Exemplo de respostas que podem ser utilizadas para criar métricas personalizadas, 
-doc: "https://k6.io/docs/javascript-api/k6-http/response/"
+Options : Exemplo de respostas que podem ser utilizadas para criar métricas personalizadas, 
+          doc: "https://k6.io/docs/javascript-api/k6-http/response/"
 */
 
 // importa a biblioteca HTTP do k6.
