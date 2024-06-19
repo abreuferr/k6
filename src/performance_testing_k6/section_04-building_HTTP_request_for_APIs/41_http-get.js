@@ -1,8 +1,8 @@
 /*
 Title : HTTP Get
-Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
 Description : Obtendo dados através da API do protocolo HTTP
-Options : https://www.udemy.com/share/109KKU3@_qDcx1bxacvVc_FBZVt9x_-QCPnIfWNlQ2LGowlyqB3VLryCfCbgULGx0_j9_sQJlQ==/
+Options : https://test-api.k6.io/
           https://k6.io/docs/using-k6/http-debugging/
 */
 
