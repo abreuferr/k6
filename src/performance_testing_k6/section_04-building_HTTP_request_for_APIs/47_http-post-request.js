@@ -6,7 +6,10 @@ Options : https://test-api.k6.io/
 */
 
 /*
-Postman - GET - https://test-api.k6.io/user/register/ - send
+
+# O objetivo desta etapa é o de cadastrar um usuário.
+
+Postman - POST - https://test-api.k6.io/user/register/ - send
 
 {
     "username": [
@@ -17,10 +20,10 @@ Postman - GET - https://test-api.k6.io/user/register/ - send
     ]
 }
 
-Postman - GET - https://test-api.k6.io/user/register/ - body - raw - json
+Postman - POST - https://test-api.k6.io/user/register/ - body - raw - json
 {
     "username": "test_1718828017936",
-    "password": "Test"
+    "password": "secret_"
 }
 
 - Send
@@ -31,6 +34,9 @@ Postman - GET - https://test-api.k6.io/user/register/ - body - raw - json
     "last_name": "",
     "email": ""
 }
+
+# usuário cadastrado
+
 */
 
 // importando bibliotecas do k6.
@@ -43,7 +49,7 @@ export default function () {
     const body = JSON.stringify({
         // propriedade do objeto
         username: 'test_' + Date.now(),
-        password: 'test'
+        password: 'secret'
     });
 
     // Enviando um cabeçalho
@@ -62,7 +68,7 @@ export default function () {
     INFO[0009] Response:
     HTTP/1.1 201 Created
 
-    {"username":"test_1718828341271","first_name":"","last_name":"","email":""}  group= iter=0 request_id=5d0f4245-f29c-44c8-5d8f-996fb5f553c9 scenario=default source=http-debug vu=1
+    {"username":"test_1718891539418","first_name":"","last_name":"","email":""}  group= iter=0 request_id=5d0f4245-f29c-44c8-5d8f-996fb5f553c9 scenario=default source=http-debug vu=1
 
     # Quando o usuário já existe no banco de dados
 
