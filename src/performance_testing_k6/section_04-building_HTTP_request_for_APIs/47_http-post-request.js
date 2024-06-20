@@ -1,6 +1,6 @@
 /*
 Title : Making a POST request
-Author : "Caio Abreu Ferreira" <cferreira@senhasegura.com>
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
 Description : 
 Options : https://test-api.k6.io/
 */
@@ -19,14 +19,14 @@ Postman - GET - https://test-api.k6.io/user/register/ - send
 
 Postman - GET - https://test-api.k6.io/user/register/ - body - raw - json
 {
-    "username": "Test_171",
-    "password": "Test_171"
+    "username": "test_1718828017936",
+    "password": "Test"
 }
 
 - Send
 
 {
-    "username": "Test_171",
+    "username": "test_1718828017936",
     "first_name": "",
     "last_name": "",
     "email": ""
@@ -55,14 +55,14 @@ export default function () {
 
     // POST = URL, corpo e cabeçalho
     http.post('https://test-api.k6.io/user/register/', body, params);
-
+}
     /*
     # Adicionando um novo usuário no banco de dados
 
     INFO[0009] Response:
     HTTP/1.1 201 Created
 
-    {"username":"test_12345678901234561718826180454","first_name":"","last_name":"","email":""}  group= iter=0 request_id=5d0f4245-f29c-44c8-5d8f-996fb5f553c9 scenario=default source=http-debug vu=1
+    {"username":"test_1718828341271","first_name":"","last_name":"","email":""}  group= iter=0 request_id=5d0f4245-f29c-44c8-5d8f-996fb5f553c9 scenario=default source=http-debug vu=1
 
     # Quando o usuário já existe no banco de dados
 
@@ -71,4 +71,3 @@ export default function () {
     
     {"username":["A user with that username already exists."]}  group= iter=0 request_id=f69cdb7c-1744-46cb-6e64-a6826dd0ff25 scenario=default source=http-debug vu=1
     */
-}

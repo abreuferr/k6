@@ -1,6 +1,6 @@
 /*
 Title : Response Header
-Author : "Caio Abreu Ferreira" <cferreira@senhasegura.com>
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
 Description : Obtendo o Header da resposta a uma requisição
 Options : https://k6.io/docs/using-k6/http-debugging/
 */
