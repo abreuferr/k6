@@ -1,12 +1,12 @@
 /*
-Title : Making a POST request
+Title : Assignment - Making a POST request
 Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
-Description : 
-Options : https://test-api.k6.io/
+Description : Obter o token de acesso do usuário
+Options : https://test-api.k6.io/auth/token/login/
 */
 
 /*
-Postman - GET - https://test-api.k6.io/user/register/ - send
+# Postman - GET - https://test-api.k6.io/user/register/ - send
 
 {
     "username": [
@@ -17,31 +17,36 @@ Postman - GET - https://test-api.k6.io/user/register/ - send
     ]
 }
 
-Postman - GET - https://test-api.k6.io/user/register/ - body - raw - text
+# Postman - GET - https://test-api.k6.io/user/register/ - body - raw - JSON
 {
-    "username": "Test_171",
-    "password": "Test_171"
+    "username": "test_1718891539418",
+    "password": "secret"
 }
 
 - Send
 
 {
-    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcxODkxMzE4MSwianRpIjoiY2FiZDYxYmVmMGZkNGFhOWE4ZGJkZDYxOTg2NjNiMDMiLCJ1c2VyX2lkIjoxOTI4MTE2fQ.xFxo9j2MNaWv38ThxI1e0EODd1agJ8JZzYnkIUrx26Q",
-    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4ODI3MDgxLCJqdGkiOiI4YTFiMjYwMjJhODI0YTAwODJmZGIzMDVhZWEwNDM0ZSIsInVzZXJfaWQiOjE5MjgxMTZ9.CxpnRm1URU8LGFxPrf7KdzBdizEgABUEcxmnjegQqxE"
-}
-*/
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcxODk3ODYyMSwianRpIjoiMjVmOTY4OTVjMzE5NDdmYzhkNjJmY2E1YWY2MTcxMmMiLCJ1c2VyX2lkIjoxOTMxOTk5fQ.1EavHGD4Fw1g-JHJT7wnJz3hl8kk-k-gB1UgRHF4x5o",
+    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4ODkyNTIxLCJqdGkiOiI5ZDE5NGY5ZDcwZGY0NDU0YmI5MWRhYjFkOTM3YTlmNiIsInVzZXJfaWQiOjE5MzE5OTl9.SqCetQ6LPK5w_th4Eb4eSG_ZKOeb8fcznEu3wbtb1Ns"
+}*/
 
 // importando bibliotecas do k6.
 import http from 'k6/http';
 import { check } from 'k6';
 
 export default function () {
+    /*
+    Primeira parte do programa
+
+    Criar os parâmetros BODY e PARAMS para a segunda parte
+    do programa
+    */
 
     // JSON.stringify = transformar a string em um JSON
     const body = JSON.stringify({
         // usuário previamente cadastrado no exercício "47_http-post.js"
-        username: 'test_1718828341271',
-        password: 'test'
+        username: 'test_1718891539418',
+        password: 'secret'
     });
 
     // Enviando um cabeçalho
@@ -51,7 +56,13 @@ export default function () {
         }
     };
 
-    // POST = URL, corpo e cabeçalho
+    /*
+    Segunda parte do programa
+
+    Executar o comando POST para obter o token
+    */
+
+    // POST = URL, corpo(body) e cabeçalho(params)
     http.post('https://test-api.k6.io/auth/token/login/', body, params);
 
     // 
@@ -59,8 +70,8 @@ export default function () {
         'https://test-api.k6.io/auth/token/login/',
         JSON.stringify(
             {
-                username: 'test_1718828341271',
-                password: 'test'
+                username: 'test_1718891539418',
+                password: 'secret'
             }
         ),
         {
@@ -69,6 +80,8 @@ export default function () {
             }
         }
     );
+
+    // Exibição do token
     const accessToken = res.json().access;
     console.log(accessToken);
 }
