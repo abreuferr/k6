@@ -1,10 +1,17 @@
+/*
+Title : Making a POST request
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : 
+Options : https://test-api.k6.io/
+*/
+
 import http from 'k6/http';
 import { check } from 'k6';
 
-
 export default function () {
+
     const body = JSON.stringify({
-        username: 'test_24654641',
+        username: 'test_' + Date.now(),
         password: 'test'
     });
 
@@ -13,13 +20,14 @@ export default function () {
             'Content-Type': 'application/json'
         }
     };
+
     http.post('https://test-api.k6.io/user/register/', body, params);
 
     let res = http.post(
-        'https://test-api.k6.io/auth/token/login/', 
+        'https://test-api.k6.io/auth/token/login/',
         JSON.stringify(
             {
-                username: 'test_24654641',
+                username: 'test_73725293736225',
                 password: 'test'
             }
         ),
@@ -33,8 +41,3 @@ export default function () {
     const accessToken = res.json().access;
     console.log(accessToken);
 }
-
-/*
-
-k6 run --http-debug="full" http-post-request.js
-*/

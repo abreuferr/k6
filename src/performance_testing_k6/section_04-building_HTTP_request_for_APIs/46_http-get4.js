@@ -1,6 +1,6 @@
 /*
 Title : Response Header
-Author : "Caio Abreu Ferreira" <cferreira@senhasegura.com>
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
 Description : Obtendo o Header da resposta a uma requisição
 Options : https://k6.io/docs/using-k6/http-debugging/
 */
@@ -22,6 +22,9 @@ export default function () {
 
     console.log(res.headers.Allow);
     // INFO[0001] GET, HEAD, OPTIONS
+
+    console.log(res.headers.Date);
+    //INFO[0015] Wed, 19 Jun 2024 19:06:05 GMT                 source=console
 
     console.log(res.headers['Content-Type']);
     //INFO[0001] application/json
