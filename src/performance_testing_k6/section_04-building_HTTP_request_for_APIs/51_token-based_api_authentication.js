@@ -1,8 +1,15 @@
 /*
 Title :  Token-based API Authentication
 Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
-Description : 
+Description : Utilização de tokens para o processo de autenticação
 Options : https://www.youtube.com/watch?v=GhrvZ5nUWNg
+          https://test-api.k6.io/my/crocodiles/
+*/
+
+/*
+
+- código de retorno 403 ou 404
+
 */
 
 // importando bibliotecas do k6.
@@ -10,7 +17,11 @@ import http from 'k6/http';
 import { check } from 'k6';
 
 export default function () {
-
+    /*
+    Armazenando usuário e senha na variável "credentials"
+    A variável "credentials" será utilizada posteriormente
+    para obter o token.
+    */
     const credentials = {
         username: 'test_' + Date.now(),
         password: 'secret_' + Date.now(),
