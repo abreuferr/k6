@@ -12,6 +12,10 @@ import { check } from 'k6';
 export default function () {
 
     /*
+    Primeira parte do programa - Cadastrar um usuário e senha
+    */
+
+    /*
     Armazenando usuário e senha na variável "credentials"
     A variável "credentials" será utilizada posteriormente
     para obter o token.
@@ -21,6 +25,7 @@ export default function () {
         password: 'secret_' + Date.now(),
     }
 
+    // Cadastrando usuário e senha
     http.post(
         'https://test-api.k6.io/user/register/',
         JSON.stringify(credentials),
@@ -31,6 +36,11 @@ export default function () {
         }
     );
 
+    /*
+    Segunda parte do programa - Obter o token do usuário que foi previamente cadastrado
+    */
+
+    // Enviando usuário e senha do usuário previamente cadastrado
     let res = http.post(
         'https://test-api.k6.io/auth/token/login/',
         JSON.stringify(
@@ -46,13 +56,13 @@ export default function () {
         }
     );
 
+    // Construindo a variável "accessToken"
     const accessToken = res.json().access;
+
+    // Exibição do token
     console.log(accessToken);
 }
 
 /*
-
-# token
 INFO[0007] eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4ODMxNjk4LCJqdGkiOiJlZDkxNjcyZjkzYmM0ZDM3YmNlZTcyYWRkY2Q3ZmFlYyIsInVzZXJfaWQiOjE5Mjg0ODd9.wn_oiQIpwL56ZZuxWCho4Zg49-tcsFQvbYp1sGA3tjM  source=console
-
 */
