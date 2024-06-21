@@ -1,0 +1,1749 @@
+{
+	"info": {
+		"_postman_id": "1393d359-ca89-4736-8ef4-64fcbfa06ba8",
+		"name": "Client Manager API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30323768",
+		"_collection_link": "https://senha-segura-php.postman.co/workspace/SenhaSeguraPHP-Team-Workspace~5ac2be81-080d-46e8-8424-cb524cafe15f/collection/27992758-1393d359-ca89-4736-8ef4-64fcbfa06ba8?action=share&source=collection_link&creator=30323768"
+	},
+	"item": [
+		{
+			"name": "register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"oauth2_client_id\", jsonData.credentials.client_id);\r",
+							"pm.environment.set(\"oauth2_client_secret\", jsonData.credentials.client_secret);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Bootstrap-Token",
+						"value": "{{bootstrap_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client_alias\": \"go-windows\",\r\n    \"client\": {\r\n        \"binary_hash\":\"3ffbfe00006d544fb8b39431172e5875d0dd95022689bd01e9824df6d77c90b6\",\r\n        \"version\": \"0.0.0.1\",\r\n        \"client_alias\": \"go-windows\"\r\n    },\r\n    \"device\": {\r\n        \"architecture\": \"x64\",\r\n        \"bios_info\": \"\",\r\n        \"cpu_info\": \"\",\r\n        \"domain\": \"senhasegura\",\r\n        \"hardware_uuid\": \"ed01a87fed1e147b0d7e374320a92812\",\r\n        \"hostname\": \"Postman\",\r\n        \"memory_info\": \"\",\r\n        \"operational_system\": \"Windows 11\",\r\n        \"vendor_model_info\": \"\"\r\n    },\r\n    \"users\": [\r\n        {\r\n            \"domain\": \"teste\",\r\n            \"username\": \"hbarreto\"\r\n        },\r\n        {\r\n            \"domain\": \"teste\",\r\n            \"username\": \"userPostman\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/register"
+			},
+			"response": []
+		},
+		{
+			"name": "example-api-endpoint",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"test1\": \"valor\",\r\n    \"list_example\": [\r\n        {\"field1\": \"1\"}\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/example-api-endpoint"
+			},
+			"response": []
+		},
+		{
+			"name": "automations/{id}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ip\": \"::1\",\r\n    \"username\": \"dcortez\",\r\n    \"domain\": \"teste\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/automations/1"
+			},
+			"response": []
+		},
+		{
+			"name": "automations",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ip\": \"::1\",\r\n    \"username\": \"dcortez\",\r\n    \"domain\": \"teste\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/automations"
+			},
+			"response": []
+		},
+		{
+			"name": "client-update",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client_version\": \"1.2.3.3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/client-update"
+			},
+			"response": []
+		},
+		{
+			"name": "events (file)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"input_mode\": \"file\",\r\n    \"ip\": \"::1\",\r\n    \"description\": \"IzIwMjMvMDUvMDMgMTk6MjY6MTYjIGdsb2JhbC1waWQ9MTM4NzEgcmVzdWx0PWFsbG93ZWQgcHJpb3JpdHk9MTAwIC8gZXhlY3V0ZSBleGVjPSIvdXNyL2Jpbi90b3AiIHBhdGg9Ii91c3IvYmluL3RvcCIgYXJnYz0xIGVudmM9MzMgYXJndlswXT0idG9wIiBlbnZwWyJTSEVMTCJdPSIvYmluL2Jhc2giIGVudnBbIkxDX0FERFJFU1MiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX05BTUUiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX01PTkVUQVJZIl09InB0X0JSLlVURi04IiBlbnZwWyJQV0QiXT0iL2hvbWUvd2FzaHUiIGVudnBbIkxPR05BTUUiXT0id2FzaHUiIGVudnBbIlhER19TRVNTSU9OX1RZUEUiXT0idHR5IiBlbnZwWyJNT1REX1NIT1dOIl09InBhbSIgZW52cFsiSE9NRSJdPSIvaG9tZS93YXNodSIgZW52cFsiTENfUEFQRVIiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxBTkciXT0iZW5fVVMuVVRGLTgiIGVudnBbIkxTX0NPTE9SUyJdPSJycz0wOmRpPTAxOzM0OmxuPTAxOzM2Om1oPTAwOnBpPTQwOzMzOnNvPTAxOzM1OmRvPTAxOzM1OmJkPTQwOzMzOzAxOmNkPTQwOzMzOzAxOm9yPTQwOzMxOzAxOm1pPTAwOnN1PTM3OzQxOnNnPTMwOzQzOmNhPTMwOzQxOnR3PTMwOzQyOm93PTM0OzQyOnN0PTM3OzQ0OmV4PTAxOzMyOioudGFyPTAxOzMxOioudGd6PTAxOzMxOiouYXJjPTAxOzMxOiouYXJqPTAxOzMxOioudGF6PTAxOzMxOioubGhhPTAxOzMxOioubHo0PTAxOzMxOioubHpoPTAxOzMxOioubHptYT0wMTszMToqLnRsej0wMTszMToqLnR4ej0wMTszMToqLnR6bz0wMTszMToqLnQ3ej0wMTszMToqLnppcD0wMTszMToqLno9MDE7MzE6Ki5kej0wMTszMToqLmd6PTAxOzMxOioubHJ6PTAxOzMxOioubHo9MDE7MzE6Ki5sem89MDE7MzE6Ki54ej0wMTszMToqLnpzdD0wMTszMToqLnR6c3Q9MDE7MzE6Ki5iejI9MDE7MzE6Ki5iej0wMTszMToqLnRiej0wMTszMToqLnRiejI9MDE7MzE6Ki50ej0wMTszMToqLmRlYj0wMTszMToqLnJwbT0wMTszMToqLmphcj0wMTszMToqLndhcj0wMTszMToqLmVhcj0wMTszMToqLnNhcj0wMTszMToqLnJhcj0wMTszMToqLmFsej0wMTszMToqLmFjZT0wMTszMToqLnpvbz0wMTszMToqLmNwaW89MDE7MzE6Ki43ej0wMTszMToqLnJ6PTAxOzMxOiouY2FiPTAxOzMxOioud2ltPTAxOzMxOiouc3dtPTAxOzMxOiouZHdtPTAxOzMxOiouZXNkPTAxOzMxOiouanBnPTAxOzM1OiouanBlZz0wMTszNToqLm1qcGc9MDE7MzU6Ki5tanBlZz0wMTszNToqLmdpZj0wMTszNToqLmJtcD0wMTszNToqLnBibT0wMTszNToqLnBnbT0wMTszNToqLnBwbT0wMTszNToqLnRnYT0wMTszNToqLnhibT0wMTszNToqLnhwbT0wMTszNToqLnRpZj0wMTszNToqLnRpZmY9MDE7MzU6Ki5wbmc9MDE7MzU6Ki5zdmc9MDE7MzU6Ki5zdmd6PTAxOzM1OioubW5nPTAxOzM1OioucGN4PTAxOzM1OioubW92PTAxOzM1OioubXBnPTAxOzM1OioubXBlZz0wMTszNToqLm0ydj0wMTszNToqLm1rdj0wMTszNToqLndlYm09MDE7MzU6Ki53ZWJwPTAxOzM1Oioub2dtPTAxOzM1OioubXA0PTAxOzM1OioubTR2PTAxOzM1OioubXA0dj0wMTszNToqLnZvYj0wMTszNToqLnF0PTAxOzM1OioubnV2PTAxOzM1Oioud212PTAxOzM1OiouYXNmPTAxOzM1Oioucm09MDE7MzU6Ki5ybXZiPTAxOzM1OiouZmxjPTAxOzM1OiouYXZpPTAxOzM1OiouZmxpPTAxOzM1OiouZmx2PTAxOzM1OiouZ2w9MDE7MzU6Ki5kbD0wMTszNToqLnhjZj0wMTszNToqLnh3ZD0wMTszNToqLnl1dj0wMTszNToqLmNnbT0wMTszNToqLmVtZj0wMTszNToqLm9ndj0wMTszNToqLm9neD0wMTszNToqLmFhYz0wMDszNjoqLmF1PTAwOzM2OiouZmxhYz0wMDszNjoqLm00YT0wMDszNjoqLm1pZD0wMDszNjoqLm1pZGk9MDA7MzY6Ki5ta2E9MDA7MzY6Ki5tcDM9MDA7MzY6Ki5tcGM9MDA7MzY6Ki5vZ2c9MDA7MzY6Ki5yYT0wMDszNjoqLndhdj0wMDszNjoqLm9nYT0wMDszNjoqLm9wdXM9MDA7MzY6Ki5zcHg9MDA7MzY6Ki54c3BmPTAwOzM2OiIgZW52cFsiU1NIX0NPTk5FQ1RJT04iXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDE5Mi4xNjguMC40MVwwNDAyMiIgZW52cFsiTEVTU0NMT1NFIl09Ii91c3IvYmluL2xlc3NwaXBlXDA0MCVzXDA0MCVzIiBlbnZwWyJYREdfU0VTU0lPTl9DTEFTUyJdPSJ1c2VyIiBlbnZwWyJMQ19JREVOVElGSUNBVElPTiJdPSJwdF9CUi5VVEYtOCIgZW52cFsiVEVSTSJdPSJ4dGVybS0yNTZjb2xvciIgZW52cFsiTEVTU09QRU4iXT0ifFwwNDAvdXNyL2Jpbi9sZXNzcGlwZVwwNDAlcyIgZW52cFsiVVNFUiJdPSJ3YXNodSIgZW52cFsiU0hMVkwiXT0iMSIgZW52cFsiTENfVEVMRVBIT05FIl09InB0X0JSLlVURi04IiBlbnZwWyJMQ19NRUFTVVJFTUVOVCJdPSJwdF9CUi5VVEYtOCIgZW52cFsiWERHX1NFU1NJT05fSUQiXT0iNDciIGVudnBbIkxDX0NUWVBFIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfUlVOVElNRV9ESVIiXT0iL3J1bi91c2VyLzEwMDAiIGVudnBbIlNTSF9DTElFTlQiXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDIyIiBlbnZwWyJMQ19USU1FIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfREFUQV9ESVJTIl09Ii91c3Ivc2hhcmUvZ25vbWU6L3Vzci9sb2NhbC9zaGFyZTovdXNyL3NoYXJlOi92YXIvbGliL3NuYXBkL2Rlc2t0b3AiIGVudnBbIlBBVEgiXT0iL3Vzci9sb2NhbC9zYmluOi91c3IvbG9jYWwvYmluOi91c3Ivc2JpbjovdXNyL2Jpbjovc2JpbjovYmluOi91c3IvZ2FtZXM6L3Vzci9sb2NhbC9nYW1lczovc25hcC9iaW4iIGVudnBbIkRCVVNfU0VTU0lPTl9CVVNfQUREUkVTUyJdPSJ1bml4OnBhdGg9L3J1bi91c2VyLzEwMDAvYnVzIiBlbnZwWyJTU0hfVFRZIl09Ii9kZXYvcHRzLzYiIGVudnBbIkxDX05VTUVSSUMiXT0icHRfQlIuVVRGLTgiIGVudnBbIl8iXT0iL3Vzci9iaW4vdG9wIiB0YXNrLnBpZD0xMzg3MSB0YXNrLnBwaWQ9MTM4NDkgdGFzay51aWQ9InVzZXJuYW1lIiB0YXNrLmdpZD0iZ3JvdXBuYW1lIiB0YXNrLmV1aWQ9Imdyb3VwbmFtZSIgdGFzay5lZ2lkPSJncm91cG5hbWUiIHRhc2suc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLnNnaWQ9Imdyb3VwbmFtZSIgdGFzay5mc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLmZzZ2lkPSJncm91cG5hbWUiIHRhc2sudHlwZSE9ZXhlY3V0ZV9oYW5kbGVyIHRhc2suZXhlPSIvdXNyL2Jpbi9iYXNoIiB0YXNrLmRvbWFpbj0iPGtlcm5lbD4iIHBhdGgudWlkPTAgcGF0aC5naWQ9MCBwYXRoLnBlcm09MDc1NSBwYXRoLnR5cGU9ZmlsZSBwYXRoLmlubz03ODc2NDYgcGF0aC5tYWpvcj04IHBhdGgubWlub3I9MyBwYXRoLmZzbWFnaWM9MHhFRjUzIHBhdGgucGFyZW50LnVpZD0wIHBhdGgucGFyZW50LmdpZD0wIHBhdGgucGFyZW50LnBlcm09MDc1NSBwYXRoLnBhcmVudC5pbm89Nzg2NDQ4IHBhdGgucGFyZW50Lm1ham9yPTggcGF0aC5wYXJlbnQubWlub3I9MyBwYXRoLnBhcmVudC5mc21hZ2ljPTB4RUY1MyBleGVjLnVpZD0wIGV4ZWMuZ2lkPTAgZXhlYy5wZXJtPTA3NTUgZXhlYy50eXBlPWZpbGUgZXhlYy5pbm89Nzg3NjQ2IGV4ZWMubWFqb3I9OCBleGVjLm1pbm9yPTMgZXhlYy5mc21hZ2ljPTB4RUY1MyBleGVjLnBhcmVudC51aWQ9MCBleGVjLnBhcmVudC5naWQ9MCBleGVjLnBhcmVudC5wZXJtPTA3NTUgZXhlYy5wYXJlbnQuaW5vPTc4NjQ0OCBleGVjLnBhcmVudC5tYWpvcj04IGV4ZWMucGFyZW50Lm1pbm9yPTMgZXhlYy5wYXJlbnQuZnNtYWdpYz0weEVGNTMKIzIwMjMvMDUvMDQgMTk6MjY6MTYjIGdsb2JhbC1waWQ9MTM4NzEgcmVzdWx0PWFsbG93ZWQgcHJpb3JpdHk9MTAwIC8gZXhlY3V0ZSBleGVjPSIvdXNyL2Jpbi90b3AiIHBhdGg9Ii91c3IvYmluL3RvcCIgYXJnYz0xIGVudmM9MzMgYXJndlswXT0idG9wIiBlbnZwWyJTSEVMTCJdPSIvYmluL2Jhc2giIGVudnBbIkxDX0FERFJFU1MiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX05BTUUiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX01PTkVUQVJZIl09InB0X0JSLlVURi04IiBlbnZwWyJQV0QiXT0iL2hvbWUvd2FzaHUiIGVudnBbIkxPR05BTUUiXT0id2FzaHUiIGVudnBbIlhER19TRVNTSU9OX1RZUEUiXT0idHR5IiBlbnZwWyJNT1REX1NIT1dOIl09InBhbSIgZW52cFsiSE9NRSJdPSIvaG9tZS93YXNodSIgZW52cFsiTENfUEFQRVIiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxBTkciXT0iZW5fVVMuVVRGLTgiIGVudnBbIkxTX0NPTE9SUyJdPSJycz0wOmRpPTAxOzM0OmxuPTAxOzM2Om1oPTAwOnBpPTQwOzMzOnNvPTAxOzM1OmRvPTAxOzM1OmJkPTQwOzMzOzAxOmNkPTQwOzMzOzAxOm9yPTQwOzMxOzAxOm1pPTAwOnN1PTM3OzQxOnNnPTMwOzQzOmNhPTMwOzQxOnR3PTMwOzQyOm93PTM0OzQyOnN0PTM3OzQ0OmV4PTAxOzMyOioudGFyPTAxOzMxOioudGd6PTAxOzMxOiouYXJjPTAxOzMxOiouYXJqPTAxOzMxOioudGF6PTAxOzMxOioubGhhPTAxOzMxOioubHo0PTAxOzMxOioubHpoPTAxOzMxOioubHptYT0wMTszMToqLnRsej0wMTszMToqLnR4ej0wMTszMToqLnR6bz0wMTszMToqLnQ3ej0wMTszMToqLnppcD0wMTszMToqLno9MDE7MzE6Ki5kej0wMTszMToqLmd6PTAxOzMxOioubHJ6PTAxOzMxOioubHo9MDE7MzE6Ki5sem89MDE7MzE6Ki54ej0wMTszMToqLnpzdD0wMTszMToqLnR6c3Q9MDE7MzE6Ki5iejI9MDE7MzE6Ki5iej0wMTszMToqLnRiej0wMTszMToqLnRiejI9MDE7MzE6Ki50ej0wMTszMToqLmRlYj0wMTszMToqLnJwbT0wMTszMToqLmphcj0wMTszMToqLndhcj0wMTszMToqLmVhcj0wMTszMToqLnNhcj0wMTszMToqLnJhcj0wMTszMToqLmFsej0wMTszMToqLmFjZT0wMTszMToqLnpvbz0wMTszMToqLmNwaW89MDE7MzE6Ki43ej0wMTszMToqLnJ6PTAxOzMxOiouY2FiPTAxOzMxOioud2ltPTAxOzMxOiouc3dtPTAxOzMxOiouZHdtPTAxOzMxOiouZXNkPTAxOzMxOiouanBnPTAxOzM1OiouanBlZz0wMTszNToqLm1qcGc9MDE7MzU6Ki5tanBlZz0wMTszNToqLmdpZj0wMTszNToqLmJtcD0wMTszNToqLnBibT0wMTszNToqLnBnbT0wMTszNToqLnBwbT0wMTszNToqLnRnYT0wMTszNToqLnhibT0wMTszNToqLnhwbT0wMTszNToqLnRpZj0wMTszNToqLnRpZmY9MDE7MzU6Ki5wbmc9MDE7MzU6Ki5zdmc9MDE7MzU6Ki5zdmd6PTAxOzM1OioubW5nPTAxOzM1OioucGN4PTAxOzM1OioubW92PTAxOzM1OioubXBnPTAxOzM1OioubXBlZz0wMTszNToqLm0ydj0wMTszNToqLm1rdj0wMTszNToqLndlYm09MDE7MzU6Ki53ZWJwPTAxOzM1Oioub2dtPTAxOzM1OioubXA0PTAxOzM1OioubTR2PTAxOzM1OioubXA0dj0wMTszNToqLnZvYj0wMTszNToqLnF0PTAxOzM1OioubnV2PTAxOzM1Oioud212PTAxOzM1OiouYXNmPTAxOzM1Oioucm09MDE7MzU6Ki5ybXZiPTAxOzM1OiouZmxjPTAxOzM1OiouYXZpPTAxOzM1OiouZmxpPTAxOzM1OiouZmx2PTAxOzM1OiouZ2w9MDE7MzU6Ki5kbD0wMTszNToqLnhjZj0wMTszNToqLnh3ZD0wMTszNToqLnl1dj0wMTszNToqLmNnbT0wMTszNToqLmVtZj0wMTszNToqLm9ndj0wMTszNToqLm9neD0wMTszNToqLmFhYz0wMDszNjoqLmF1PTAwOzM2OiouZmxhYz0wMDszNjoqLm00YT0wMDszNjoqLm1pZD0wMDszNjoqLm1pZGk9MDA7MzY6Ki5ta2E9MDA7MzY6Ki5tcDM9MDA7MzY6Ki5tcGM9MDA7MzY6Ki5vZ2c9MDA7MzY6Ki5yYT0wMDszNjoqLndhdj0wMDszNjoqLm9nYT0wMDszNjoqLm9wdXM9MDA7MzY6Ki5zcHg9MDA7MzY6Ki54c3BmPTAwOzM2OiIgZW52cFsiU1NIX0NPTk5FQ1RJT04iXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDE5Mi4xNjguMC40MVwwNDAyMiIgZW52cFsiTEVTU0NMT1NFIl09Ii91c3IvYmluL2xlc3NwaXBlXDA0MCVzXDA0MCVzIiBlbnZwWyJYREdfU0VTU0lPTl9DTEFTUyJdPSJ1c2VyIiBlbnZwWyJMQ19JREVOVElGSUNBVElPTiJdPSJwdF9CUi5VVEYtOCIgZW52cFsiVEVSTSJdPSJ4dGVybS0yNTZjb2xvciIgZW52cFsiTEVTU09QRU4iXT0ifFwwNDAvdXNyL2Jpbi9sZXNzcGlwZVwwNDAlcyIgZW52cFsiVVNFUiJdPSJ3YXNodSIgZW52cFsiU0hMVkwiXT0iMSIgZW52cFsiTENfVEVMRVBIT05FIl09InB0X0JSLlVURi04IiBlbnZwWyJMQ19NRUFTVVJFTUVOVCJdPSJwdF9CUi5VVEYtOCIgZW52cFsiWERHX1NFU1NJT05fSUQiXT0iNDciIGVudnBbIkxDX0NUWVBFIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfUlVOVElNRV9ESVIiXT0iL3J1bi91c2VyLzEwMDAiIGVudnBbIlNTSF9DTElFTlQiXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDIyIiBlbnZwWyJMQ19USU1FIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfREFUQV9ESVJTIl09Ii91c3Ivc2hhcmUvZ25vbWU6L3Vzci9sb2NhbC9zaGFyZTovdXNyL3NoYXJlOi92YXIvbGliL3NuYXBkL2Rlc2t0b3AiIGVudnBbIlBBVEgiXT0iL3Vzci9sb2NhbC9zYmluOi91c3IvbG9jYWwvYmluOi91c3Ivc2JpbjovdXNyL2Jpbjovc2JpbjovYmluOi91c3IvZ2FtZXM6L3Vzci9sb2NhbC9nYW1lczovc25hcC9iaW4iIGVudnBbIkRCVVNfU0VTU0lPTl9CVVNfQUREUkVTUyJdPSJ1bml4OnBhdGg9L3J1bi91c2VyLzEwMDAvYnVzIiBlbnZwWyJTU0hfVFRZIl09Ii9kZXYvcHRzLzYiIGVudnBbIkxDX05VTUVSSUMiXT0icHRfQlIuVVRGLTgiIGVudnBbIl8iXT0iL3Vzci9iaW4vdG9wIiB0YXNrLnBpZD0xMzg3MSB0YXNrLnBwaWQ9MTM4NDkgdGFzay51aWQ9InVzZXJuYW1lIiB0YXNrLmdpZD0iZ3JvdXBuYW1lIiB0YXNrLmV1aWQ9Imdyb3VwbmFtZSIgdGFzay5lZ2lkPSJncm91cG5hbWUiIHRhc2suc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLnNnaWQ9Imdyb3VwbmFtZSIgdGFzay5mc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLmZzZ2lkPSJncm91cG5hbWUiIHRhc2sudHlwZSE9ZXhlY3V0ZV9oYW5kbGVyIHRhc2suZXhlPSIvdXNyL2Jpbi9iYXNoIiB0YXNrLmRvbWFpbj0iPGtlcm5lbD4iIHBhdGgudWlkPTAgcGF0aC5naWQ9MCBwYXRoLnBlcm09MDc1NSBwYXRoLnR5cGU9ZmlsZSBwYXRoLmlubz03ODc2NDYgcGF0aC5tYWpvcj04IHBhdGgubWlub3I9MyBwYXRoLmZzbWFnaWM9MHhFRjUzIHBhdGgucGFyZW50LnVpZD0wIHBhdGgucGFyZW50LmdpZD0wIHBhdGgucGFyZW50LnBlcm09MDc1NSBwYXRoLnBhcmVudC5pbm89Nzg2NDQ4IHBhdGgucGFyZW50Lm1ham9yPTggcGF0aC5wYXJlbnQubWlub3I9MyBwYXRoLnBhcmVudC5mc21hZ2ljPTB4RUY1MyBleGVjLnVpZD0wIGV4ZWMuZ2lkPTAgZXhlYy5wZXJtPTA3NTUgZXhlYy50eXBlPWZpbGUgZXhlYy5pbm89Nzg3NjQ2IGV4ZWMubWFqb3I9OCBleGVjLm1pbm9yPTMgZXhlYy5mc21hZ2ljPTB4RUY1MyBleGVjLnBhcmVudC51aWQ9MCBleGVjLnBhcmVudC5naWQ9MCBleGVjLnBhcmVudC5wZXJtPTA3NTUgZXhlYy5wYXJlbnQuaW5vPTc4NjQ0OCBleGVjLnBhcmVudC5tYWpvcj04IGV4ZWMucGFyZW50Lm1pbm9yPTMgZXhlYy5wYXJlbnQuZnNtYWdpYz0weEVGNTMKIzIwMjMvMDUvMDUgMTk6MjY6MTYjIGdsb2JhbC1waWQ9MTM4NzEgcmVzdWx0PWFsbG93ZWQgcHJpb3JpdHk9MTAwIC8gZXhlY3V0ZSBleGVjPSIvdXNyL2Jpbi90b3AiIHBhdGg9Ii91c3IvYmluL3RvcCIgYXJnYz0xIGVudmM9MzMgYXJndlswXT0idG9wIiBlbnZwWyJTSEVMTCJdPSIvYmluL2Jhc2giIGVudnBbIkxDX0FERFJFU1MiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX05BTUUiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX01PTkVUQVJZIl09InB0X0JSLlVURi04IiBlbnZwWyJQV0QiXT0iL2hvbWUvd2FzaHUiIGVudnBbIkxPR05BTUUiXT0id2FzaHUiIGVudnBbIlhER19TRVNTSU9OX1RZUEUiXT0idHR5IiBlbnZwWyJNT1REX1NIT1dOIl09InBhbSIgZW52cFsiSE9NRSJdPSIvaG9tZS93YXNodSIgZW52cFsiTENfUEFQRVIiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxBTkciXT0iZW5fVVMuVVRGLTgiIGVudnBbIkxTX0NPTE9SUyJdPSJycz0wOmRpPTAxOzM0OmxuPTAxOzM2Om1oPTAwOnBpPTQwOzMzOnNvPTAxOzM1OmRvPTAxOzM1OmJkPTQwOzMzOzAxOmNkPTQwOzMzOzAxOm9yPTQwOzMxOzAxOm1pPTAwOnN1PTM3OzQxOnNnPTMwOzQzOmNhPTMwOzQxOnR3PTMwOzQyOm93PTM0OzQyOnN0PTM3OzQ0OmV4PTAxOzMyOioudGFyPTAxOzMxOioudGd6PTAxOzMxOiouYXJjPTAxOzMxOiouYXJqPTAxOzMxOioudGF6PTAxOzMxOioubGhhPTAxOzMxOioubHo0PTAxOzMxOioubHpoPTAxOzMxOioubHptYT0wMTszMToqLnRsej0wMTszMToqLnR4ej0wMTszMToqLnR6bz0wMTszMToqLnQ3ej0wMTszMToqLnppcD0wMTszMToqLno9MDE7MzE6Ki5kej0wMTszMToqLmd6PTAxOzMxOioubHJ6PTAxOzMxOioubHo9MDE7MzE6Ki5sem89MDE7MzE6Ki54ej0wMTszMToqLnpzdD0wMTszMToqLnR6c3Q9MDE7MzE6Ki5iejI9MDE7MzE6Ki5iej0wMTszMToqLnRiej0wMTszMToqLnRiejI9MDE7MzE6Ki50ej0wMTszMToqLmRlYj0wMTszMToqLnJwbT0wMTszMToqLmphcj0wMTszMToqLndhcj0wMTszMToqLmVhcj0wMTszMToqLnNhcj0wMTszMToqLnJhcj0wMTszMToqLmFsej0wMTszMToqLmFjZT0wMTszMToqLnpvbz0wMTszMToqLmNwaW89MDE7MzE6Ki43ej0wMTszMToqLnJ6PTAxOzMxOiouY2FiPTAxOzMxOioud2ltPTAxOzMxOiouc3dtPTAxOzMxOiouZHdtPTAxOzMxOiouZXNkPTAxOzMxOiouanBnPTAxOzM1OiouanBlZz0wMTszNToqLm1qcGc9MDE7MzU6Ki5tanBlZz0wMTszNToqLmdpZj0wMTszNToqLmJtcD0wMTszNToqLnBibT0wMTszNToqLnBnbT0wMTszNToqLnBwbT0wMTszNToqLnRnYT0wMTszNToqLnhibT0wMTszNToqLnhwbT0wMTszNToqLnRpZj0wMTszNToqLnRpZmY9MDE7MzU6Ki5wbmc9MDE7MzU6Ki5zdmc9MDE7MzU6Ki5zdmd6PTAxOzM1OioubW5nPTAxOzM1OioucGN4PTAxOzM1OioubW92PTAxOzM1OioubXBnPTAxOzM1OioubXBlZz0wMTszNToqLm0ydj0wMTszNToqLm1rdj0wMTszNToqLndlYm09MDE7MzU6Ki53ZWJwPTAxOzM1Oioub2dtPTAxOzM1OioubXA0PTAxOzM1OioubTR2PTAxOzM1OioubXA0dj0wMTszNToqLnZvYj0wMTszNToqLnF0PTAxOzM1OioubnV2PTAxOzM1Oioud212PTAxOzM1OiouYXNmPTAxOzM1Oioucm09MDE7MzU6Ki5ybXZiPTAxOzM1OiouZmxjPTAxOzM1OiouYXZpPTAxOzM1OiouZmxpPTAxOzM1OiouZmx2PTAxOzM1OiouZ2w9MDE7MzU6Ki5kbD0wMTszNToqLnhjZj0wMTszNToqLnh3ZD0wMTszNToqLnl1dj0wMTszNToqLmNnbT0wMTszNToqLmVtZj0wMTszNToqLm9ndj0wMTszNToqLm9neD0wMTszNToqLmFhYz0wMDszNjoqLmF1PTAwOzM2OiouZmxhYz0wMDszNjoqLm00YT0wMDszNjoqLm1pZD0wMDszNjoqLm1pZGk9MDA7MzY6Ki5ta2E9MDA7MzY6Ki5tcDM9MDA7MzY6Ki5tcGM9MDA7MzY6Ki5vZ2c9MDA7MzY6Ki5yYT0wMDszNjoqLndhdj0wMDszNjoqLm9nYT0wMDszNjoqLm9wdXM9MDA7MzY6Ki5zcHg9MDA7MzY6Ki54c3BmPTAwOzM2OiIgZW52cFsiU1NIX0NPTk5FQ1RJT04iXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDE5Mi4xNjguMC40MVwwNDAyMiIgZW52cFsiTEVTU0NMT1NFIl09Ii91c3IvYmluL2xlc3NwaXBlXDA0MCVzXDA0MCVzIiBlbnZwWyJYREdfU0VTU0lPTl9DTEFTUyJdPSJ1c2VyIiBlbnZwWyJMQ19JREVOVElGSUNBVElPTiJdPSJwdF9CUi5VVEYtOCIgZW52cFsiVEVSTSJdPSJ4dGVybS0yNTZjb2xvciIgZW52cFsiTEVTU09QRU4iXT0ifFwwNDAvdXNyL2Jpbi9sZXNzcGlwZVwwNDAlcyIgZW52cFsiVVNFUiJdPSJ3YXNodSIgZW52cFsiU0hMVkwiXT0iMSIgZW52cFsiTENfVEVMRVBIT05FIl09InB0X0JSLlVURi04IiBlbnZwWyJMQ19NRUFTVVJFTUVOVCJdPSJwdF9CUi5VVEYtOCIgZW52cFsiWERHX1NFU1NJT05fSUQiXT0iNDciIGVudnBbIkxDX0NUWVBFIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfUlVOVElNRV9ESVIiXT0iL3J1bi91c2VyLzEwMDAiIGVudnBbIlNTSF9DTElFTlQiXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDIyIiBlbnZwWyJMQ19USU1FIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfREFUQV9ESVJTIl09Ii91c3Ivc2hhcmUvZ25vbWU6L3Vzci9sb2NhbC9zaGFyZTovdXNyL3NoYXJlOi92YXIvbGliL3NuYXBkL2Rlc2t0b3AiIGVudnBbIlBBVEgiXT0iL3Vzci9sb2NhbC9zYmluOi91c3IvbG9jYWwvYmluOi91c3Ivc2JpbjovdXNyL2Jpbjovc2JpbjovYmluOi91c3IvZ2FtZXM6L3Vzci9sb2NhbC9nYW1lczovc25hcC9iaW4iIGVudnBbIkRCVVNfU0VTU0lPTl9CVVNfQUREUkVTUyJdPSJ1bml4OnBhdGg9L3J1bi91c2VyLzEwMDAvYnVzIiBlbnZwWyJTU0hfVFRZIl09Ii9kZXYvcHRzLzYiIGVudnBbIkxDX05VTUVSSUMiXT0icHRfQlIuVVRGLTgiIGVudnBbIl8iXT0iL3Vzci9iaW4vdG9wIiB0YXNrLnBpZD0xMzg3MSB0YXNrLnBwaWQ9MTM4NDkgdGFzay51aWQ9InVzZXJuYW1lIiB0YXNrLmdpZD0iZ3JvdXBuYW1lIiB0YXNrLmV1aWQ9Imdyb3VwbmFtZSIgdGFzay5lZ2lkPSJncm91cG5hbWUiIHRhc2suc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLnNnaWQ9Imdyb3VwbmFtZSIgdGFzay5mc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLmZzZ2lkPSJncm91cG5hbWUiIHRhc2sudHlwZSE9ZXhlY3V0ZV9oYW5kbGVyIHRhc2suZXhlPSIvdXNyL2Jpbi9iYXNoIiB0YXNrLmRvbWFpbj0iPGtlcm5lbD4iIHBhdGgudWlkPTAgcGF0aC5naWQ9MCBwYXRoLnBlcm09MDc1NSBwYXRoLnR5cGU9ZmlsZSBwYXRoLmlubz03ODc2NDYgcGF0aC5tYWpvcj04IHBhdGgubWlub3I9MyBwYXRoLmZzbWFnaWM9MHhFRjUzIHBhdGgucGFyZW50LnVpZD0wIHBhdGgucGFyZW50LmdpZD0wIHBhdGgucGFyZW50LnBlcm09MDc1NSBwYXRoLnBhcmVudC5pbm89Nzg2NDQ4IHBhdGgucGFyZW50Lm1ham9yPTggcGF0aC5wYXJlbnQubWlub3I9MyBwYXRoLnBhcmVudC5mc21hZ2ljPTB4RUY1MyBleGVjLnVpZD0wIGV4ZWMuZ2lkPTAgZXhlYy5wZXJtPTA3NTUgZXhlYy50eXBlPWZpbGUgZXhlYy5pbm89Nzg3NjQ2IGV4ZWMubWFqb3I9OCBleGVjLm1pbm9yPTMgZXhlYy5mc21hZ2ljPTB4RUY1MyBleGVjLnBhcmVudC51aWQ9MCBleGVjLnBhcmVudC5naWQ9MCBleGVjLnBhcmVudC5wZXJtPTA3NTUgZXhlYy5wYXJlbnQuaW5vPTc4NjQ0OCBleGVjLnBhcmVudC5tYWpvcj04IGV4ZWMucGFyZW50Lm1pbm9yPTMgZXhlYy5wYXJlbnQuZnNtYWdpYz0weEVGNTMKIzIwMjMvMDUvMDYgMTk6MjY6MTYjIGdsb2JhbC1waWQ9MTM4NzEgcmVzdWx0PWFsbG93ZWQgcHJpb3JpdHk9MTAwIC8gZXhlY3V0ZSBleGVjPSIvdXNyL2Jpbi90b3AiIHBhdGg9Ii91c3IvYmluL3RvcCIgYXJnYz0xIGVudmM9MzMgYXJndlswXT0idG9wIiBlbnZwWyJTSEVMTCJdPSIvYmluL2Jhc2giIGVudnBbIkxDX0FERFJFU1MiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX05BTUUiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX01PTkVUQVJZIl09InB0X0JSLlVURi04IiBlbnZwWyJQV0QiXT0iL2hvbWUvd2FzaHUiIGVudnBbIkxPR05BTUUiXT0id2FzaHUiIGVudnBbIlhER19TRVNTSU9OX1RZUEUiXT0idHR5IiBlbnZwWyJNT1REX1NIT1dOIl09InBhbSIgZW52cFsiSE9NRSJdPSIvaG9tZS93YXNodSIgZW52cFsiTENfUEFQRVIiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxBTkciXT0iZW5fVVMuVVRGLTgiIGVudnBbIkxTX0NPTE9SUyJdPSJycz0wOmRpPTAxOzM0OmxuPTAxOzM2Om1oPTAwOnBpPTQwOzMzOnNvPTAxOzM1OmRvPTAxOzM1OmJkPTQwOzMzOzAxOmNkPTQwOzMzOzAxOm9yPTQwOzMxOzAxOm1pPTAwOnN1PTM3OzQxOnNnPTMwOzQzOmNhPTMwOzQxOnR3PTMwOzQyOm93PTM0OzQyOnN0PTM3OzQ0OmV4PTAxOzMyOioudGFyPTAxOzMxOioudGd6PTAxOzMxOiouYXJjPTAxOzMxOiouYXJqPTAxOzMxOioudGF6PTAxOzMxOioubGhhPTAxOzMxOioubHo0PTAxOzMxOioubHpoPTAxOzMxOioubHptYT0wMTszMToqLnRsej0wMTszMToqLnR4ej0wMTszMToqLnR6bz0wMTszMToqLnQ3ej0wMTszMToqLnppcD0wMTszMToqLno9MDE7MzE6Ki5kej0wMTszMToqLmd6PTAxOzMxOioubHJ6PTAxOzMxOioubHo9MDE7MzE6Ki5sem89MDE7MzE6Ki54ej0wMTszMToqLnpzdD0wMTszMToqLnR6c3Q9MDE7MzE6Ki5iejI9MDE7MzE6Ki5iej0wMTszMToqLnRiej0wMTszMToqLnRiejI9MDE7MzE6Ki50ej0wMTszMToqLmRlYj0wMTszMToqLnJwbT0wMTszMToqLmphcj0wMTszMToqLndhcj0wMTszMToqLmVhcj0wMTszMToqLnNhcj0wMTszMToqLnJhcj0wMTszMToqLmFsej0wMTszMToqLmFjZT0wMTszMToqLnpvbz0wMTszMToqLmNwaW89MDE7MzE6Ki43ej0wMTszMToqLnJ6PTAxOzMxOiouY2FiPTAxOzMxOioud2ltPTAxOzMxOiouc3dtPTAxOzMxOiouZHdtPTAxOzMxOiouZXNkPTAxOzMxOiouanBnPTAxOzM1OiouanBlZz0wMTszNToqLm1qcGc9MDE7MzU6Ki5tanBlZz0wMTszNToqLmdpZj0wMTszNToqLmJtcD0wMTszNToqLnBibT0wMTszNToqLnBnbT0wMTszNToqLnBwbT0wMTszNToqLnRnYT0wMTszNToqLnhibT0wMTszNToqLnhwbT0wMTszNToqLnRpZj0wMTszNToqLnRpZmY9MDE7MzU6Ki5wbmc9MDE7MzU6Ki5zdmc9MDE7MzU6Ki5zdmd6PTAxOzM1OioubW5nPTAxOzM1OioucGN4PTAxOzM1OioubW92PTAxOzM1OioubXBnPTAxOzM1OioubXBlZz0wMTszNToqLm0ydj0wMTszNToqLm1rdj0wMTszNToqLndlYm09MDE7MzU6Ki53ZWJwPTAxOzM1Oioub2dtPTAxOzM1OioubXA0PTAxOzM1OioubTR2PTAxOzM1OioubXA0dj0wMTszNToqLnZvYj0wMTszNToqLnF0PTAxOzM1OioubnV2PTAxOzM1Oioud212PTAxOzM1OiouYXNmPTAxOzM1Oioucm09MDE7MzU6Ki5ybXZiPTAxOzM1OiouZmxjPTAxOzM1OiouYXZpPTAxOzM1OiouZmxpPTAxOzM1OiouZmx2PTAxOzM1OiouZ2w9MDE7MzU6Ki5kbD0wMTszNToqLnhjZj0wMTszNToqLnh3ZD0wMTszNToqLnl1dj0wMTszNToqLmNnbT0wMTszNToqLmVtZj0wMTszNToqLm9ndj0wMTszNToqLm9neD0wMTszNToqLmFhYz0wMDszNjoqLmF1PTAwOzM2OiouZmxhYz0wMDszNjoqLm00YT0wMDszNjoqLm1pZD0wMDszNjoqLm1pZGk9MDA7MzY6Ki5ta2E9MDA7MzY6Ki5tcDM9MDA7MzY6Ki5tcGM9MDA7MzY6Ki5vZ2c9MDA7MzY6Ki5yYT0wMDszNjoqLndhdj0wMDszNjoqLm9nYT0wMDszNjoqLm9wdXM9MDA7MzY6Ki5zcHg9MDA7MzY6Ki54c3BmPTAwOzM2OiIgZW52cFsiU1NIX0NPTk5FQ1RJT04iXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDE5Mi4xNjguMC40MVwwNDAyMiIgZW52cFsiTEVTU0NMT1NFIl09Ii91c3IvYmluL2xlc3NwaXBlXDA0MCVzXDA0MCVzIiBlbnZwWyJYREdfU0VTU0lPTl9DTEFTUyJdPSJ1c2VyIiBlbnZwWyJMQ19JREVOVElGSUNBVElPTiJdPSJwdF9CUi5VVEYtOCIgZW52cFsiVEVSTSJdPSJ4dGVybS0yNTZjb2xvciIgZW52cFsiTEVTU09QRU4iXT0ifFwwNDAvdXNyL2Jpbi9sZXNzcGlwZVwwNDAlcyIgZW52cFsiVVNFUiJdPSJ3YXNodSIgZW52cFsiU0hMVkwiXT0iMSIgZW52cFsiTENfVEVMRVBIT05FIl09InB0X0JSLlVURi04IiBlbnZwWyJMQ19NRUFTVVJFTUVOVCJdPSJwdF9CUi5VVEYtOCIgZW52cFsiWERHX1NFU1NJT05fSUQiXT0iNDciIGVudnBbIkxDX0NUWVBFIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfUlVOVElNRV9ESVIiXT0iL3J1bi91c2VyLzEwMDAiIGVudnBbIlNTSF9DTElFTlQiXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDIyIiBlbnZwWyJMQ19USU1FIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfREFUQV9ESVJTIl09Ii91c3Ivc2hhcmUvZ25vbWU6L3Vzci9sb2NhbC9zaGFyZTovdXNyL3NoYXJlOi92YXIvbGliL3NuYXBkL2Rlc2t0b3AiIGVudnBbIlBBVEgiXT0iL3Vzci9sb2NhbC9zYmluOi91c3IvbG9jYWwvYmluOi91c3Ivc2JpbjovdXNyL2Jpbjovc2JpbjovYmluOi91c3IvZ2FtZXM6L3Vzci9sb2NhbC9nYW1lczovc25hcC9iaW4iIGVudnBbIkRCVVNfU0VTU0lPTl9CVVNfQUREUkVTUyJdPSJ1bml4OnBhdGg9L3J1bi91c2VyLzEwMDAvYnVzIiBlbnZwWyJTU0hfVFRZIl09Ii9kZXYvcHRzLzYiIGVudnBbIkxDX05VTUVSSUMiXT0icHRfQlIuVVRGLTgiIGVudnBbIl8iXT0iL3Vzci9iaW4vdG9wIiB0YXNrLnBpZD0xMzg3MSB0YXNrLnBwaWQ9MTM4NDkgdGFzay51aWQ9InVzZXJuYW1lIiB0YXNrLmdpZD0iZ3JvdXBuYW1lIiB0YXNrLmV1aWQ9Imdyb3VwbmFtZSIgdGFzay5lZ2lkPSJncm91cG5hbWUiIHRhc2suc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLnNnaWQ9Imdyb3VwbmFtZSIgdGFzay5mc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLmZzZ2lkPSJncm91cG5hbWUiIHRhc2sudHlwZSE9ZXhlY3V0ZV9oYW5kbGVyIHRhc2suZXhlPSIvdXNyL2Jpbi9iYXNoIiB0YXNrLmRvbWFpbj0iPGtlcm5lbD4iIHBhdGgudWlkPTAgcGF0aC5naWQ9MCBwYXRoLnBlcm09MDc1NSBwYXRoLnR5cGU9ZmlsZSBwYXRoLmlubz03ODc2NDYgcGF0aC5tYWpvcj04IHBhdGgubWlub3I9MyBwYXRoLmZzbWFnaWM9MHhFRjUzIHBhdGgucGFyZW50LnVpZD0wIHBhdGgucGFyZW50LmdpZD0wIHBhdGgucGFyZW50LnBlcm09MDc1NSBwYXRoLnBhcmVudC5pbm89Nzg2NDQ4IHBhdGgucGFyZW50Lm1ham9yPTggcGF0aC5wYXJlbnQubWlub3I9MyBwYXRoLnBhcmVudC5mc21hZ2ljPTB4RUY1MyBleGVjLnVpZD0wIGV4ZWMuZ2lkPTAgZXhlYy5wZXJtPTA3NTUgZXhlYy50eXBlPWZpbGUgZXhlYy5pbm89Nzg3NjQ2IGV4ZWMubWFqb3I9OCBleGVjLm1pbm9yPTMgZXhlYy5mc21hZ2ljPTB4RUY1MyBleGVjLnBhcmVudC51aWQ9MCBleGVjLnBhcmVudC5naWQ9MCBleGVjLnBhcmVudC5wZXJtPTA3NTUgZXhlYy5wYXJlbnQuaW5vPTc4NjQ0OCBleGVjLnBhcmVudC5tYWpvcj04IGV4ZWMucGFyZW50Lm1pbm9yPTMgZXhlYy5wYXJlbnQuZnNtYWdpYz0weEVGNTMKIzIwMjMvMDUvMDcgMTk6MjY6MTYjIGdsb2JhbC1waWQ9MTM4NzEgcmVzdWx0PWFsbG93ZWQgcHJpb3JpdHk9MTAwIC8gZXhlY3V0ZSBleGVjPSIvdXNyL2Jpbi90b3AiIHBhdGg9Ii91c3IvYmluL3RvcCIgYXJnYz0xIGVudmM9MzMgYXJndlswXT0idG9wIiBlbnZwWyJTSEVMTCJdPSIvYmluL2Jhc2giIGVudnBbIkxDX0FERFJFU1MiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX05BTUUiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX01PTkVUQVJZIl09InB0X0JSLlVURi04IiBlbnZwWyJQV0QiXT0iL2hvbWUvd2FzaHUiIGVudnBbIkxPR05BTUUiXT0id2FzaHUiIGVudnBbIlhER19TRVNTSU9OX1RZUEUiXT0idHR5IiBlbnZwWyJNT1REX1NIT1dOIl09InBhbSIgZW52cFsiSE9NRSJdPSIvaG9tZS93YXNodSIgZW52cFsiTENfUEFQRVIiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxBTkciXT0iZW5fVVMuVVRGLTgiIGVudnBbIkxTX0NPTE9SUyJdPSJycz0wOmRpPTAxOzM0OmxuPTAxOzM2Om1oPTAwOnBpPTQwOzMzOnNvPTAxOzM1OmRvPTAxOzM1OmJkPTQwOzMzOzAxOmNkPTQwOzMzOzAxOm9yPTQwOzMxOzAxOm1pPTAwOnN1PTM3OzQxOnNnPTMwOzQzOmNhPTMwOzQxOnR3PTMwOzQyOm93PTM0OzQyOnN0PTM3OzQ0OmV4PTAxOzMyOioudGFyPTAxOzMxOioudGd6PTAxOzMxOiouYXJjPTAxOzMxOiouYXJqPTAxOzMxOioudGF6PTAxOzMxOioubGhhPTAxOzMxOioubHo0PTAxOzMxOioubHpoPTAxOzMxOioubHptYT0wMTszMToqLnRsej0wMTszMToqLnR4ej0wMTszMToqLnR6bz0wMTszMToqLnQ3ej0wMTszMToqLnppcD0wMTszMToqLno9MDE7MzE6Ki5kej0wMTszMToqLmd6PTAxOzMxOioubHJ6PTAxOzMxOioubHo9MDE7MzE6Ki5sem89MDE7MzE6Ki54ej0wMTszMToqLnpzdD0wMTszMToqLnR6c3Q9MDE7MzE6Ki5iejI9MDE7MzE6Ki5iej0wMTszMToqLnRiej0wMTszMToqLnRiejI9MDE7MzE6Ki50ej0wMTszMToqLmRlYj0wMTszMToqLnJwbT0wMTszMToqLmphcj0wMTszMToqLndhcj0wMTszMToqLmVhcj0wMTszMToqLnNhcj0wMTszMToqLnJhcj0wMTszMToqLmFsej0wMTszMToqLmFjZT0wMTszMToqLnpvbz0wMTszMToqLmNwaW89MDE7MzE6Ki43ej0wMTszMToqLnJ6PTAxOzMxOiouY2FiPTAxOzMxOioud2ltPTAxOzMxOiouc3dtPTAxOzMxOiouZHdtPTAxOzMxOiouZXNkPTAxOzMxOiouanBnPTAxOzM1OiouanBlZz0wMTszNToqLm1qcGc9MDE7MzU6Ki5tanBlZz0wMTszNToqLmdpZj0wMTszNToqLmJtcD0wMTszNToqLnBibT0wMTszNToqLnBnbT0wMTszNToqLnBwbT0wMTszNToqLnRnYT0wMTszNToqLnhibT0wMTszNToqLnhwbT0wMTszNToqLnRpZj0wMTszNToqLnRpZmY9MDE7MzU6Ki5wbmc9MDE7MzU6Ki5zdmc9MDE7MzU6Ki5zdmd6PTAxOzM1OioubW5nPTAxOzM1OioucGN4PTAxOzM1OioubW92PTAxOzM1OioubXBnPTAxOzM1OioubXBlZz0wMTszNToqLm0ydj0wMTszNToqLm1rdj0wMTszNToqLndlYm09MDE7MzU6Ki53ZWJwPTAxOzM1Oioub2dtPTAxOzM1OioubXA0PTAxOzM1OioubTR2PTAxOzM1OioubXA0dj0wMTszNToqLnZvYj0wMTszNToqLnF0PTAxOzM1OioubnV2PTAxOzM1Oioud212PTAxOzM1OiouYXNmPTAxOzM1Oioucm09MDE7MzU6Ki5ybXZiPTAxOzM1OiouZmxjPTAxOzM1OiouYXZpPTAxOzM1OiouZmxpPTAxOzM1OiouZmx2PTAxOzM1OiouZ2w9MDE7MzU6Ki5kbD0wMTszNToqLnhjZj0wMTszNToqLnh3ZD0wMTszNToqLnl1dj0wMTszNToqLmNnbT0wMTszNToqLmVtZj0wMTszNToqLm9ndj0wMTszNToqLm9neD0wMTszNToqLmFhYz0wMDszNjoqLmF1PTAwOzM2OiouZmxhYz0wMDszNjoqLm00YT0wMDszNjoqLm1pZD0wMDszNjoqLm1pZGk9MDA7MzY6Ki5ta2E9MDA7MzY6Ki5tcDM9MDA7MzY6Ki5tcGM9MDA7MzY6Ki5vZ2c9MDA7MzY6Ki5yYT0wMDszNjoqLndhdj0wMDszNjoqLm9nYT0wMDszNjoqLm9wdXM9MDA7MzY6Ki5zcHg9MDA7MzY6Ki54c3BmPTAwOzM2OiIgZW52cFsiU1NIX0NPTk5FQ1RJT04iXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDE5Mi4xNjguMC40MVwwNDAyMiIgZW52cFsiTEVTU0NMT1NFIl09Ii91c3IvYmluL2xlc3NwaXBlXDA0MCVzXDA0MCVzIiBlbnZwWyJYREdfU0VTU0lPTl9DTEFTUyJdPSJ1c2VyIiBlbnZwWyJMQ19JREVOVElGSUNBVElPTiJdPSJwdF9CUi5VVEYtOCIgZW52cFsiVEVSTSJdPSJ4dGVybS0yNTZjb2xvciIgZW52cFsiTEVTU09QRU4iXT0ifFwwNDAvdXNyL2Jpbi9sZXNzcGlwZVwwNDAlcyIgZW52cFsiVVNFUiJdPSJ3YXNodSIgZW52cFsiU0hMVkwiXT0iMSIgZW52cFsiTENfVEVMRVBIT05FIl09InB0X0JSLlVURi04IiBlbnZwWyJMQ19NRUFTVVJFTUVOVCJdPSJwdF9CUi5VVEYtOCIgZW52cFsiWERHX1NFU1NJT05fSUQiXT0iNDciIGVudnBbIkxDX0NUWVBFIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfUlVOVElNRV9ESVIiXT0iL3J1bi91c2VyLzEwMDAiIGVudnBbIlNTSF9DTElFTlQiXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDIyIiBlbnZwWyJMQ19USU1FIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfREFUQV9ESVJTIl09Ii91c3Ivc2hhcmUvZ25vbWU6L3Vzci9sb2NhbC9zaGFyZTovdXNyL3NoYXJlOi92YXIvbGliL3NuYXBkL2Rlc2t0b3AiIGVudnBbIlBBVEgiXT0iL3Vzci9sb2NhbC9zYmluOi91c3IvbG9jYWwvYmluOi91c3Ivc2JpbjovdXNyL2Jpbjovc2JpbjovYmluOi91c3IvZ2FtZXM6L3Vzci9sb2NhbC9nYW1lczovc25hcC9iaW4iIGVudnBbIkRCVVNfU0VTU0lPTl9CVVNfQUREUkVTUyJdPSJ1bml4OnBhdGg9L3J1bi91c2VyLzEwMDAvYnVzIiBlbnZwWyJTU0hfVFRZIl09Ii9kZXYvcHRzLzYiIGVudnBbIkxDX05VTUVSSUMiXT0icHRfQlIuVVRGLTgiIGVudnBbIl8iXT0iL3Vzci9iaW4vdG9wIiB0YXNrLnBpZD0xMzg3MSB0YXNrLnBwaWQ9MTM4NDkgdGFzay51aWQ9InVzZXJuYW1lIiB0YXNrLmdpZD0iZ3JvdXBuYW1lIiB0YXNrLmV1aWQ9Imdyb3VwbmFtZSIgdGFzay5lZ2lkPSJncm91cG5hbWUiIHRhc2suc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLnNnaWQ9Imdyb3VwbmFtZSIgdGFzay5mc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLmZzZ2lkPSJncm91cG5hbWUiIHRhc2sudHlwZSE9ZXhlY3V0ZV9oYW5kbGVyIHRhc2suZXhlPSIvdXNyL2Jpbi9iYXNoIiB0YXNrLmRvbWFpbj0iPGtlcm5lbD4iIHBhdGgudWlkPTAgcGF0aC5naWQ9MCBwYXRoLnBlcm09MDc1NSBwYXRoLnR5cGU9ZmlsZSBwYXRoLmlubz03ODc2NDYgcGF0aC5tYWpvcj04IHBhdGgubWlub3I9MyBwYXRoLmZzbWFnaWM9MHhFRjUzIHBhdGgucGFyZW50LnVpZD0wIHBhdGgucGFyZW50LmdpZD0wIHBhdGgucGFyZW50LnBlcm09MDc1NSBwYXRoLnBhcmVudC5pbm89Nzg2NDQ4IHBhdGgucGFyZW50Lm1ham9yPTggcGF0aC5wYXJlbnQubWlub3I9MyBwYXRoLnBhcmVudC5mc21hZ2ljPTB4RUY1MyBleGVjLnVpZD0wIGV4ZWMuZ2lkPTAgZXhlYy5wZXJtPTA3NTUgZXhlYy50eXBlPWZpbGUgZXhlYy5pbm89Nzg3NjQ2IGV4ZWMubWFqb3I9OCBleGVjLm1pbm9yPTMgZXhlYy5mc21hZ2ljPTB4RUY1MyBleGVjLnBhcmVudC51aWQ9MCBleGVjLnBhcmVudC5naWQ9MCBleGVjLnBhcmVudC5wZXJtPTA3NTUgZXhlYy5wYXJlbnQuaW5vPTc4NjQ0OCBleGVjLnBhcmVudC5tYWpvcj04IGV4ZWMucGFyZW50Lm1pbm9yPTMgZXhlYy5wYXJlbnQuZnNtYWdpYz0weEVGNTMKIzIwMjMvMDUvMDkgMTk6MjY6MTYjIGdsb2JhbC1waWQ9MTM4NzEgcmVzdWx0PWFsbG93ZWQgcHJpb3JpdHk9MTAwIC8gZXhlY3V0ZSBleGVjPSIvdXNyL2Jpbi90b3AiIHBhdGg9Ii91c3IvYmluL3RvcCIgYXJnYz0xIGVudmM9MzMgYXJndlswXT0idG9wIiBlbnZwWyJTSEVMTCJdPSIvYmluL2Jhc2giIGVudnBbIkxDX0FERFJFU1MiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX05BTUUiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxDX01PTkVUQVJZIl09InB0X0JSLlVURi04IiBlbnZwWyJQV0QiXT0iL2hvbWUvd2FzaHUiIGVudnBbIkxPR05BTUUiXT0id2FzaHUiIGVudnBbIlhER19TRVNTSU9OX1RZUEUiXT0idHR5IiBlbnZwWyJNT1REX1NIT1dOIl09InBhbSIgZW52cFsiSE9NRSJdPSIvaG9tZS93YXNodSIgZW52cFsiTENfUEFQRVIiXT0icHRfQlIuVVRGLTgiIGVudnBbIkxBTkciXT0iZW5fVVMuVVRGLTgiIGVudnBbIkxTX0NPTE9SUyJdPSJycz0wOmRpPTAxOzM0OmxuPTAxOzM2Om1oPTAwOnBpPTQwOzMzOnNvPTAxOzM1OmRvPTAxOzM1OmJkPTQwOzMzOzAxOmNkPTQwOzMzOzAxOm9yPTQwOzMxOzAxOm1pPTAwOnN1PTM3OzQxOnNnPTMwOzQzOmNhPTMwOzQxOnR3PTMwOzQyOm93PTM0OzQyOnN0PTM3OzQ0OmV4PTAxOzMyOioudGFyPTAxOzMxOioudGd6PTAxOzMxOiouYXJjPTAxOzMxOiouYXJqPTAxOzMxOioudGF6PTAxOzMxOioubGhhPTAxOzMxOioubHo0PTAxOzMxOioubHpoPTAxOzMxOioubHptYT0wMTszMToqLnRsej0wMTszMToqLnR4ej0wMTszMToqLnR6bz0wMTszMToqLnQ3ej0wMTszMToqLnppcD0wMTszMToqLno9MDE7MzE6Ki5kej0wMTszMToqLmd6PTAxOzMxOioubHJ6PTAxOzMxOioubHo9MDE7MzE6Ki5sem89MDE7MzE6Ki54ej0wMTszMToqLnpzdD0wMTszMToqLnR6c3Q9MDE7MzE6Ki5iejI9MDE7MzE6Ki5iej0wMTszMToqLnRiej0wMTszMToqLnRiejI9MDE7MzE6Ki50ej0wMTszMToqLmRlYj0wMTszMToqLnJwbT0wMTszMToqLmphcj0wMTszMToqLndhcj0wMTszMToqLmVhcj0wMTszMToqLnNhcj0wMTszMToqLnJhcj0wMTszMToqLmFsej0wMTszMToqLmFjZT0wMTszMToqLnpvbz0wMTszMToqLmNwaW89MDE7MzE6Ki43ej0wMTszMToqLnJ6PTAxOzMxOiouY2FiPTAxOzMxOioud2ltPTAxOzMxOiouc3dtPTAxOzMxOiouZHdtPTAxOzMxOiouZXNkPTAxOzMxOiouanBnPTAxOzM1OiouanBlZz0wMTszNToqLm1qcGc9MDE7MzU6Ki5tanBlZz0wMTszNToqLmdpZj0wMTszNToqLmJtcD0wMTszNToqLnBibT0wMTszNToqLnBnbT0wMTszNToqLnBwbT0wMTszNToqLnRnYT0wMTszNToqLnhibT0wMTszNToqLnhwbT0wMTszNToqLnRpZj0wMTszNToqLnRpZmY9MDE7MzU6Ki5wbmc9MDE7MzU6Ki5zdmc9MDE7MzU6Ki5zdmd6PTAxOzM1OioubW5nPTAxOzM1OioucGN4PTAxOzM1OioubW92PTAxOzM1OioubXBnPTAxOzM1OioubXBlZz0wMTszNToqLm0ydj0wMTszNToqLm1rdj0wMTszNToqLndlYm09MDE7MzU6Ki53ZWJwPTAxOzM1Oioub2dtPTAxOzM1OioubXA0PTAxOzM1OioubTR2PTAxOzM1OioubXA0dj0wMTszNToqLnZvYj0wMTszNToqLnF0PTAxOzM1OioubnV2PTAxOzM1Oioud212PTAxOzM1OiouYXNmPTAxOzM1Oioucm09MDE7MzU6Ki5ybXZiPTAxOzM1OiouZmxjPTAxOzM1OiouYXZpPTAxOzM1OiouZmxpPTAxOzM1OiouZmx2PTAxOzM1OiouZ2w9MDE7MzU6Ki5kbD0wMTszNToqLnhjZj0wMTszNToqLnh3ZD0wMTszNToqLnl1dj0wMTszNToqLmNnbT0wMTszNToqLmVtZj0wMTszNToqLm9ndj0wMTszNToqLm9neD0wMTszNToqLmFhYz0wMDszNjoqLmF1PTAwOzM2OiouZmxhYz0wMDszNjoqLm00YT0wMDszNjoqLm1pZD0wMDszNjoqLm1pZGk9MDA7MzY6Ki5ta2E9MDA7MzY6Ki5tcDM9MDA7MzY6Ki5tcGM9MDA7MzY6Ki5vZ2c9MDA7MzY6Ki5yYT0wMDszNjoqLndhdj0wMDszNjoqLm9nYT0wMDszNjoqLm9wdXM9MDA7MzY6Ki5zcHg9MDA7MzY6Ki54c3BmPTAwOzM2OiIgZW52cFsiU1NIX0NPTk5FQ1RJT04iXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDE5Mi4xNjguMC40MVwwNDAyMiIgZW52cFsiTEVTU0NMT1NFIl09Ii91c3IvYmluL2xlc3NwaXBlXDA0MCVzXDA0MCVzIiBlbnZwWyJYREdfU0VTU0lPTl9DTEFTUyJdPSJ1c2VyIiBlbnZwWyJMQ19JREVOVElGSUNBVElPTiJdPSJwdF9CUi5VVEYtOCIgZW52cFsiVEVSTSJdPSJ4dGVybS0yNTZjb2xvciIgZW52cFsiTEVTU09QRU4iXT0ifFwwNDAvdXNyL2Jpbi9sZXNzcGlwZVwwNDAlcyIgZW52cFsiVVNFUiJdPSJ3YXNodSIgZW52cFsiU0hMVkwiXT0iMSIgZW52cFsiTENfVEVMRVBIT05FIl09InB0X0JSLlVURi04IiBlbnZwWyJMQ19NRUFTVVJFTUVOVCJdPSJwdF9CUi5VVEYtOCIgZW52cFsiWERHX1NFU1NJT05fSUQiXT0iNDciIGVudnBbIkxDX0NUWVBFIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfUlVOVElNRV9ESVIiXT0iL3J1bi91c2VyLzEwMDAiIGVudnBbIlNTSF9DTElFTlQiXT0iMTkyLjE2OC4wLjU4XDA0MDU4MDIyXDA0MDIyIiBlbnZwWyJMQ19USU1FIl09InB0X0JSLlVURi04IiBlbnZwWyJYREdfREFUQV9ESVJTIl09Ii91c3Ivc2hhcmUvZ25vbWU6L3Vzci9sb2NhbC9zaGFyZTovdXNyL3NoYXJlOi92YXIvbGliL3NuYXBkL2Rlc2t0b3AiIGVudnBbIlBBVEgiXT0iL3Vzci9sb2NhbC9zYmluOi91c3IvbG9jYWwvYmluOi91c3Ivc2JpbjovdXNyL2Jpbjovc2JpbjovYmluOi91c3IvZ2FtZXM6L3Vzci9sb2NhbC9nYW1lczovc25hcC9iaW4iIGVudnBbIkRCVVNfU0VTU0lPTl9CVVNfQUREUkVTUyJdPSJ1bml4OnBhdGg9L3J1bi91c2VyLzEwMDAvYnVzIiBlbnZwWyJTU0hfVFRZIl09Ii9kZXYvcHRzLzYiIGVudnBbIkxDX05VTUVSSUMiXT0icHRfQlIuVVRGLTgiIGVudnBbIl8iXT0iL3Vzci9iaW4vdG9wIiB0YXNrLnBpZD0xMzg3MSB0YXNrLnBwaWQ9MTM4NDkgdGFzay51aWQ9InVzZXJuYW1lIiB0YXNrLmdpZD0iZ3JvdXBuYW1lIiB0YXNrLmV1aWQ9Imdyb3VwbmFtZSIgdGFzay5lZ2lkPSJncm91cG5hbWUiIHRhc2suc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLnNnaWQ9Imdyb3VwbmFtZSIgdGFzay5mc3VpZD0iZ3JvdXBuYW1lIiB0YXNrLmZzZ2lkPSJncm91cG5hbWUiIHRhc2sudHlwZSE9ZXhlY3V0ZV9oYW5kbGVyIHRhc2suZXhlPSIvdXNyL2Jpbi9iYXNoIiB0YXNrLmRvbWFpbj0iPGtlcm5lbD4iIHBhdGgudWlkPTAgcGF0aC5naWQ9MCBwYXRoLnBlcm09MDc1NSBwYXRoLnR5cGU9ZmlsZSBwYXRoLmlubz03ODc2NDYgcGF0aC5tYWpvcj04IHBhdGgubWlub3I9MyBwYXRoLmZzbWFnaWM9MHhFRjUzIHBhdGgucGFyZW50LnVpZD0wIHBhdGgucGFyZW50LmdpZD0wIHBhdGgucGFyZW50LnBlcm09MDc1NSBwYXRoLnBhcmVudC5pbm89Nzg2NDQ4IHBhdGgucGFyZW50Lm1ham9yPTggcGF0aC5wYXJlbnQubWlub3I9MyBwYXRoLnBhcmVudC5mc21hZ2ljPTB4RUY1MyBleGVjLnVpZD0wIGV4ZWMuZ2lkPTAgZXhlYy5wZXJtPTA3NTUgZXhlYy50eXBlPWZpbGUgZXhlYy5pbm89Nzg3NjQ2IGV4ZWMubWFqb3I9OCBleGVjLm1pbm9yPTMgZXhlYy5mc21hZ2ljPTB4RUY1MyBleGVjLnBhcmVudC51aWQ9MCBleGVjLnBhcmVudC5naWQ9MCBleGVjLnBhcmVudC5wZXJtPTA3NTUgZXhlYy5wYXJlbnQuaW5vPTc4NjQ0OCBleGVjLnBhcmVudC5tYWpvcj04IGV4ZWMucGFyZW50Lm1pbm9yPTMgZXhlYy5wYXJlbnQuZnNtYWdpYz0weEVGNTMK\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/events"
+			},
+			"response": []
+		},
+		{
+			"name": "events (file) (login)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"input_mode\": \"file\",\r\n    \"ip\": \"::1\",\r\n    \"type\": 42,\r\n    \"description\": \"bGF1Z3VzdG8gcHRzLzEgICAgICAgIEZyaSBOb3YgIDMgMTU6NDM6NTAgMjAyMyAgIHN0aWxsIGxvZ2dlZCBpbiAgICAgICAgICAgICAgICAgICAgICAgMTcyLjE2LjIwLjUwCmRpZWdvICAgIHB0cy8wICAgICAgICBGcmkgTm92ICAzIDE0OjUyOjIwIDIwMjMgICBzdGlsbCBsb2dnZWQgaW4gICAgICAgICAgICAgICAgICAgICAgIDE3Mi4xNi4yMC40NwpkaWVnbyAgICBwdHMvMCAgICAgICAgRnJpIE5vdiAgMyAxNDo1MDo0MiAyMDIzIC0gRnJpIE5vdiAgMyAxNDo1MDo1NiAyMDIzICAoMDA6MDApICAgICAxNzIuMTYuMjAuNDcKZWdhbHZhbyAgcHRzLzAgICAgICAgIFRodSBOb3YgIDIgMTY6Mzc6MjEgMjAyMyAtIFRodSBOb3YgIDIgMTg6NTA6MjQgMjAyMyAgKDAyOjEzKSAgICAgMTcyLjE2LjIwLjE4MApkaWVnbyAgICBwdHMvMSAgICAgICAgV2VkIE5vdiAgMSAxOTowNzoyOCAyMDIzIC0gV2VkIE5vdiAgMSAyMDowMzozOCAyMDIzICAoMDA6NTYpICAgICAxNzIuMTYuMjAuNDcKZGllZ28gICAgcHRzLzAgICAgICAgIFdlZCBOb3YgIDEgMTU6MjQ6NDIgMjAyMyAtIFdlZCBOb3YgIDEgMjA6MDI6NTIgMjAyMyAgKDA0OjM4KSAgICAgMTcyLjE2LjIwLjQ3CmRpZWdvICAgIHB0cy8wICAgICAgICBUdWUgT2N0IDMxIDIyOjAxOjUwIDIwMjMgLSBUdWUgT2N0IDMxIDIzOjE4OjI1IDIwMjMgICgwMToxNikgICAgIDE3Mi4xNi4yMC40NwpkaWVnbyAgICBwdHMvMCAgICAgICAgVHVlIE9jdCAzMSAxNToyODozMSAyMDIzIC0gVHVlIE9jdCAzMSAxODo1MTozMCAyMDIzICAoMDM6MjIpICAgICAxNzIuMTYuMjAuNDcKZGllZ28gICAgcHRzLzEgICAgICAgIFR1ZSBPY3QgMzEgMTE6NTE6MTEgMjAyMyAtIFR1ZSBPY3QgMzEgMTY6Mjc6MDAgMjAyMyAgKDA0OjM1KSAgICAgMTcyLjE2LjIwLjQ3CmVnYWx2YW8gIHB0cy8wICAgICAgICBUdWUgT2N0IDMxIDA5OjMwOjI2IDIwMjMgLSBUdWUgT2N0IDMxIDEyOjI4OjUzIDIwMjMgICgwMjo1OCkgICAgIDE3Mi4xNi4yMC4xODAKZGllZ28gICAgcHRzLzAgICAgICAgIE1vbiBPY3QgMzAgMjA6NTU6MzYgMjAyMyAtIE1vbiBPY3QgMzAgMjE6NDc6MDkgMjAyMyAgKDAwOjUxKSAgICAgMTcyLjE2LjIwLjQ3CmRpZWdvICAgIHB0cy8xICAgICAgICBNb24gT2N0IDMwIDE1OjQzOjE4IDIwMjMgLSBNb24gT2N0IDMwIDIzOjA3OjEwIDIwMjMgICgwNzoyMykgICAgIDE3Mi4xNi4yMC40NwpkaWVnbyAgICBwdHMvMCAgICAgICAgTW9uIE9jdCAzMCAxMjowMjoyMCAyMDIzIC0gTW9uIE9jdCAzMCAxNTo1MjoyNiAyMDIzICAoMDM6NTApICAgICAxNzIuMTYuMjAuNDcKZGllZ28gICAgcHRzLzMgICAgICAgIFNhdCBPY3QgMjggMDI6MDI6MzMgMjAyMyAtIFNhdCBPY3QgMjggMDI6MzY6MTYgMjAyMyAgKDAwOjMzKSAgICAgMTcyLjE2LjIwLjQ3CmRpZWdvICAgIHB0cy8yICAgICAgICBTYXQgT2N0IDI4IDAwOjE4OjE1IDIwMjMgLSBTYXQgT2N0IDI4IDAzOjUwOjA5IDIwMjMgICgwMzozMSkgICAgIDE3Mi4xNi4yMC40NwpkaWVnbyAgICBwdHMvMCAgICAgICAgRnJpIE9jdCAyNyAyMzoyMjo0NCAyMDIzIC0gU2F0IE9jdCAyOCAwMjoxODoyNCAyMDIzICAoMDI6NTUpICAgICAxNzIuMTYuMjAuNDcKZGllZ28gICAgcHRzLzAgICAgICAgIEZyaSBPY3QgMjcgMTU6NDQ6NDIgMjAyMyAtIEZyaSBPY3QgMjcgMTk6NTc6MjUgMjAyMyAgKDA0OjEyKSAgICAgMTcyLjE2LjIwLjQ3CmRpZWdvICAgIHB0cy8wICAgICAgICBGcmkgT2N0IDI3IDE0OjIyOjQyIDIwMjMgLSBGcmkgT2N0IDI3IDE1OjIzOjI5IDIwMjMgICgwMTowMCkgICAgIDE3Mi4xNi4yMC40NwpkbW9zY2EgICBwdHMvMCAgICAgICAgRnJpIE9jdCAyNyAwODozODozOSAyMDIzIC0gRnJpIE9jdCAyNyAxMzoxMjowNyAyMDIzICAoMDQ6MzMpICAgICAxNzIuMTYuMjAuMjIyCmRtb3NjYSAgIHB0cy8yICAgICAgICBUaHUgT2N0IDI2IDE5OjI1OjAxIDIwMjMgLSBUaHUgT2N0IDI2IDE5OjI1OjE2IDIwMjMgICgwMDowMCkgICAgIDE3Mi4xNi4yMC4yMjIKZGllZ28gICAgcHRzLzMgICAgICAgIFRodSBPY3QgMjYgMTk6MTg6MTYgMjAyMyAtIFRodSBPY3QgMjYgMjE6MDc6MzEgMjAyMyAgKDAxOjQ5KSAgICAgMTcyLjE2LjIwLjQ3CmRtb3NjYSAgIHB0cy8yICAgICAgICBUaHUgT2N0IDI2IDE5OjE0OjQxIDIwMjMgLSBUaHUgT2N0IDI2IDE5OjE5OjQzIDIwMjMgICgwMDowNSkgICAgIDE3Mi4xNi4yMC4yMjIKcmNhdmF0aSAgcHRzLzAgICAgICAgIFRodSBPY3QgMjYgMTg6NTY6MDYgMjAyMyAtIFRodSBPY3QgMjYgMjE6MTE6NTEgMjAyMyAgKDAyOjE1KSAgICAgMTcyLjE2LjIwLjEwOAptbmFyZGkgICBwdHMvMSAgICAgICAgVGh1IE9jdCAyNiAxMzo1NzoyMyAyMDIzIC0gTW9uIE9jdCAzMCAxMjo1MzoxOCAyMDIzICgzKzIyOjU1KSAgICAxNzIuMTYuMjAuMTM4CnJjYXZhdGkgIHB0cy8wICAgICAgICBUaHUgT2N0IDI2IDEzOjU2OjM4IDIwMjMgLSBUaHUgT2N0IDI2IDE2OjQ1OjUxIDIwMjMgICgwMjo0OSkgICAgIDE3Mi4xNi4yMC4xMDgKcmNhdmF0aSAgcHRzLzAgICAgICAgIFdlZCBPY3QgMjUgMjE6MjY6NDQgMjAyMyAtIFdlZCBPY3QgMjUgMjI6MjI6MDcgMjAyMyAgKDAwOjU1KSAgICAgMTcyLjE2LjIwLjEwOApkaWVnbyAgICBwdHMvMSAgICAgICAgV2VkIE9jdCAyNSAxOTowNzowNSAyMDIzIC0gV2VkIE9jdCAyNSAyMjozODowNyAyMDIzICAoMDM6MzEpICAgICAxNzIuMTYuMjAuNDcKZGllZ28gICAgcHRzLzAgICAgICAgIFdlZCBPY3QgMjUgMTg6MjU6MTAgMjAyMyAtIFdlZCBPY3QgMjUgMjE6MTc6NDMgMjAyMyAgKDAyOjUyKSAgICAgMTcyLjE2LjIwLjQ3CmRtb3NjYSAgIHB0cy8yICAgICAgICBXZWQgT2N0IDI1IDE1OjM3OjU3IDIwMjMgLSBUaHUgT2N0IDI2IDAwOjE0OjQwIDIwMjMgICgwODozNikgICAgIDE3Mi4xNi4yMC4yMjIKcmNhdmF0aSAgcHRzLzEgICAgICAgIFdlZCBPY3QgMjUgMTQ6NTk6MzYgMjAyMyAtIFdlZCBPY3QgMjUgMTk6MDM6MTggMjAyMyAgKDA0OjAzKSAgICAgMTcyLjE2LjIwLjEwOApkaWVnbyAgICBwdHMvMCAgICAgICAgV2VkIE9jdCAyNSAxMTo1OToxNiAyMDIzIC0gV2VkIE9jdCAyNSAxNzozOToxNSAyMDIzICAoMDU6MzkpICAgICAxNzIuMTYuMjAuNDcKcmNhdmF0aSAgcHRzLzIgICAgICAgIFR1ZSBPY3QgMjQgMTc6MTA6MjkgMjAyMyAtIFR1ZSBPY3QgMjQgMjE6NTI6MjQgMjAyMyAgKDA0OjQxKSAgICAgMTcyLjE2LjIwLjEwOApkaWVnbyAgICBwdHMvMSAgICAgICAgVHVlIE9jdCAyNCAxNjo1NzozMSAyMDIzIC0gVHVlIE9jdCAyNCAxNzoxNDoxMSAyMDIzICAoMDA6MTYpICAgICAxNzIuMTYuMjAuNDcKZGllZ28gICAgcHRzLzAgICAgICAgIFR1ZSBPY3QgMjQgMTE6Mjk6MTAgMjAyMyAtIFR1ZSBPY3QgMjQgMTg6MjU6MzIgMjAyMyAgKDA2OjU2KSAgICAgMTcyLjE2LjIwLjQ3CnZ0ZWl4ZWlyYSBwdHMvMCAgICAgICAgVHVlIE9jdCAyNCAxMDozMTo0OSAyMDIzIC0gVHVlIE9jdCAyNCAxMDozNzo0NSAyMDIzICAoMDA6MDUpICAgICAxNzIuMTYuMjAuMTg1CnJjYXZhdGkgIHB0cy8yICAgICAgICBNb24gT2N0IDIzIDIxOjMzOjU1IDIwMjMgLSBNb24gT2N0IDIzIDIyOjM2OjU2IDIwMjMgICgwMTowMykgICAgIDE3Mi4xNi4yMC4xMDgKbGF1Z3VzdG8gcHRzLzEgICAgICAgIE1vbiBPY3QgMjMgMjA6NTc6MTggMjAyMyAtIE1vbiBPY3QgMjMgMjM6MDk6NTQgMjAyMyAgKDAyOjEyKSAgICAgMTcyLjE2LjIwLjUwCmRpZWdvICAgIHB0cy8wICAgICAgICBNb24gT2N0IDIzIDIwOjEzOjA0IDIwMjMgLSBNb24gT2N0IDIzIDIyOjA2OjM3IDIwMjMgICgwMTo1MykgICAgIDE3Mi4xNi4yMC40NwpkaWVnbyAgICBwdHMvMCAgICAgICAgTW9uIE9jdCAyMyAxOToxMTozNSAyMDIzIC0gTW9uIE9jdCAyMyAxOToxMTozOCAyMDIzICAoMDA6MDApICAgICAxNzIuMTYuMjAuNDcKZGllZ28gICAgcHRzLzAgICAgICAgIE1vbiBPY3QgMjMgMTQ6MTA6NDkgMjAyMyAtIE1vbiBPY3QgMjMgMTc6MzE6MTggMjAyMyAgKDAzOjIwKSAgICAgMTcyLjE2LjIwLjQ3CmVzYW50b3MgIHB0cy8wICAgICAgICBNb24gT2N0IDIzIDE0OjAyOjM1IDIwMjMgLSBNb24gT2N0IDIzIDE0OjAyOjM4IDIwMjMgICgwMDowMCkgICAgIDE3Mi4xNi4yMC4xODkKZG1vc2NhICAgcHRzLzAgICAgICAgIE1vbiBPY3QgMjMgMTA6NTU6MDAgMjAyMyAtIE1vbiBPY3QgMjMgMTM6NTY6MDggMjAyMyAgKDAzOjAxKSAgICAgMTcyLjE2LjIwLjIyMgp2dGVpeGVpcmEgcHRzLzAgICAgICAgIE1vbiBPY3QgMjMgMTA6MDI6MzMgMjAyMyAtIE1vbiBPY3QgMjMgMTA6MTY6NTIgMjAyMyAgKDAwOjE0KSAgICAgMTcyLjE2LjIwLjE4NQpoYmFycmV0byBwdHMvNyAgICAgICAgRnJpIE9jdCAyMCAxNjoxOToyNiAyMDIzIC0gU2F0IE9jdCAyOCAxMjowMTo0MCAyMDIzICg3KzE5OjQyKSAgICAxNzIuMTYuMjAuMjEyCmRtb3NjYSAgIHB0cy82ICAgICAgICBGcmkgT2N0IDIwIDE2OjE2OjQyIDIwMjMgLSBGcmkgT2N0IDIwIDIwOjExOjU3IDIwMjMgICgwMzo1NSkgICAgIDE3Mi4xNi4yMC4yMjIKZGllZ28gICAgcHRzLzUgICAgICAgIEZyaSBPY3QgMjAgMTY6MDY6MTMgMjAyMyAtIEZyaSBPY3QgMjAgMTg6MDQ6MjUgMjAyMyAgKDAxOjU4KSAgICAgMTcyLjE2LjIwLjQ3CmhiYXJyZXRvIHB0cy80ICAgICAgICBGcmkgT2N0IDIwIDE1OjU5OjUxIDIwMjMgLSBGcmkgT2N0IDIwIDE4OjE0OjE2IDIwMjMgICgwMjoxNCkgICAgIDE3Mi4xNi4yMC4yMTIKbGF1Z3VzdG8gcHRzLzMgICAgICAgIEZyaSBPY3QgMjAgMTU6NTg6NDQgMjAyMyAtIEZyaSBPY3QgMjAgMTk6MDI6MDMgMjAyMyAgKDAzOjAzKSAgICAgMTcyLjE2LjIwLjUwCmRpZWdvICAgIHB0cy8yICAgICAgICBGcmkgT2N0IDIwIDE1OjE5OjE1IDIwMjMgLSBGcmkgT2N0IDIwIDE4OjE0OjMyIDIwMjMgICgwMjo1NSkgICAgIDE3Mi4xNi4yMC40NwpkbW9zY2EgICBwdHMvMCAgICAgICAgRnJpIE9jdCAyMCAxNDo0NDowMiAyMDIzIC0gRnJpIE9jdCAyMCAxNzoxMzozOCAyMDIzICAoMDI6MjkpICAgICAxNzIuMTYuMjAuMjIyCmRpZWdvICAgIHB0cy8xICAgICAgICBGcmkgT2N0IDIwIDEzOjU4OjQ2IDIwMjMgLSBGcmkgT2N0IDIwIDE4OjE0OjMyIDIwMjMgICgwNDoxNSkgICAgIDE3Mi4xNi4yMC40NwpkbW9zY2EgICBwdHMvMCAgICAgICAgRnJpIE9jdCAyMCAxMzoyNjozMCAyMDIzIC0gRnJpIE9jdCAyMCAxNDowNzozOSAyMDIzICAoMDA6NDEpICAgICAxNzIuMTYuMjAuMjIyCnZ0YXNzbyAgIHB0cy8xICAgICAgICBGcmkgT2N0IDIwIDA4OjI3OjA5IDIwMjMgLSBGcmkgT2N0IDIwIDA4OjM3OjAxIDIwMjMgICgwMDowOSkgICAgIDE3Mi4xNi4yMC4xOTQKZXNhbnRvcyAgcHRzLzAgICAgICAgIEZyaSBPY3QgMjAgMDg6MTc6MzUgMjAyMyAtIEZyaSBPY3QgMjAgMDg6Mjc6NTYgMjAyMyAgKDAwOjEwKSAgICAgMTcyLjE2LjIwLjE4OQpkaWVnbyAgICBwdHMvMCAgICAgICAgVGh1IE9jdCAxOSAyMDo1NTowMyAyMDIzIC0gVGh1IE9jdCAxOSAyMzo0MjowNCAyMDIzICAoMDI6NDcpICAgICAxNzIuMTYuMjAuNDcKZGllZ28gICAgcHRzLzAgICAgICAgIFRodSBPY3QgMTkgMTk6NDI6NTIgMjAyMyAtIFRodSBPY3QgMTkgMTk6NDk6NTIgMjAyMyAgKDAwOjA3KSAgICAgMTcyLjE2LjIwLjQ3CmRpZWdvICAgIHB0cy8wICAgICAgICBUaHUgT2N0IDE5IDE3OjM3OjQwIDIwMjMgLSBUaHUgT2N0IDE5IDE4OjQwOjA5IDIwMjMgICgwMTowMikgICAgIDE3Mi4xNi4yMC40Nwplc2FudG9zICBwdHMvMSAgICAgICAgVGh1IE9jdCAxOSAxNjo1MDo1MCAyMDIzIC0gVGh1IE9jdCAxOSAxNzoyOToyOCAyMDIzICAoMDA6MzgpICAgICAxNzIuMTYuMjAuMTg5CnNlZ2k5ICAgIHB0cy8xICAgICAgICBUaHUgT2N0IDE5IDE2OjUwOjIwIDIwMjMgLSBUaHUgT2N0IDE5IDE2OjUwOjIwIDIwMjMgICgwMDowMCkgICAgIDEwLjY2LjEwLjIwMwpzZWdpOSAgICBwdHMvMSAgICAgICAgVGh1IE9jdCAxOSAxNjo1MDoxMyAyMDIzIC0gVGh1IE9jdCAxOSAxNjo1MDoxNCAyMDIzICAoMDA6MDApICAgICAxMC42Ni4xMC4yMDMKc2VnaTkgICAgcHRzLzEgICAgICAgIFRodSBPY3QgMTkgMTY6NTA6MTAgMjAyMyAtIFRodSBPY3QgMTkgMTY6NTA6MTEgMjAyMyAgKDAwOjAwKSAgICAgMTAuNjYuMTAuMjAzCnNlZ2k5ICAgIHB0cy8xICAgICAgICBUaHUgT2N0IDE5IDE2OjUwOjA4IDIwMjMgLSBUaHUgT2N0IDE5IDE2OjUwOjA4IDIwMjMgICgwMDowMCkgICAgIDEwLjY2LjEwLjIwMwpzZWdpOSAgICBwdHMvMSAgICAgICAgVGh1IE9jdCAxOSAxNjo1MDowMyAyMDIzIC0gVGh1IE9jdCAxOSAxNjo1MDowNCAyMDIzICAoMDA6MDApICAgICAxMC42Ni4xMC4yMDMKc2VnaTkgICAgcHRzLzEgICAgICAgIFRodSBPY3QgMTkgMTY6NDM6MTggMjAyMyAtIFRodSBPY3QgMTkgMTY6NDM6MTggMjAyMyAgKDAwOjAwKSAgICAgMTAuNjYuMTAuMjAzCnNlZ2k5ICAgIHB0cy8xICAgICAgICBUaHUgT2N0IDE5IDE2OjQzOjEwIDIwMjMgLSBUaHUgT2N0IDE5IDE2OjQzOjExIDIwMjMgICgwMDowMCkgICAgIDEwLjY2LjEwLjIwMwpzZWdpOSAgICBwdHMvMSAgICAgICAgVGh1IE9jdCAxOSAxNjo0MzowNiAyMDIzIC0gVGh1IE9jdCAxOSAxNjo0MzowNyAyMDIzICAoMDA6MDApICAgICAxMC42Ni4xMC4yMDMKc2VnaTkgICAgcHRzLzEgICAgICAgIFRodSBPY3QgMTkgMTY6NDM6MDEgMjAyMyAtIFRodSBPY3QgMTkgMTY6NDM6MDEgMjAyMyAgKDAwOjAwKSAgICAgMTAuNjYuMTAuMjAzCnNlZ2k5ICAgIHB0cy8xICAgICAgICBUaHUgT2N0IDE5IDE2OjQyOjU3IDIwMjMgLSBUaHUgT2N0IDE5IDE2OjQyOjU4IDIwMjMgICgwMDowMCkgICAgIDEwLjY2LjEwLjIwMwp2dGVpeGVpcmEgcHRzLzEgICAgICAgIFRodSBPY3QgMTkgMTY6MzY6MzcgMjAyMyAtIFRodSBPY3QgMTkgMTY6Mzk6NTAgMjAyMyAgKDAwOjAzKSAgICAgMTcyLjE2LjIwLjE4NQp2dGVpeGVpcmEgcHRzLzEgICAgICAgIFRodSBPY3QgMTkgMTA6NTM6MjMgMjAyMyAtIFRodSBPY3QgMTkgMTQ6NDM6MjcgMjAyMyAgKDAzOjUwKSAgICAgMTcyLjE2LjIwLjE4NQp2dGVpeGVpcmEgcHRzLzEgICAgICAgIFRodSBPY3QgMTkgMTA6MDg6MzUgMjAyMyAtIFRodSBPY3QgMTkgMTA6MDk6NTggMjAyMyAgKDAwOjAxKSAgICAgMTcyLjE2LjIwLjE4NQpkbW9zY2EgICBwdHMvMCAgICAgICAgVGh1IE9jdCAxOSAxMDowNDo1NyAyMDIzIC0gVGh1IE9jdCAxOSAxNzozNzowMCAyMDIzICAoMDc6MzIpICAgICAxNzIuMTYuMjAuMjIyCmxhdWd1c3RvIHB0cy8yICAgICAgICBXZWQgT2N0IDE4IDE2OjAxOjUyIDIwMjMgLSBXZWQgT2N0IDE4IDE4OjEwOjU5IDIwMjMgICgwMjowOSkgICAgIDE3Mi4xNi4yMC41MApsYXVndXN0byBwdHMvNiAgICAgICAgV2VkIE9jdCAxOCAxNDozMjo1MSAyMDIzIC0gV2VkIE9jdCAxOCAxNjo0Mzo1NyAyMDIzICAoMDI6MTEpICAgICAxNzIuMTYuMjAuNTAKdnRlaXhlaXJhIHB0cy81ICAgICAgICBXZWQgT2N0IDE4IDE0OjIxOjU3IDIwMjMgLSBXZWQgT2N0IDE4IDE0OjQ3OjQ0IDIwMjMgICgwMDoyNSkgICAgIDE3Mi4xNi4yMC4xODUKZGNvcnRleiAgcHRzLzMgICAgICAgIFdlZCBPY3QgMTggMTQ6MTY6NDUgMjAyMyAtIFRodSBPY3QgMTkgMTY6MzE6NTAgMjAyMyAoMSswMjoxNSkgICAgMTcyLjE2LjIwLjQ2CnZ0ZWl4ZWlyYSBwdHMvMyAgICAgICAgV2VkIE9jdCAxOCAxNDowODozNiAyMDIzIC0gV2VkIE9jdCAxOCAxNDoxMTowNSAyMDIzICAoMDA6MDIpICAgICAxNzIuMTYuMjAuMTg1CnZ0ZWl4ZWlyYSBwdHMvMyAgICAgICAgV2VkIE9jdCAxOCAxMjoyMDozMiAyMDIzIC0gV2VkIE9jdCAxOCAxMzoyNToxNiAyMDIzICAoMDE6MDQpICAgICAxNzIuMTYuMjAuMTg1CmhiYXJyZXRvIHB0cy80ICAgICAgICBXZWQgT2N0IDE4IDExOjM4OjQ4IDIwMjMgLSBXZWQgT2N0IDE4IDE2OjI5OjQzIDIwMjMgICgwNDo1MCkgICAgIDE3Mi4xNi4yMC4yMTIKdnRlaXhlaXJhIHB0cy8zICAgICAgICBXZWQgT2N0IDE4IDExOjM0OjUzIDIwMjMgLSBXZWQgT2N0IDE4IDExOjQxOjI4IDIwMjMgICgwMDowNikgICAgIDE3Mi4xNi4yMC4xODUKbGF1Z3VzdG8gcHRzLzIgICAgICAgIFdlZCBPY3QgMTggMTE6MTc6NDIgMjAyMyAtIFdlZCBPY3QgMTggMTU6MTk6MzQgMjAyMyAgKDA0OjAxKSAgICAgMTcyLjE2LjIwLjUwCmVnYWx2YW8gIHB0cy8yICAgICAgICBXZWQgT2N0IDE4IDA5OjM4OjMwIDIwMjMgLSBXZWQgT2N0IDE4IDA5OjQ2OjEzIDIwMjMgICgwMDowNykgICAgIDE3Mi4xNi4yMC4xODAKZG1vc2NhICAgcHRzLzEgICAgICAgIFdlZCBPY3QgMTggMDg6NDg6NDIgMjAyMyAtIFdlZCBPY3QgMTggMjA6NDM6MTkgMjAyMyAgKDExOjU0KSAgICAgMTcyLjE2LjIwLjIyMgpkaWVnbyAgICBwdHMvMSAgICAgICAgVHVlIE9jdCAxNyAyMzoxMjo1MiAyMDIzIC0gV2VkIE9jdCAxOCAwMToyNDo0NyAyMDIzICAoMDI6MTEpICAgICAxNzIuMTYuMjAuNDcKbW5hcmRpICAgcHRzLzAgICAgICAgIFR1ZSBPY3QgMTcgMTc6MzM6MDYgMjAyMyAtIFRodSBPY3QgMTkgMDI6NDc6MjMgMjAyMyAoMSswOToxNCkgICAgMTcyLjE2LjIwLjEzOApoYmFycmV0byBwdHMvNCAgICAgICAgVHVlIE9jdCAxNyAxNTowOTozOCAyMDIzIC0gVHVlIE9jdCAxNyAxOTozMzoyNyAyMDIzICAoMDQ6MjMpICAgICAxNzIuMTYuMjAuMjEyCmhiYXJyZXRvIHB0cy8zICAgICAgICBUdWUgT2N0IDE3IDE1OjA5OjA2IDIwMjMgLSBUdWUgT2N0IDE3IDE1OjI2OjI1IDIwMjMgICgwMDoxNykgICAgIDE3Mi4xNi4yMC4yMTIKbGF1Z3VzdG8gcHRzLzIgICAgICAgIFR1ZSBPY3QgMTcgMTU6MDU6NTMgMjAyMyAtIFR1ZSBPY3QgMTcgMTc6NDQ6MzUgMjAyMyAgKDAyOjM4KSAgICAgMTcyLjE2LjIwLjUwCmRtb3NjYSAgIHB0cy8xICAgICAgICBUdWUgT2N0IDE3IDEyOjQ1OjM2IDIwMjMgLSBUdWUgT2N0IDE3IDE2OjEyOjUwIDIwMjMgICgwMzoyNykgICAgIDE3Mi4xNi4yMC4yMjIKbGF1Z3VzdG8gcHRzLzAgICAgICAgIFR1ZSBPY3QgMTcgMTI6MDY6MTMgMjAyMyAtIFR1ZSBPY3QgMTcgMTU6MzU6NDIgMjAyMyAgKDAzOjI5KSAgICAgMTcyLjE2LjIwLjUwCmRpZWdvICAgIHB0cy8yICAgICAgICBNb24gT2N0IDE2IDIwOjU4OjMzIDIwMjMgLSBUdWUgT2N0IDE3IDAxOjAwOjE4IDIwMjMgICgwNDowMSkgICAgIDE3Mi4xNi4yMC40NwpyY2F2YXRpICBwdHMvMCAgICAgICAgTW9uIE9jdCAxNiAxNToyNDoxNyAyMDIzIC0gTW9uIE9jdCAxNiAyMTowMzozNCAyMDIzICAoMDU6MzkpICAgICAxNzIuMTYuMjAuMTA4CmRpZWdvICAgIHB0cy8yICAgICAgICBNb24gT2N0IDE2IDEzOjQ1OjAwIDIwMjMgLSBNb24gT2N0IDE2IDEzOjUyOjU0IDIwMjMgICgwMDowNykgICAgIDE3Mi4xNi4yMC40NwpkaWVnbyAgICBwdHMvMiAgICAgICAgTW9uIE9jdCAxNiAxMDo1NDozMiAyMDIzIC0gTW9uIE9jdCAxNiAxMDo1NDozNyAyMDIzICAoMDA6MDApICAgICAxNzIuMTYuMjAuNDcKZG1vc2NhICAgcHRzLzEgICAgICAgIE1vbiBPY3QgMTYgMDg6NTQ6MDUgMjAyMyAtIE1vbiBPY3QgMTYgMjI6MzM6MjAgMjAyMyAgKDEzOjM5KSAgICAgMTcyLjE2LjIwLjIyMgpoYmFycmV0byBwdHMvMCAgICAgICAgTW9uIE9jdCAxNiAwODoyMDo1OSAyMDIzIC0gTW9uIE9jdCAxNiAxNDoyMjowMyAyMDIzICAoMDY6MDEpICAgICAxNzIuMTYuMjAuMjEyCmxhdWd1c3RvIHB0cy8wICAgICAgICBGcmkgT2N0IDEzIDIwOjU3OjQ0IDIwMjMgLSBGcmkgT2N0IDEzIDIzOjEzOjAxIDIwMjMgICgwMjoxNSkgICAgIDE3Mi4xNi4yMC41MApyY2F2YXRpICBwdHMvNCAgICAgICAgRnJpIE9jdCAxMyAxNzoyODoyNCAyMDIzIC0gRnJpIE9jdCAxMyAxODo0Nzo1MiAyMDIzICAoMDE6MTkpICAgICAxNzIuMTYuMjAuMTA4CnZ0ZWl4ZWlyYSBwdHMvMyAgICAgICAgRnJpIE9jdCAxMyAxNzoyNzo0MiAyMDIzIC0gRnJpIE9jdCAxMyAxODo0Nzo0NiAyMDIzICAoMDE6MjApICAgICAxNzIuMTYuMjAuMTg1CmhiYXJyZXRvIHB0cy8yICAgICAgICBGcmkgT2N0IDEzIDE2OjU1OjQxIDIwMjMgLSBGcmkgT2N0IDEzIDE5OjAzOjE5IDIwMjMgICgwMjowNykgICAgIDE3Mi4xNi4yMC4yMTI=\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/events"
+			},
+			"response": []
+		},
+		{
+			"name": "events (array)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"input_mode\": \"array\",\r\n    \"ip\": \"::1\",\r\n    \"events\": [\r\n                {\r\n                \"timestamp\": \"1707494400\",\r\n                \"type\": 13,\r\n                \"username\": \"teste1\",\r\n                \"domain\": \"teste1\",\r\n                \"ip\": null,\r\n                \"description\": \"RXhlY3V0aW9uIC0gQzpcV2luZG93c1xTeXN0ZW0zMlxjbWQuZXhlIC9rICJDOlxQcm9ncmFtIEZpbGVzXE1pY3Jvc29mdCBWaXN1YWwgU3R1ZGlvXDIwMjJcUHJvZmVzc2lvbmFsXFZDXEF1eGlsaWFyeVxCdWlsZFx2Y3ZhcnNhbWQ2NF94ODYuYmF0Ig==\",\r\n                \r\n                \"cred_id\": null,\r\n                \"control_id\": null,\r\n                \"qntocurrency\": 0,\r\n                \"origin\": false,\r\n                \"typeScan\": 0,\r\n                \"nameFile\": null,\r\n                \"typeFile\": null,\r\n                \"AuthorizationRequest\": null,\r\n                \"name\": null,\r\n                \"binary_hash\": null,\r\n                \"reputation\": 0,\r\n                \"verdict\": null,\r\n                \"verdict_confidence\": 0,\r\n                \"list\" :[\r\n                            {\r\n                                \"parent_sid\": \"S-1-5-32-544\",\r\n                                \"parent_name\": \"Administrators\",\r\n                                \"domain_name\": \"DESKTOP-9TIFKN8\",\r\n                                \"name\": \"Administrator\",\r\n                                \"sid\": \"S-1-5-21-120177298-3058495057-349635840-500\",\r\n                                \"origin\": 1,\r\n                                \"type\": 0\r\n                            },\r\n                            {\r\n                                \"parent_sid\": \"S-1-5-32-544\",\r\n                                \"parent_name\": \"Administrators\",\r\n                                \"domain_name\": \"DESKTOP-9TIFKN8\",\r\n                                \"name\": \"vteixeira\",\r\n                                \"sid\": \"S-1-5-21-120177298-3058495057-349635840-1001\",\r\n                                \"origin\": 1,\r\n                                \"type\": 0\r\n                            },\r\n                            {\r\n                                \"parent_sid\": \"S-1-5-32-544\",\r\n                                \"parent_name\": \"Administrators\",\r\n                                \"domain_name\": \"senhasegura.dev\",\r\n                                \"name\": \"Domain Admins\",\r\n                                \"sid\": \"S-1-5-21-4250589221-2079653266-3398235824-512\",\r\n                                \"origin\": 0,\r\n                                \"type\": 1\r\n                            }\r\n                        ]\r\n                }, \r\n\r\n                {\r\n                \"timestamp\": \"1707494400\",\r\n                \"type\": 14,\r\n                \"username\": \"teste1\",\r\n                \"domain\": \"teste1\",\r\n                \"ip\": null,\r\n                \"description\": \"RXhlY3V0aW9uIC0gQzpcV2luZG93c1xTeXN0ZW0zMlxjbWQuZXhlIC9rICJDOlxQcm9ncmFtIEZpbGVzXE1pY3Jvc29mdCBWaXN1YWwgU3R1ZGlvXDIwMjJcUHJvZmVzc2lvbmFsXFZDXEF1eGlsaWFyeVxCdWlsZFx2Y3ZhcnNhbWQ2NF94ODYuYmF0Ig==\",\r\n                \r\n                \"cred_id\": null,\r\n                \"control_id\": null,\r\n                \"qntocurrency\": 0,\r\n                \"origin\": false,\r\n                \"typeScan\": 0,\r\n                \"nameFile\": null,\r\n                \"typeFile\": null,\r\n                \"AuthorizationRequest\": null,\r\n                \"name\": null,\r\n                \"binary_hash\": null,\r\n                \"reputation\": 0,\r\n                \"verdict\": null,\r\n                \"verdict_confidence\": 0\r\n                }, \r\n                \r\n                {\r\n                \"timestamp\": \"1707494400\",\r\n                \"type\": 39,\r\n                \"username\": \"teste1\",\r\n                \"domain\": \"teste1\",\r\n                \"ip\": null,\r\n                \"description\": \"RXhlY3V0aW9uIC0gQzpcV2luZG93c1xTeXN0ZW0zMlxjbWQuZXhlIC9rICJDOlxQcm9ncmFtIEZpbGVzXE1pY3Jvc29mdCBWaXN1YWwgU3R1ZGlvXDIwMjJcUHJvZmVzc2lvbmFsXFZDXEF1eGlsaWFyeVxCdWlsZFx2Y3ZhcnNhbWQ2NF94ODYuYmF0Ig==\",\r\n                \r\n                \"cred_id\": null,\r\n                \"control_id\": null,\r\n                \"qntocurrency\": 0,\r\n                \"origin\": false,\r\n                \"typeScan\": 0,\r\n                \"nameFile\": null,\r\n                \"typeFile\": null,\r\n                \"AuthorizationRequest\": null,\r\n                \"name\": null,\r\n                \"binary_hash\": null,\r\n                \"reputation\": 0,\r\n                \"verdict\": null,\r\n                \"verdict_confidence\": 0\r\n                }\r\n            ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/events"
+			},
+			"response": []
+		},
+		{
+			"name": "events (array) Minimum",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"input_mode\": \"array\",\r\n    \"events\": [\r\n                {\r\n                \"timestamp2\": \"1711639236\",\r\n                \"type2\": 87,\r\n                \"os\" : \"Linux\",\r\n                \"username2\": \"teste\",\r\n                \"domain2\": \"teste\",\r\n                \"ip2\": null,\r\n                \"description2\": \"RXhlY3V0aW9uIC0gQzpcV2luZG93c1xTeXN0ZW0zMlxjbWQuZXhlIC9rICJDOlxQcm9ncmFtIEZpbGVzXE1pY3Jvc29mdCBWaXN1YWwgU3R1ZGlvXDIwMjJcUHJvZmVzc2lvbmFsXFZDXEF1eGlsaWFyeVxCdWlsZFx2Y3ZhcnNhbWQ2NF94ODYuYmF0Ig==\"\r\n                }, \r\n\r\n                {\r\n                \"timestamp\": \"1711639237\",\r\n                \"os\" : \"Linux\",\r\n                \"type\": 88,\r\n                \"username\": \"teste\",\r\n                \"domain\": \"teste\",\r\n                \"ip\": null,\r\n                \"description\": \"RXhlY3V0aW9uIC0gQzpcV2luZG93c1xTeXN0ZW0zMlxjbWQuZXhlIC9rICJDOlxQcm9ncmFtIEZpbGVzXE1pY3Jvc29mdCBWaXN1YWwgU3R1ZGlvXDIwMjJcUHJvZmVzc2lvbmFsXFZDXEF1eGlsaWFyeVxCdWlsZFx2Y3ZhcnNhbWQ2NF94ODYuYmF0Ig==\"\r\n                }, \r\n                \r\n                {\r\n                \"timestamp\": \"1711639238\",\r\n                \"os\" : \"Linux\",\r\n                \"type\": 89,\r\n                \"username\": \"teste\",\r\n                \"domain\": \"teste\",\r\n                \"ip\": null,\r\n                \"description\": \"RXhlY3V0aW9uIC0gQzpcV2luZG93c1xTeXN0ZW0zMlxjbWQuZXhlIC9rICJDOlxQcm9ncmFtIEZpbGVzXE1pY3Jvc29mdCBWaXN1YWwgU3R1ZGlvXDIwMjJcUHJvZmVzc2lvbmFsXFZDXEF1eGlsaWFyeVxCdWlsZFx2Y3ZhcnNhbWQ2NF94ODYuYmF0Ig==\"\r\n                }\r\n            ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/events"
+			},
+			"response": []
+		},
+		{
+			"name": "events (array) Variation",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"input_mode\": \"array\",\r\n    \"ip\": \"::1\",\r\n    \"events\": [\r\n                {\r\n                \"timestamp\": \"1707494499\",\r\n                \"type\": 3, \r\n                \"os\" : \"windows\",\r\n                \"username\": \"teste0\",\r\n                \"domain\": \"teste0\",\r\n                \"ip\": \"::1\",\r\n                \"description\": \"RXhlY3V0aW9uIC0gQzpcV2luZG93c1xTeXN0ZW0zMlxjbWQuZXhlIC9rICJDOlxQcm9ncmFtIEZpbGVzXE1pY3Jvc29mdCBWaXN1YWwgU3R1ZGlvXDIwMjJcUHJvZmVzc2lvbmFsXFZDXEF1eGlsaWFyeVxCdWlsZFx2Y3ZhcnNhbWQ2NF94ODYuYmF0Ig==\",\r\n                \r\n                \"cred_id\": null,\r\n                \"control_id\": null,\r\n                \"qntocurrency\": 0,\r\n                \"origin\": false,\r\n                \"typeScan\": 0,\r\n                \"nameFile\": null,\r\n                \"typeFile\": null,\r\n                \"AuthorizationRequest\": null,\r\n                \"name\": null,\r\n                \"binary_hash\": null,\r\n                \"reputation\": 0,\r\n                \"verdict\": null,\r\n                \"verdict_confidence\": 0,\r\n                \"scan\" :[\r\n                            {\r\n                                \"parent_sid\": \"S-1-5-32-544\",\r\n                                \"parent_name\": \"Administrators\",\r\n                                \"domain_name\": \"DESKTOP-9TIFKN8\",\r\n                                \"name\": \"Administrator\",\r\n                                \"sid\": \"S-1-5-21-120177298-3058495057-349635840-500\",\r\n                                \"origin\": 1,\r\n                                \"type\": 0\r\n                            }\r\n                        ]\r\n                }, \r\n\r\n                {\r\n                \"timestamp\": \"1707494499\",\r\n                \"type\": 7,\r\n                \"os\" : \"linux\",\r\n                \"username\": \"teste0\",\r\n                \"domain\": \"teste0\",\r\n                \"ip\": \"::1\",\r\n                \"description\": \"RXhlY3V0aW9uIC0gQzpcV2luZG93c1xTeXN0ZW0zMlxjbWQuZXhlIC9rICJDOlxQcm9ncmFtIEZpbGVzXE1pY3Jvc29mdCBWaXN1YWwgU3R1ZGlvXDIwMjJcUHJvZmVzc2lvbmFsXFZDXEF1eGlsaWFyeVxCdWlsZFx2Y3ZhcnNhbWQ2NF94ODYuYmF0Ig==\",\r\n                \r\n                \"cred_id\": null,\r\n                \"control_id\": null,\r\n                \"qntocurrency\": 0,\r\n                \"origin\": false,\r\n                \"typeScan\": 0,\r\n                \"nameFile\": null,\r\n                \"typeFile\": null,\r\n                \"AuthorizationRequest\": null,\r\n                \"name\": null,\r\n                \"binary_hash\": null,\r\n                \"reputation\": 0,\r\n                \"verdict\": null,\r\n                \"verdict_confidence\": 0\r\n                }, \r\n                \r\n                {\r\n                \"timestamp\": \"1707494499\",\r\n                \"type\": 9,\r\n                \"os\" : \"macos\",\r\n                \"username\": \"teste0\",\r\n                \"domain\": \"teste0\",\r\n                \"ip\": \"::1\",\r\n                \"description\": \"RXhlY3V0aW9uIC0gQzpcV2luZG93c1xTeXN0ZW0zMlxjbWQuZXhlIC9rICJDOlxQcm9ncmFtIEZpbGVzXE1pY3Jvc29mdCBWaXN1YWwgU3R1ZGlvXDIwMjJcUHJvZmVzc2lvbmFsXFZDXEF1eGlsaWFyeVxCdWlsZFx2Y3ZhcnNhbWQ2NF94ODYuYmF0Ig==\",\r\n                \r\n                \"cred_id\": null,\r\n                \"control_id\": null,\r\n                \"qntocurrency\": 0,\r\n                \"origin\": false,\r\n                \"typeScan\": 0,\r\n                \"nameFile\": null,\r\n                \"typeFile\": null,\r\n                \"AuthorizationRequest\": null,\r\n                \"name\": null,\r\n                \"binary_hash\": null,\r\n                \"reputation\": 0,\r\n                \"verdict\": null,\r\n                \"verdict_confidence\": 0\r\n                }\r\n            ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/events"
+			},
+			"response": []
+		},
+		{
+			"name": "params",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"dcortez\",\r\n    \"domain\": \"teste\"\r\n}"
+				},
+				"url": "{{base_url}}/params"
+			},
+			"response": []
+		},
+		{
+			"name": "single-sign-on",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"dcortez\",\r\n    \"domain\": \"teste\",\r\n    \"ip\": \"::1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/single-sign-on"
+			},
+			"response": []
+		},
+		{
+			"name": "workflow",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"workflowId\": null,\r\n    \"listId\": 5,\r\n    \"ReasonDescription\": \"texto de justificativa\",\r\n    \"IsEmergencyAccepted\": false,\r\n    \"ReasonCode\": 2,\r\n    \"TicketCode\": \"\",\r\n    \"UsageStartTs\": 1705953600,\r\n    \"UsageEndTs\": 1705953100,\r\n    \"EmergencyDescription\": null,\r\n    \"appName\": \"7-Zip File Manager\",\r\n    \"domain\": \"teste\",\r\n    \"username\": \"mnardi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/application-workflow"
+			},
+			"response": []
+		},
+		{
+			"name": "pedm/policies (linux)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"dcortez\",\r\n    \"domain\": \"teste\",\r\n    \"client_alias\": \"go-linux\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/pedm/policies"
+			},
+			"response": []
+		},
+		{
+			"name": "pedm/policies (windows)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"dcortez\",\r\n    \"domain\": \"teste\",\r\n    \"client_alias\": \"go-windows\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/pedm/policies"
+			},
+			"response": []
+		},
+		{
+			"name": "pedm/policies (mac)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"dcortez\",\r\n    \"domain\": \"teste\",\r\n    \"client_alias\": \"go-macos\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/pedm/policies"
+			},
+			"response": []
+		},
+		{
+			"name": "pedm/system-file-watcher",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/pedm/system-file-watcher"
+			},
+			"response": []
+		},
+		{
+			"name": "pedm/system-file-access",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"accessTokenUrl": "{{pedm_api_oauth_url}}",
+						"clientSecret": "{{oauth2_client_secret}}",
+						"clientId": "{{oauth2_client_id}}",
+						"grant_type": "client_credentials",
+						"authUrl": "",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/pedm/system-file-access"
+			},
+			"response": []
+		},
+		{
+			"name": "pedm/system-file-commands",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"hbarreto\",\r\n    \"domain\": \"teste\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/pedm/system-file-commands"
+			},
+			"response": []
+		},
+		{
+			"name": "pedm/video/start",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"dcortez\",\r\n    \"domain\": \"teste\",\r\n    \"client_alias\": \"go-windows\",\r\n    \"ip\": \"::1\",\r\n    \"started_at\": \"2000-01-01 00:00:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/pedm/video/start"
+			},
+			"response": []
+		},
+		{
+			"name": "pedm/video/upload",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client_alias\": \"go-windows\",\r\n    \"session_id\": \"3e2951a60bea82f88c8fdbfbe81b77c3d3f459ea\",\r\n    \"file_chunk\": \"2\",\r\n    \"content\": \"Y29udGVudF9oZXJl\",\r\n    \"ip\": \"::1\",\r\n    \"md5\": \"8deeaa1ae568d136834ea6084714af02\",\r\n    \"input_log\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/pedm/video/upload"
+			},
+			"response": []
+		},
+		{
+			"name": "pedm/video/finish",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client_alias\": \"go-windows\",\r\n    \"cmd\": \"?test\", \r\n    \"ip\": \"::1\",\r\n    \"session_id\": \"3e2951a60bea82f88c8fdbfbe81b77c3d3f459ea\",\r\n    \"finished_at\": \"2000-01-01 00:00:00\",\r\n    \"exited_at\": \"2000-01-01 00:00:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/pedm/video/finish"
+			},
+			"response": []
+		},
+		{
+			"name": "user/token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"user\",\r\n    \"domain\": \"domain\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/user/token"
+			},
+			"response": []
+		},
+		{
+			"name": "user/token/validate",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"user\",\r\n    \"domain\": \"domain\",\r\n    \"token\": \"603780\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/user/token/validate"
+			},
+			"response": []
+		},
+		{
+			"name": "vault/credentials/{id}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"dcortez\",\r\n    \"domain\": \"teste\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/vault/credentials/2"
+			},
+			"response": []
+		},
+		{
+			"name": "vault/credentials",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 0,\r\n    \"credential\": null,\r\n    \"pageLength\": 25,\r\n    \"pageNumber\": 1,\r\n    \"macroId\": null,\r\n    \"domain\": \"teste\",\r\n    \"username\": \"mnardi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/vault/credentials"
+			},
+			"response": []
+		},
+		{
+			"name": "{{base_url}}/adbridge/gpo",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: pm.environment.get('oauth2_url'),\r",
+							"  method: 'POST',\r",
+							"  header: {\r",
+							"    'Accept': 'application/json',\r",
+							"    'Content-Type': 'application/x-www-form-urlencoded'\r",
+							"  },\r",
+							"  body: {\r",
+							"      mode: 'urlencoded',\r",
+							"      urlencoded: [\r",
+							"        {key: \"grant_type\", value: \"client_credentials\", disabled: false},\r",
+							"        {key: \"client_id\", value: pm.environment.get('oauth2_client_id'), disabled: false},\r",
+							"        {key: \"client_secret\", value: pm.environment.get('oauth2_client_secret'), disabled: false},\r",
+							"        {key: \"scope\", value: \"orac_api\", disabled:false}\r",
+							"      ]\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonData = response.json();\r",
+							"\tpm.environment.set(\"oauth2_token\", jsonData[\"access_token\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{oauth2_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"domain\": \"teste\",\r\n    \"ip\" : \"312312312312312\",\r\n    \"gpo\" : 7,\r\n    \"gpo_summary\" : \" vasco da gama 3\",\r\n    \"state\" : 0,\r\n    \"gpo_details\" : {\r\n        \"chave\" : \"valor 2\",\r\n        \"chave 2\" : \"valor 2\",\r\n        \"chave 3\" : \"valor 2\",\r\n        \"chave 4\" : \"valor 2\",\r\n        \"chave 5\" : \"valor 2\",\r\n        \"chave 7\" : \"valor 2\",\r\n        \"chave 6\" : \"valor 2\",\r\n        \"chave 8\" : \"valor 2\"\r\n    }\r\n\r\n}"
+				},
+				"url": "{{base_url}}/ad-bridge/gpo"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": {
+			"clientId": "169458232825e0b61854a9cc69634c93",
+			"clientSecret": "91ca162eb98f7b47c064eaf222b86507b9a4c4f1cc36cbfa983692db8ff55547",
+			"accessTokenUrl": "{{pedm_api_base_url}}/api/oauth2/token",
+			"grant_type": "client_credentials",
+			"tokenName": "cortez",
+			"addTokenTo": "header"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "pedm_api_base_url",
+			"value": "https://10.10.10.5"
+		},
+		{
+			"key": "base_url",
+			"value": "https://10.10.10.5"
+		}
+	]
+}
