@@ -1,4 +1,9 @@
-# Passos feitos com o K6
+/* 
+Title : Etapas
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : Passos feitos com o K6
+Options : 
+*/
 
 1. Fazer uma requisição para registrar a wokstation e o usuário usando o token de ativação
 2. Pegar o client_secret e client_id na resposta da requisição de registro

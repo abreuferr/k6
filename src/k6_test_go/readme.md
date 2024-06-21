@@ -1,4 +1,9 @@
-# Como obter o client_id e o client_secret
+/* 
+Title : client_id e o client_secret
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : Como obter o client_id e o client_secret
+Options : 
+*/
 
 1. Cofre
 - acessar o cofre > Go Endpoint Manager > Configurações > Parâmetros > New Go Endpoint Manager
