@@ -16,5 +16,7 @@ export default function () {
 }
 
 /*
-k6 -e BASE_URL=https://test-api.k6.io run env-var.js 
+$ k6 -e BASE_URL=https://test-api.k6.io run 60-using_environment_variables_in_scripts.js
+
+INFO[0000] https://test-api.k6.io                        source=console
 */
