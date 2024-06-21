@@ -1,3 +1,10 @@
+/* 
+Title : Tipos de Testes
+Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
+Description : Tipos de testes que podem ser executados com a ferramenta k6
+Options : 
+*/
+
 # Tipos de testes
 Avaliar os tipos de testes e quais são uma boa opção para o benchmark do Go Windows.
 
