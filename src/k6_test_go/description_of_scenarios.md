@@ -21,7 +21,7 @@ Para os testes iniciais iremos utilizar o que a documentação sugere para um me
 
 ## Endpoint
 
-O Endpoint base sempre tem estas informações e depois os pârametros do endpoint são adicionados.
+O Endpoint base sempre tem estas informações e depois os parâmetros do endpoint são adicionados.
 - https://10.66.39.55/api/client-manager
 
 Por exemplo no vault se adiciona "vault/credentials" no final, ficando assim:
