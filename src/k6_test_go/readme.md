@@ -1,7 +1,7 @@
 /* 
 Title : client_id e o client_secret
-Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
-Description : Como obter o client_id e o client_secret
+Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
+         "Caio Abreu Ferreira" <cferreira@senhasegura.com>Description : Como obter o client_id e o client_secret
 Options : 
 */
 
@@ -79,3 +79,20 @@ Options :
     Client Secret : 689e0e7bc1354a2a5b633616716aba151ef2fa06d9c81afd284b29c3c1fb9bda
 - Botão "Get New Access Token"
     Access Token : eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJlMzFkMjNlNjQzMDJlN2Y0MzkxNzFjMzI3MThjMDk0MjNjY2Y0YmUyZDE5ODEyYjk3Y2QyMDMxYzZmOGQ1OTYwIiwiZXhwIjoxNzE2NTc5NjY1LCJ0b2tlbl9pZCI6MjMsImlhdCI6MTcxNjU3NjA2NSwiaXNzIjoic2VuaGFzZWd1cmEtYXBpLWF1dGgifQ.erEbDHMhZZ4hvS2QygdD69q1QRjrs_c2CYhrp_APC3WNuJmsWtrIzyO2u2JfrUXxlkdHOsuIasYn5WPs2Va3HhOurieDIrCVqMr34zx5wApUD4a9CxmyD897miFh5zhCQc9TdG3gYbzDpldBm9id3olW2s9sCpJBY-HnuBAhcmdxSWlSNDvSjDRqbcy2Uaz85XtnBEDXYezPaOUvA-j40JGcXbsnZgZwo7cT6ConvU9xQW-_71SGlMRjQ3L4NEQPr9cA5tR14eCU_0a_EsTGIHJf8abwUP8aeGwyIe7IUgMyhCMdWuhrCEkA2tNvvceIK088M1BuU-IxWibQPTGLIA
+
+/* 
+Title : Etapas
+Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
+         "Caio Abreu Ferreira" <cferreira@senhasegura.com>
+Description : Passos necessários para executar o script de teste do senhasegura Go
+Options : 
+*/
+
+
+1. Fazer uma requisição para registrar a wokstation e o usuário usando o token de ativação
+2. Pegar o client_secret e client_id na resposta da requisição de registro
+3. Gerar o bearer token com client_id e client_secret
+4. Usar o client_id e client_secret para realizar uma requisição que retorna credenciais
+5. Fazer requisição que trás apenas uma credencial
+6. Fazer requisição que trás várias credenciais
+7. Fazer 30 requisições com 10 usuários e 10 iterações

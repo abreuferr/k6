@@ -1,8 +1,9 @@
-/*
-Executar comando:
-
-k6 run --http-debug="full" vault_all_credencials.js --insecure-skip-tls-verify
-
+/* 
+Title : 
+Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
+         "Caio Abreu Ferreira" <cferreira@senhasegura.com>
+Description : 
+Options : 
 */
 
 import http from 'k6/http';
@@ -119,3 +120,9 @@ function useAccessToken(token) {
         'is status 200': (r) => r.status === 200,
     });
 }
+
+/*
+Executar comando:
+
+k6 run --http-debug="full" vault_all_credencials.js --insecure-skip-tls-verify
+*/
