@@ -1,9 +1,8 @@
-/* 
-Title : 
-Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-         "Caio Abreu Ferreira" <cferreira@senhasegura.com>
-Description : 
-Options : 
+/*
+Executar comando:
+
+k6 run --http-debug="full" vault_one_credencials.js --insecure-skip-tls-verify
+
 */
 
 // Bibliotecas
@@ -141,8 +140,3 @@ function useAccessToken(token) {
 
 }
 
-/*
-Executar comando:
-
-k6 run --http-debug="full" vault_one_credencials.js --insecure-skip-tls-verify
-*/

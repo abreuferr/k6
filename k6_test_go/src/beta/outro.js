@@ -1,11 +1,3 @@
-/* 
-Title : 
-Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-         "Caio Abreu Ferreira" <cferreira@senhasegura.com>
-Description : 
-Options : 
-*/
-
 import http from 'k6/http';
 import { check } from 'k6';
 

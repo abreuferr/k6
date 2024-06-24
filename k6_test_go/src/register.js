@@ -1,11 +1,3 @@
-/* 
-Title : 
-Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-         "Caio Abreu Ferreira" <cferreira@senhasegura.com>
-Description : 
-Options : 
-*/
-
 // Bibliotecas 
 import http from 'k6/http';
 import { check } from 'k6';
@@ -110,4 +102,5 @@ function getToken(client_id, client_secret) { // Endpoint
 Executar comando:
 
 k6 run --http-debug="full" register.js --insecure-skip-tls-verify
+
 */
