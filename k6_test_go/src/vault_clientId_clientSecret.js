@@ -1,0 +1,82 @@
+/* 
+Title : client_ID e o client_SECRET
+Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
+         "Caio Abreu Ferreira" <cferreira@senhasegura.com>
+Description : Como obter o clientId e o clientSecret de um senhasegura Go 
+              previamente cadastrados no senhasegura Cofre.
+Options : 
+*/
+
+// importando a bibliotecas do k6
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+// Definindo as variáveis BASE_URL e BOOTSTRAP_TOKEN
+const BASE_URL = 'https://10.66.39.55/api/client-manager';
+const BOOTSTRAP_TOKEN = '018c5a0f-acb1-73e7-8994-85e0b76ff146'; //Vault token == BOOTSTRAP_TOKEN
+
+// "client", "device" e "users" previamente cadastrados no senhasegura Cofre
+export default function () {
+  let registerUrl = `${BASE_URL}/register`;
+  let registerPayload = JSON.stringify({
+    // Corpo
+    client_alias: "go-windows",
+    "client_alias": "go-windows-teste-01",
+    "client": 
+    {
+        "binary_hash":"3ffbfe00006d544fb8b39431172e5875d0dd95022689bd01e9824df6d77c90b7",
+        "version": "3.32.0.21",
+        "client_alias": "go-windows-01"
+    },
+    "device": 
+    {
+        "architecture": "x64",
+        "bios_info": "",
+        "cpu_info": "",
+        "domain": "senhasegura",
+        "hardware_uuid": "ed01a87fed1e147b0d7e374320a92815",
+        "hostname": "k6-postman-01",
+        "memory_info": "",
+        "operational_system": "Windows 10",
+        "vendor_model_info": ""
+    },
+    "users":
+    [
+        {
+            "domain": "senhasegura.local",
+            "username": "cferreira"
+        }
+    ]
+});
+
+  let registerParams = {
+    // Cabeçalho
+    headers: {
+      'Content-Type': 'application/json',
+      'Bootstrap-Token': BOOTSTRAP_TOKEN,
+    },
+  };
+
+  // Enviar a requisição de dados
+  let res = http.post(registerUrl, registerPayload, registerParams);
+
+  // Verifica se o "clientID" e o "clientSecret" existem
+  check(res, {
+    'is status 200': (r) => r.status === 200,
+    'client_id present': (r) => JSON.parse(r.body).credentials.client_id !== undefined,
+    'client_secret present': (r) => JSON.parse(r.body).credentials.client_secret !== undefined,
+  });
+
+  // Armazena os resultados nas variáveis "clientId" e "clientSecret"
+  let responseData = JSON.parse(res.body);
+  let clientId = responseData.credentials.client_id;
+  let clientSecret = responseData.credentials.client_secret;
+
+  // Exibir os valores de "clientId" e "clientSecret"
+  console.log(`client_id: ${clientId}`);
+  console.log(`client_secret: ${clientSecret}`);
+}
+
+/*
+Comando : k6 run k6_test_go/src/vault_clientId_clientSecret.js --insecure-skip-tls-verify
+*/
