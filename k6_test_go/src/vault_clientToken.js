@@ -106,25 +106,25 @@ function getToken(clientId, clientSecret) {
 
   // Verificação do status da resposta
   check(res, {
-      'accessToken - is status 200': (r) => r.status === 200,
+      'clientToken - is status 200': (r) => r.status === 200,
   });
 
   // Extrai apenas o token de acesso da resposta do body
-  let accessToken;
+  let clientToken;
   try {
-      accessToken = JSON.parse(res.body).access_token;
+    clientToken = JSON.parse(res.body).access_token;
   } catch (error) {
       console.error("Erro ao analisar JSON da resposta ao obter o token de acesso:", error.message);
       return;
   }
 
-  if (!accessToken) {
+  if (!clientToken) {
       console.error("Token de acesso não encontrado na resposta.");
       return;
   }
-  
+
   // Retorna apenas o token 
-  console.log(`clientToken : ${accessToken}`);
+  console.log(`clientToken : ${clientToken}`);
 }
 
 /*
