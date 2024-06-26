@@ -1,7 +1,6 @@
 /* 
-Title : client_ID e o client_SECRET
-Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-         "Caio Abreu Ferreira" <cferreira@senhasegura.com>
+Title : clientId e o client_SECRET
+Author : "Caio Abreu Ferreira" <cferreira@senhasegura.com>
 Description : Como obter o clientId e o clientSecret de um senhasegura Go 
               previamente cadastrados no senhasegura Cofre.
 Options : 
@@ -59,8 +58,8 @@ export default function () {
   // Verifica se o "clientID" e o "clientSecret" existem
   check(res, {
     'is status 200': (r) => r.status === 200,
-    'client_id present': (r) => JSON.parse(r.body).credentials.client_id !== undefined,
-    'client_secret present': (r) => JSON.parse(r.body).credentials.client_secret !== undefined,
+    'clientId present': (r) => JSON.parse(r.body).credentials.client_id !== undefined,
+    'clientSecret present': (r) => JSON.parse(r.body).credentials.client_secret !== undefined,
   });
 
   // Armazena os resultados nas variáveis "clientId" e "clientSecret"
@@ -69,8 +68,8 @@ export default function () {
   let clientSecret = responseData.credentials.client_secret;
 
   // Exibir os valores de "clientId" e "clientSecret"
-  console.log(`client_id: ${clientId}`);
-  console.log(`client_secret: ${clientSecret}`);
+  console.log(`clientId: ${clientId}`);
+  console.log(`clientSecret: ${clientSecret}`);
 }
 
 /*
