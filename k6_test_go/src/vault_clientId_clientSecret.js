@@ -6,17 +6,22 @@ Description : Como obter o clientId e o clientSecret de um senhasegura Go
 Options : 
 */
 
-// importando a bibliotecas do k6
+// Importando a bibliotecas do k6
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
-// Definindo as variáveis BASE_URL e BOOTSTRAP_TOKEN
+// Definição de variável
 const BASE_URL = 'https://10.66.39.55/api/client-manager';
-const BOOTSTRAP_TOKEN = '018c5a0f-acb1-73e7-8994-85e0b76ff146'; //Vault token == BOOTSTRAP_TOKEN
+const BOOTSTRAP_TOKEN = '018c5a0f-acb1-73e7-8994-85e0b76ff146';
 
-// "client", "device" e "users" previamente cadastrados no senhasegura Cofre
+/*
+Função que a partir de um registro de um usuário/dispositivo 
+retorna os valores de clientID e clientSec.
+*/
 export default function () {
+  // URL da Requisição
   let registerUrl = `${BASE_URL}/register`;
+  // Corpo da Requisição
   let registerPayload = JSON.stringify({
     // Corpo
     "client_alias": "go-windows",
@@ -44,15 +49,15 @@ export default function () {
     ]
   });
 
+  // Cabeçalho da Requisição
   let registerParams = {
-    // Cabeçalho
     headers: {
       'Content-Type': 'application/json',
       'Bootstrap-Token': BOOTSTRAP_TOKEN,
     },
   };
 
-  // Enviar a requisição de dados
+  // Envio da Requisição
   let res = http.post(registerUrl, registerPayload, registerParams);
 
   // Verifica se o "clientID" e o "clientSecret" existem

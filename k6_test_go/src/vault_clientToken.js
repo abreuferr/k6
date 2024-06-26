@@ -1,8 +1,8 @@
 /* 
 Title : clientID e o clientSECRET
 Author : "Caio Abreu Ferreira" <cferreira@senhasegura.com>
-Description : Como obter o clientId e o clientSecret de um senhasegura Go 
-              a partir de um registro de um usuário/dispositivo.
+Description : Como obter o clientToken do senhasegura Go a 
+              partir de um registro de um usuário/dispositivo.
 Options : 
 */
 
