@@ -20,34 +20,30 @@ export default function () {
   let registerUrl = `${BASE_URL}/register`;
   let registerPayload = JSON.stringify({
     // Corpo
-    client_alias: "go-windows",
-    "client_alias": "go-windows-teste-01",
-    "client": 
-    {
-        "binary_hash":"3ffbfe00006d544fb8b39431172e5875d0dd95022689bd01e9824df6d77c90b7",
-        "version": "3.32.0.21",
-        "client_alias": "go-windows-01"
+    "client_alias": "go-windows",
+    "client": {
+      "binary_hash":"42cffe1e38d5444329badd26fc2a402d554abc6839de26d87f13cca72d2ea2db",
+      "version": "3.32.0.24",
+      "client_alias": "go-windows"
     },
-    "device": 
-    {
-        "architecture": "x64",
-        "bios_info": "",
-        "cpu_info": "",
-        "domain": "senhasegura",
-        "hardware_uuid": "ed01a87fed1e147b0d7e374320a92815",
-        "hostname": "k6-postman-01",
-        "memory_info": "",
-        "operational_system": "Windows 10",
-        "vendor_model_info": ""
+    "device": {
+      "architecture": "x64",
+      "bios_info": "",
+      "cpu_info": "",
+      "domain": "senhasegura",
+      "hardware_uuid": "ed01a9755d1e147b0d7e374320a92812",
+      "hostname": "javascriptk6",
+      "memory_info": "",
+      "operational_system": "Windows 10",
+      "vendor_model_info": ""
     },
-    "users":
-    [
-        {
-            "domain": "senhasegura.local",
-            "username": "cferreira"
-        }
+    "users": [
+      {
+        "domain": "testes-go-win",
+        "username": "User6"
+      }
     ]
-});
+  });
 
   let registerParams = {
     // Cabeçalho
