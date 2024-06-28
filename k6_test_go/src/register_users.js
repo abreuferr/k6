@@ -148,8 +148,7 @@ function getToken(client_id, client_secret) {
 }
 
 /*
-Executar comando:
+k6 run k6_test_go/src/register_users.js --insecure-skip-tls-verify
 
-k6 run --http-debug="full" register.js --insecure-skip-tls-verify
-
+k6 run --http-debug="full" k6_test_go/src/register_users.js --insecure-skip-tls-verify
 */
