@@ -1,8 +1,8 @@
 /* 
-Title : clientID e o clientSECRET
+Title : Exibir Token
 Author : "Caio Abreu Ferreira" <cferreira@senhasegura.com>
-Description : Como obter o clientToken do senhasegura Go a 
-              partir de um registro de um usuário/dispositivo.
+Description : Como obter o Token do senhasegura Go a partir
+              de um registro de um usuário/dispositivo.
 Options : 
 */
 
@@ -75,10 +75,7 @@ export default function () {
   console.log(`clientId : ${clientId}`);
   console.log(`clientSecret : ${clientSecret}`);
 
-  /* 
-  Os valores das variáveis "clientId" e "clientSecret" são 
-  transferidos para a Função "getToken"
-  */
+  // Chamada da função getToken com os valores de "clientId" e "clientSecret".
   getToken(clientId, clientSecret);
 }
 
@@ -101,30 +98,30 @@ function getToken(clientId, clientSecret) {
       }
   };
 
-  // Realização da requisição POST para obter o token de acesso
+  // Requisição POST para obter o token de acesso
   let res = http.post(tokenUrl, tokenPayload, tokenParams);
 
   // Verificação do status da resposta
   check(res, {
-      'clientToken - is status 200': (r) => r.status === 200,
+      'accessToken - is status 200': (r) => r.status === 200,
   });
 
   // Extrai apenas o token de acesso da resposta do body
-  let clientToken;
+  let accessToken;
   try {
-    clientToken = JSON.parse(res.body).access_token;
+    accessToken = JSON.parse(res.body).access_token;
   } catch (error) {
       console.error("Erro ao analisar JSON da resposta ao obter o token de acesso:", error.message);
       return;
   }
 
-  if (!clientToken) {
+  if (!accessToken) {
       console.error("Token de acesso não encontrado na resposta.");
       return;
   }
 
-  // Retorna apenas o token 
-  console.log(`clientToken : ${clientToken}`);
+  // Retorna o token 
+  console.log(`accessToken : ${accessToken}`);
 }
 
 /*
