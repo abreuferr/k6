@@ -1,19 +1,36 @@
-// Bibliotecas 
+/* 
+Title : Cadastrar usuários em massa
+Author : "Caio Abreu Ferreira" <cferreira@senhasegura.com>
+Description : Esse programa tem por objetivo o de cadastrar
+              usuários em massa
+Options : 
+*/
+
+// Importando bibliotecas do k6
 import http from 'k6/http';
 import { check } from 'k6';
 
+// Definindo Usuário Virtual e Interação
 export let options = {
-    vus: 1,  // número de Usuários Virtuais
-    iterations: 1  // total de iterações 
+    vus: 1,
+    iterations: 1
 };
 
-// Função principal do teste, realiza o registro
+// Definição de variável
+const BASE_URL = 'https://10.66.39.55/api/client-manager/register';
+const BOOTSTRAP_TOKEN = '018c5a0f-acb1-73e7-8994-85e0b76ff146';
+
+/*
+Função principal e realiza o registro dos usuários
+*/
 export default function() {
-    const TotalUsers = 2081; // Número existente de usuários
-    const TotalUsersRegister = 2100; // Número desejado de usuários
-    const UsersParaCriar = TotalUsersRegister - TotalUsers; // Usuários a serem criados
+    const TotalUsers = 2081; // Número de usuários já cadastrados
+    const TotalUsersRegister = 2100; // Qtdade de usuários a serem cadastrados
+    const UsersParaCriar = TotalUsersRegister - TotalUsers; // Qtdade de usuários a serem cadastrados
     const UsersCriadosPorIteracao = UsersParaCriar / options.vus; // Usuários a serem criados por VU, assumindo divisão igual
 
+    // URL da Requisição
+    let registerUrl = `${BASE_URL}/register`;
 
     for (let i = 0; i < UsersCriadosPorIteracao; i++) { // A cada iteração será acrescentado um usuário até completar o "TotalUsersRegister"
         /* Calcula o ID do usuário incrementando a partir do total de usuários já existentes.
@@ -21,13 +38,13 @@ export default function() {
         no número de usuários que cada VU deve criar (UsersCriadosPorIteracao). '__VU - 1' ajusta o VU para começar de 0.
         'i' garante que cada usuário criado no loop tenha um ID único. 
         '+1' garante que a contagem de IDs comece corretamente após o último usuário existente. */
-        let userID = TotalUsers + ( UsersCriadosPorIteracao * (__VU - 1)) + i + 1; // 
-        // a cada iteração altera o número no final do "User"
-        // console.log(`Criando usuário de ID: ${userID}`);
-        
-        let username = `User${userID}`; // exemplo: "User1, User2..." de acordo com qual é a iteração e quantidade total de users 
+        let userID = TotalUsers + ( UsersCriadosPorIteracao * (__VU - 1)) + i + 1;
 
-        let body = JSON.stringify({ // Contéudo do corpo para realizar o registro de dispositivo e usuário
+        // a cada iteração altera o número no final do "User"
+        let username = `User${userID}`;
+
+        // Corpo da Requisição
+        let registerPayload = JSON.stringify({
             "client_alias": "go-windows",
             "client": {
                 "binary_hash":"42cffe1e38d5444329badd26fc2a402d554abc6839de26d87f13cca72d2ea2db",
@@ -53,53 +70,60 @@ export default function() {
             ]
         });
 
-        let bootstrapToken = '018c5a0f-acb1-73e7-8994-85e0b76ff146'; // Token de licença do client, obtido no cofre
-        let url = 'https://10.66.39.55/api/client-manager/register'; // Endpoint
-
-        let params = {
-            // Passando o tipo de conteúdo "application/json" e o "bootstrapToken" no hearder
+        // Cabeçalho da Requisição
+        let registerParams = {
             headers: { 
                 'Content-Type': 'application/json',
-                'Bootstrap-Token': `Bearer ${bootstrapToken}`
+                'Bootstrap-Token': BOOTSTRAP_TOKEN,
             }
         };
 
-        let res = http.post(url, body, params);// Enviando a requisição para realizar o registro e armazenando na variável "res"
+        // Envio da Requisição
+        //let res = http.post(registerUrl, registerPayload, registerParams);
             
-        // Verificando se a resposta foi ok
+        // Verificando a resposta da requisição
         check(res, {
             'is status 200': (r) => r.status === 200,
         });
 
-        let credentials = JSON.parse(res.body).credentials; // verificando a resposta do campo credentials e armazenando na variável "credentials"
-        let client_id = credentials.client_id; // verificando a resposta do campo client_id e armazenando na variável "client_id"
-        let client_secret = credentials.client_secret; // verificando a resposta do campo client_secret e armazenando na variável "client_secret"
+        // Armazena os resultados em variáveis
+        let credentials = JSON.parse(res.body).credentials;
+        let clientId = credentials.client_id;
+        let clientSecret = credentials.client_secret;
 
-        getToken(client_id, client_secret); // Pegando os valores das variáveis client_id e client_secret para gerar o bearer token
+        // Chamada da função getToken
+        getToken(clientId, clientSecret);
 
-       // console.log(`Client ID: ${client_id}, Client Secret: ${client_secret}`); // Mostrando os valores do client_id e client_secret na saída
+        //console.log(`Client ID: ${clientId}, Client Secret: ${clientSecret}`);
         console.log(`Criado usuário de ID: ${userID}`);
     };
+}
 
-// Função que irá gerar o bearer token
-function getToken(client_id, client_secret) { // Endpoint
-    let url = 'https://10.66.39.55/api/oauth2/token';
+/*
+Função utilizada para obter o Bearer Token.
+*/
+function getToken(client_id, client_secret) {
+    // Definição de variável
+    const BASE_URL = 'https://10.66.39.55/api';
 
-    // Especificando o grant_type como credentials e passando o client_id e client_secret no body
-    let body = `grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}`;
+    // URL da Requisição
+    let tokenUrl = `${BASE_URL}/oauth2/token`;
 
-    // Definição do tipo de conteúdo, parâmetro necessário para realizar a requisição do token
-    let params = {
+    // Corpo da Requisição
+    let tokenPayload = `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`;
+
+    // Cabeçalho da Requisição
+    let tokenParams = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     };
 
     // Realização da requisição POST para obter o token de acesso
-    let res = http.post(url, body, params);
+    let res = http.post(tokenUrl, tokenPayload, tokenParams);
 
     // Verificando se retornou o token na resposta completa
-    // console.log(`Resposta do getToken: ${res.body}`);// Mostra a resposta da requisição, mostrando o token na saída 
+    //console.log(`Resposta do getToken: ${res.body}`);
 
     // Verificação do status da resposta
     check(res, {
@@ -120,12 +144,12 @@ function getToken(client_id, client_secret) { // Endpoint
         return;
     }
     // Retorna apenas o token 
-    // console.log(`Token de acesso: ${accessToken}`);
-}
+    //console.log(`Token de acesso: ${accessToken}`);
 }
 
 /*
-k6 run k6_test_go/src/register_users.js --insecure-skip-tls-verify
+Executar comando:
 
-k6 run --http-debug="full" k6_test_go/src/register_users.js --insecure-skip-tls-verify
+k6 run --http-debug="full" register.js --insecure-skip-tls-verify
+
 */
