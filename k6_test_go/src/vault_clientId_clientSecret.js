@@ -1,5 +1,5 @@
 /* 
-Title : clientId e o client_SECRET
+Title : Exibir clientId e clientSecret
 Author : "Caio Abreu Ferreira" <cferreira@senhasegura.com>
 Description : Como obter o clientId e o clientSecret de um senhasegura Go 
               previamente cadastrados no senhasegura Cofre.
