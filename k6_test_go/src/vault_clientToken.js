@@ -125,5 +125,7 @@ function getToken(clientId, clientSecret) {
 }
 
 /*
-Comando : k6 run k6_test_go/src/vault_clientToken.js --insecure-skip-tls-verify
+$ k6 run --http-debug="full" k6_test_go/src/vault_clientToken.js --insecure-skip-tls-verify
+
+$ k6 run k6_test_go/src/vault_clientToken.js --insecure-skip-tls-verify
 */
