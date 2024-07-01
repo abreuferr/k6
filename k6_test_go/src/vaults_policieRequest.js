@@ -61,13 +61,10 @@ export default function() {
     check(res, {
         'is status 200': (r) => r.status === 200,
     });
-    // TODO: Pesquisar como neste intervalo ocorrer mais de uma requisição simultânea (udemy k6)
-    
-    sleep(4); // Segundos de espera até a próxima requisição
 }
 
 /*
-k6 run k6_test_go/src/requests.js --insecure-skip-tls-verify
+k6 run k6_test_go/src/vaults_policieRequest.js --insecure-skip-tls-verify
 
-k6 run --http-debug="full" k6_test_go/src/requests.js --insecure-skip-tls-verify
+k6 run --http-debug="full" k6_test_go/src/vaults_policieRequest.js --insecure-skip-tls-verify
 */
