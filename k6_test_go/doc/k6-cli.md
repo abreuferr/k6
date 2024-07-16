@@ -1,10 +1,3 @@
-/* 
-Title : k6-cli
-Author : "Caio Abreu Ferreira" <abreuferr@gmail.com>
-Description : Execução da ferramenta k6 através de linha de comando
-Options : 
-*/
-
 ### Executa teste com 1 vu e dura 10s
 $ k6 run script.js --vus 1 --duration 10s
 

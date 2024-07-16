@@ -3,7 +3,7 @@ import http from 'k6/http';
 import { check } from 'k6';
 //import { sleep } from 'k6';
 
-// COnfiguração dos testes
+// COnfiguração dos labes
 export let options = {
     setupTimeout: '120s', // Aumenta o tempo limite de resposta para a função de setup
     scenarios: {
@@ -20,8 +20,8 @@ export let options = {
 export function setup() {
 
     const oauth2_url = 'https://10.66.39.55/api/oauth2/token'; // Endpoint
-    const client_id = '33d7eed2a2138b762c308469356155cb';
-    const client_secret = '8c62dbc3312a59fba2ffcf964dbada32d4e0db3b423ac0d1d95b171f5ced83b7'; 
+    const client_id = '177a58c6920eb26bce3185deb2d97438';
+    const client_secret = '27a4f8c8b34f798d83884fa1e1439ed87ede838a4c742220f96d79e3ff10dbe5'; 
     const scope = 'orac_api'; 
 
     // Parâmetros da requisição POST para obter o token
@@ -110,7 +110,7 @@ export default function(data) {
     // Corpo da requisição, verificar na aba Body os parâmetros necessários
     let body = JSON.stringify({
         "username": `User${__VU}`,
-        "domain": "testes-go-win"
+        "domain": "labes-go-win"
     });
 
     let params = {
@@ -138,7 +138,7 @@ export default function(data) {
 
     // Corpo da requisição, verificar na aba Body os parâmetros necessários
     let body = JSON.stringify({
-        "domain": "testes-go-win",
+        "domain": "labes-go-win",
         "username": `User${__VU}`
     });
 
@@ -169,7 +169,7 @@ export default function(data) {
     let body = JSON.stringify({
         "action": "getAllPolicies", 
         "username": `User${__VU}`,
-        "domain": "testes-go-win",
+        "domain": "labes-go-win",
         "client_alias": "go-windows"
     });
 
@@ -213,7 +213,7 @@ export default function(data) {
                     "action": "getAllCredencials",
                     "credential": null,
                     "macroId": null,
-                    "domain": "testes-go-win",
+                    "domain": "labes-go-win",
                     "username": `User${__VU}`,
                     "pageLength": pageLength,
                     "pageNumber": page
@@ -260,8 +260,7 @@ export default function(data) {
 
 
 /*
-Executar comando:
+k6 run k6_lab_go/src/lab/vault_as_a_client.js --insecure-skip-tls-verify
 
-k6 run --http-debug="full" vault_as_a_client.js --insecure-skip-tls-verify
-
+k6 run --http-debug="full" k6_lab_go/src/lab/vault_as_a_client.js --insecure-skip-tls-verify
 */
