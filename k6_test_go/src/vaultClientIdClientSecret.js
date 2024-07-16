@@ -96,7 +96,7 @@ export default function () {
 }
 
 /*
-k6 run k6_test_go/src/lab/vaultClientIdClientSecret.js --insecure-skip-tls-verify
+k6 run k6_test_go/src/vaultClientIdClientSecret.js --insecure-skip-tls-verify
 
-k6 run --http-debug="full"  k6_test_go/src/lab/vaultClientIdClientSecret.js --insecure-skip-tls-verify
+k6 run --http-debug="full"  k6_test_go/src/vaultClientIdClientSecret.js --insecure-skip-tls-verify
 */
