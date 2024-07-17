@@ -1,9 +1,8 @@
 /* 
-Title : Token Request
+Title : EPM Client
 Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
          "Caio Abreu Ferreira" <cferreira@senhasegura.com>
-Description : Como obter o Token do senhasegura Go a partir
-              de um registro de um usuário/dispositivo.
+Description : Simulação de um senhasegura EPM, credenciais e políticas
 Options : 
 */
 
@@ -22,10 +21,10 @@ Função utilizada para obter os valores de clientID e clientSecret
 */
 function getClientCredentials(clientAlias, client, device, users) {
     // URL da requisição
-    let url = `${BASE_URL}/api/client-manager/register`;
+    let registerUrl = `${BASE_URL}/api/client-manager/register`;
 
     // Corpo da requisição
-    let body = JSON.stringify({
+    let registerPayload = JSON.stringify({
         "client_alias": clientAlias,
         "client": client,
         "device": device,
@@ -33,7 +32,7 @@ function getClientCredentials(clientAlias, client, device, users) {
     });
 
     // Cabeçalho da requisição
-    let params = {
+    let registerParams = {
         headers: {
             'Content-Type': 'application/json',
             'Bootstrap-Token': BOOTSTRAP_TOKEN,
@@ -41,7 +40,7 @@ function getClientCredentials(clientAlias, client, device, users) {
     };
 
     // Envio da requisição
-    let res = http.post(url, body, params);
+    let res = http.post(registerUrl, registerPayload, registerParams);
 
     // Verificando a resposta da requisição
     check(res, {
@@ -66,20 +65,20 @@ Função utilizada para obter o valor de accessToken
 */
 function getAccessToken(clientId, clientSecret) {
     // URL da requisição
-    let url = `${BASE_URL}/api/oauth2/token`;
+    let tokenUrl = `${BASE_URL}/api/oauth2/token`;
 
     // Corpo da requisição
-    let body = `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`;
+    let tokenPayload = `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`;
 
     // Cabeçalho da requisição
-    let params = {
+    let tokenParams = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     };
 
     // Envio da requisição
-    let res = http.post(url, body, params);
+    let res = http.post(tokenUrl, tokenPayload, tokenParams);
 
     // Verificando a resposta da requisição
     check(res, {
@@ -102,6 +101,51 @@ function getAccessToken(clientId, clientSecret) {
 
     // Retorna para a função Default() com o valor de "accessToken"
     return accessToken;
+}
+
+/* 
+Função getAllCredentials()
+
+Função utilizada para obter a(s) credencial(is) de acesso
+*/
+function getAllCredentials(domain, username, accessToken) {
+    // URL da requisição
+    let credentialsUrl = `${BASE_URL}/api/client-manager/vault/credentials`;
+
+    // Corpo da Requisição
+    let credentialsPayload = JSON.stringify({
+        "action": "getAllCredencials",
+        "domain": domain,
+        "username": username
+    });
+
+    // Cabeçalho da Requisição
+    let credentialsParams = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+    };
+
+    // Envio da requisição para obter a(s) credencial(is) de acesso
+    let res = http.post(credentialsUrl, credentialsPayload, credentialsParams);
+
+    // Verificando a resposta da requisição
+    check(res, {
+        'getAllCredentials - is status 200': (r) => r.status === 200,
+    });
+
+    // Verifica a(s) credencial(is) de acesso retornada(s)
+    let credentials;
+    try {
+        credentials = JSON.parse(res.body);
+    } catch (error) {
+        console.error("Erro ao analisar JSON da resposta ao obter as credenciais:", error.message);
+        return;
+    }
+
+    // Retorna para a função Default() com a(s) credencial(is)
+    return credentials;
 }
 
 /* 
@@ -147,10 +191,14 @@ export default function () {
     // Obtém accessToken
     let accessToken = getAccessToken(clientId, clientSecret);
     console.log(`accessToken..: ${accessToken}`);
+
+    // Obtém todas as credenciais
+    let credentials = getAllCredentials(domain, username, accessToken);
+    console.log(`credentials..: ${JSON.stringify(credentials, null, 2)}`);
 }
 
 /*
-k6 run k6_test_go/src/vaultClientToken.js --insecure-skip-tls-verify
+k6 run k6_test_go/src/lab/epmClient.js --insecure-skip-tls-verify
 
-k6 run --http-debug="full" k6_test_go/src/vaultClientToken.js --insecure-skip-tls-verify
+k6 run --http-debug="full" k6_test_go/src/lab/epmClient.js --insecure-skip-tls-verify
 */

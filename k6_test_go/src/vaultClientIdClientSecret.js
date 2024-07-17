@@ -12,8 +12,8 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 // Declaração de variável
-const BASE_URL = 'https://192.168.1.15';
-const BOOTSTRAP_TOKEN = '0190bd74-17e5-73f3-a38a-266ce3d0a411';
+const BASE_URL = 'https://10.66.39.55';
+const BOOTSTRAP_TOKEN = '018c5a0f-acb1-73e7-8994-85e0b76ff146';
 
 /* 
 Função getClientCredentials()
@@ -22,10 +22,10 @@ Função utilizada para obter os valores de clientID e clientSecret
 */
 function getClientCredentials(clientAlias, client, device, users) {
     // URL da requisição
-    let registerUrl = `${BASE_URL}/api/client-manager/register`;
+    let url = `${BASE_URL}/api/client-manager/register`;
 
     // Corpo da requisição
-    let registerPayload = JSON.stringify({
+    let body = JSON.stringify({
         "client_alias": clientAlias,
         "client": client,
         "device": device,
@@ -33,7 +33,7 @@ function getClientCredentials(clientAlias, client, device, users) {
     });
 
     // Cabeçalho da requisição
-    let registerParams = {
+    let params = {
         headers: {
             'Content-Type': 'application/json',
             'Bootstrap-Token': BOOTSTRAP_TOKEN,
@@ -41,7 +41,7 @@ function getClientCredentials(clientAlias, client, device, users) {
     };
 
     // Envio da requisição
-    let res = http.post(registerUrl, registerPayload, registerParams);
+    let res = http.post(url, body, params);
 
     // Verificando a resposta da requisição
     check(res, {

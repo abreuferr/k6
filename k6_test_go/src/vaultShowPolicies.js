@@ -11,20 +11,20 @@ import http from 'k6/http';
 import { check } from 'k6';
 
 // Definição de variável
-const BASE_URL = 'https://192.168.1.15';
-const BOOTSTRAP_TOKEN = '0190bd74-17e5-73f3-a38a-266ce3d0a411';
+const BASE_URL = 'https://10.66.39.55';
+const BOOTSTRAP_TOKEN = '018c5a0f-acb1-73e7-8994-85e0b76ff146';
 
 /*
-Função getClientPolicies()
+Função getClientCredentials()
 
 Função utilizada para obter os valores de clientID e clientSecret
 */
-function getClientPolicies(clientAlias, client, device, users) {
+function getClientCredentials(clientAlias, client, device, users) {
     // URL da requisição
-    let registerUrl = `${BASE_URL}/api/client-manager/register`;
+    let url = `${BASE_URL}/api/client-manager/register`;
 
     // Corpo da requisição
-    let registerPayload = JSON.stringify({
+    let body = JSON.stringify({
         "client_alias": clientAlias,
         "client": client,
         "device": device,
@@ -32,7 +32,7 @@ function getClientPolicies(clientAlias, client, device, users) {
     });
 
     // Cabeçalho da requisição
-    let registerParams = {
+    let params = {
         headers: {
             'Content-Type': 'application/json',
             'Bootstrap-Token': BOOTSTRAP_TOKEN,
@@ -40,7 +40,7 @@ function getClientPolicies(clientAlias, client, device, users) {
     };
 
     // Envio da requisição
-    let res = http.post(registerUrl, registerPayload, registerParams);
+    let res = http.post(url, body, params);
 
     // Verificando a resposta da requisição
     check(res, {
@@ -65,20 +65,20 @@ Função utilizada para obter o valor de accessToken
 */
 function getAccessToken(clientId, clientSecret) {
     // URL da requisição
-    let tokenUrl = `${BASE_URL}/api/oauth2/token`;
+    let url = `${BASE_URL}/api/oauth2/token`;
 
     // Corpo da requisição
-    let tokenPayload = `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`;
+    let body = `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`;
 
     // Cabeçalho da requisição
-    let tokenParams = {
+    let params = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     };
 
     // Envio da requisição
-    let res = http.post(tokenUrl, tokenPayload, tokenParams);
+    let res = http.post(url, body, params);
 
     // Verificando a resposta da requisição
     check(res, {
@@ -110,10 +110,10 @@ Função utilizada para obter a(s) credencial(is) de acesso
 */
 function getAllPolicies(domain, username, accessToken) {
     // URL da requisição
-    let policiesUrl = `${BASE_URL}/api/client-manager/pedm/policies`;
+    let url = `${BASE_URL}/api/client-manager/pedm/policies`;
 
     // Corpo da Requisição
-    let policiesPayload = JSON.stringify({
+    let body = JSON.stringify({
         "action": "getAllPolicies",
         "domain": domain,
         "username": username,
@@ -121,7 +121,7 @@ function getAllPolicies(domain, username, accessToken) {
     });
 
     // Cabeçalho da Requisição
-    let policiesParams = {
+    let params = {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${accessToken}`,
@@ -129,7 +129,7 @@ function getAllPolicies(domain, username, accessToken) {
     };
 
     // Envio da requisição para obter a(s) politica(s) de acesso
-    let res = http.post(policiesUrl, policiesPayload, policiesParams);
+    let res = http.post(url, body, params);
 
     // Verificando a resposta da requisição
     check(res, {
@@ -184,8 +184,8 @@ export default function () {
     let domain = "epm-device-lab";
     let username = "epm-user-lab";
 
-    // Obtém clientId e clientSecret
-    let { clientId, clientSecret } = getClientPolicies(clientAlias, client, device, users);
+    // Chama a função getClientCredentials para obter clientId e clientSecret
+    let { clientId, clientSecret } = getClientCredentials(clientAlias, client, device, users);
     console.log(`clientId.....: ${clientId}`);
     console.log(`clientSecret.: ${clientSecret}`);
 
