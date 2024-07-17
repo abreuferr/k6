@@ -199,7 +199,7 @@ export default function () {
         "cpu_info": "",
         "domain": "epm-device-lab",
         "hardware_uuid": "5d1e6178-b0ec-4a9b-b691-10cd5639812f",
-        "hostname": "go-device-test",
+        "hostname": "epm-device-test",
         "memory_info": "",
         "operational_system": "Windows 10",
         "vendor_model_info": "Microsoft"
