@@ -12,13 +12,19 @@ import { check } from 'k6';
 
 // Configuração do K6
 export let options = {
-    vus: 1,
-    iterations: 1
+    scenarios: {
+        unique_vus_each_iteration: {
+            executor: 'per-vu-iterations',
+            vus: 1,
+            iterations: 1,
+            maxDuration: '20m',
+        },
+    },
 };
 
 // Definição de variável
-const BASE_URL = 'https://10.66.39.55';
-const BOOTSTRAP_TOKEN = '018c5a0f-acb1-73e7-8994-85e0b76ff146';
+const BASE_URL = 'https://192.168.1.15';
+const BOOTSTRAP_TOKEN = '0190bd74-17e5-73f3-a38a-266ce3d0a411';
 
 /*
 Função Default()
