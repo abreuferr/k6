@@ -11,6 +11,18 @@ Options :
 import http from 'k6/http';
 import { check } from 'k6';
 
+// Configuração do K6
+export let options = {
+    scenarios: {
+        unique_vus_each_iteration: {
+            executor: 'per-vu-iterations',
+            vus: 1,
+            iterations: 1,
+            maxDuration: '20m',
+        },
+    },
+};
+
 // Definição de variável
 const BASE_URL = 'https://10.66.39.55';
 const BOOTSTRAP_TOKEN = '018c5a0f-acb1-73e7-8994-85e0b76ff146';
@@ -22,10 +34,10 @@ Função utilizada para obter os valores de clientID e clientSecret
 */
 function getClientCredentials(clientAlias, client, device, users) {
     // URL da requisição
-    let registerUrl = `${BASE_URL}/api/client-manager/register`;
+    let url = `${BASE_URL}/api/client-manager/register`;
 
     // Corpo da requisição
-    let registerPayload = JSON.stringify({
+    let body = JSON.stringify({
         "client_alias": clientAlias,
         "client": client,
         "device": device,
@@ -33,7 +45,7 @@ function getClientCredentials(clientAlias, client, device, users) {
     });
 
     // Cabeçalho da requisição
-    let registerParams = {
+    let params = {
         headers: {
             'Content-Type': 'application/json',
             'Bootstrap-Token': BOOTSTRAP_TOKEN,
@@ -41,7 +53,7 @@ function getClientCredentials(clientAlias, client, device, users) {
     };
 
     // Envio da requisição
-    let res = http.post(registerUrl, registerPayload, registerParams);
+    let res = http.post(url, body, params);
 
     // Verificando a resposta da requisição
     check(res, {
@@ -66,20 +78,20 @@ Função utilizada para obter o valor de accessToken
 */
 function getAccessToken(clientId, clientSecret) {
     // URL da requisição
-    let tokenUrl = `${BASE_URL}/api/oauth2/token`;
+    let url = `${BASE_URL}/api/oauth2/token`;
 
     // Corpo da requisição
-    let tokenPayload = `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`;
+    let body = `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`;
 
     // Cabeçalho da requisição
-    let tokenParams = {
+    let params = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     };
 
     // Envio da requisição
-    let res = http.post(tokenUrl, tokenPayload, tokenParams);
+    let res = http.post(url, body, params);
 
     // Verificando a resposta da requisição
     check(res, {
@@ -111,17 +123,17 @@ Função utilizada para obter a(s) credencial(is) de acesso
 */
 function getAllCredentials(domain, username, accessToken) {
     // URL da requisição
-    let credentialsUrl = `${BASE_URL}/api/client-manager/vault/credentials`;
+    let url = `${BASE_URL}/api/client-manager/vault/credentials`;
 
     // Corpo da Requisição
-    let credentialsPayload = JSON.stringify({
+    let body = JSON.stringify({
         "action": "getAllCredencials",
         "domain": domain,
         "username": username
     });
 
     // Cabeçalho da Requisição
-    let credentialsParams = {
+    let params = {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${accessToken}`,
@@ -129,7 +141,7 @@ function getAllCredentials(domain, username, accessToken) {
     };
 
     // Envio da requisição para obter a(s) credencial(is) de acesso
-    let res = http.post(credentialsUrl, credentialsPayload, credentialsParams);
+    let res = http.post(url, body, params);
 
     // Verificando a resposta da requisição
     check(res, {
@@ -187,7 +199,7 @@ Função principal
 */
 export default function () {
     //Utilizado pela função getClientCredentials()
-    let clientAlias = "epm-device-lab";
+    let clientAlias = "epm-device";
     let client = {
         "binary_hash": "FF54F551B6E829A964310F6C7AC649A2149448C07CF9E1300D5EE9FFFD4C33F5",
         "version": "3.32.0.33",
@@ -197,7 +209,7 @@ export default function () {
         "architecture": "x86_64",
         "bios_info": "",
         "cpu_info": "",
-        "domain": "epm-device-lab",
+        "domain": "epm-device",
         "hardware_uuid": "5d1e6178-b0ec-4a9b-b691-10cd5639812f",
         "hostname": "go-device-test",
         "memory_info": "",
@@ -206,14 +218,14 @@ export default function () {
     };
     let users = [
         {
-            "domain": "epm-device-lab",
-            "username": "epm-user-lab"
+            "domain": "epm-device",
+            "username": "epmUser"
         }
     ];
 
     // Utilizado pela função getAllCredentials()
-    let domain = "epm-device-lab";
-    let username = "epm-user-lab";
+    let domain = "epm-device";
+    let username = "epmUser";
 
     // Obtém clientId e clientSecret
     let { clientId, clientSecret } = getClientCredentials(clientAlias, client, device, users);
@@ -234,7 +246,7 @@ export default function () {
 }
 
 /*
-k6 run k6_test_go/src/lab/vaultAllCredencialsCheck.js --insecure-skip-tls-verify
+k6 run k6_test_go/src/vaultAllCredencialsCheck.js --insecure-skip-tls-verify
 
 k6 run --http-debug="full" k6_test_go/src/lab/vaultAllCredencialsCheck.js --insecure-skip-tls-verify
 */

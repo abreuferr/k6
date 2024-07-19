@@ -10,37 +10,49 @@ Options :
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
+// Configuração do K6
+export let options = {
+    scenarios: {
+        unique_vus_each_iteration: {
+            executor: 'per-vu-iterations',
+            vus: 1,
+            iterations: 1,
+            maxDuration: '20m',
+        },
+    },
+};
+
 // Definição de variável
 const BASE_URL = 'https://10.66.39.55';
 const BOOTSTRAP_TOKEN = '018c5a0f-acb1-73e7-8994-85e0b76ff146';
 
 /*
-Função createRegisterPayload()
+Função createUser()
 
 Função para criar o payload de registro com múltiplos usuários
 */
-function createRegisterPayload(userCount) {
+function createUser(userCount) {
     let users = [];
     for (let i = 1; i <= userCount; i++) {
         users.push({
-            "domain": "epm-device-lab",
-            "username": `epm-user${i}-lab`
+            "domain": "epmDevice",
+            "username": `epmUser${i}`
         });
     }
     return JSON.stringify({
-        "client_alias": "epm-device-lab",
+        "client_alias": "epmDevice",
         "client": {
             "binary_hash": "FF54F551B6E829A964310F6C7AC649A2149448C07CF9E1300D5EE9FFFD4C33F5",
             "version": "3.32.0.33",
-            "client_alias": "epm-device-lab"
+            "client_alias": "epmDevice"
         },
         "device": {
             "architecture": "x86_64",
             "bios_info": "",
             "cpu_info": "",
-            "domain": "epm-device-lab",
+            "domain": "epmDevice",
             "hardware_uuid": "5d1e6178-b0ec-4a9b-b691-10cd5639812e",
-            "hostname": "epm-device-lab",
+            "hostname": "epmDevice",
             "memory_info": "",
             "operational_system": "Windows 10",
             "vendor_model_info": "Microsoft"
@@ -59,13 +71,13 @@ export default function() {
     let userCount = 5;
 
     // URL da Requisição
-    let registerUrl = `${BASE_URL}/api/client-manager/register`;
+    let url = `${BASE_URL}/api/client-manager/register`;
 
     // Corpo da Requisição
-    let registerPayload = createRegisterPayload(userCount);
+    let body = createUser(userCount);
 
     // Cabeçalho da Requisição
-    let registerParams = {
+    let params = {
         headers: { 
             'Content-Type': 'application/json',
             'Bootstrap-Token': BOOTSTRAP_TOKEN,
@@ -73,7 +85,7 @@ export default function() {
     };
 
     // Envio da Requisição
-    let res = http.post(registerUrl, registerPayload, registerParams);
+    let res = http.post(url, body, params);
 
     // Usuários inseridos com sucesso
     console.log(`Criados ${userCount} usuários no dispositivo`);
@@ -81,7 +93,7 @@ export default function() {
 }
 
 /*
-k6 run k6_test_go/src/lab/registerNUsersDevice.js --insecure-skip-tls-verify
+k6 run k6_test_go/src/registerNUsersDevice.js --insecure-skip-tls-verify
 
-k6 run --http-debug="full" k6_test_go/src/lab/registerNUsersDevice.js --insecure-skip-tls-verify
+k6 run --http-debug="full" k6_test_go/src/registerNUsersDevice.js --insecure-skip-tls-verify
 */

@@ -10,10 +10,10 @@ Options :
 import http from 'k6/http';
 import { check } from 'k6';
 
-// Configuração do labe
+// Configuração do K6
 export let options = {
-    vus: 1,  // número de Usuários Virtuais
-    iterations: 1  // total de iterações 
+    vus: 1,
+    iterations: 1
 };
 
 // Definição de variável
@@ -31,27 +31,27 @@ export default function() {
 
     // Corpo da Requisição
     let registerPayload = JSON.stringify({
-        "client_alias": "epm-device-lab",
+        "client_alias": "epmDevice",
         "client": {
             "binary_hash":"FF54F551B6E829A964310F6C7AC649A2149448C07CF9E1300D5EE9FFFD4C33F5",
             "version": "3.32.0.33",
-            "client_alias": "epm-device-lab"
+            "client_alias": "epmDevice"
         },
         "device": {
             "architecture": "x86_64",
             "bios_info": "",
             "cpu_info": "",
-            "domain": "epm-device-lab",
+            "domain": "epmDevice",
             "hardware_uuid": "5d1e6178-b0ec-4a9b-b691-10cd5639812f",
-            "hostname": "epm-device-lab",
+            "hostname": "epmDevice",
             "memory_info": "",
             "operational_system": "Windows 10",
             "vendor_model_info": "Microsoft"
         },
         "users": [
             {
-                "domain": "epm-device-lab",
-                "username": "epm-user-lab"
+                "domain": "epmDevice",
+                "username": "epmUser"
             }
         ]
     });
@@ -77,7 +77,7 @@ export default function() {
 }
 
 /*
-k6 run k6_test_go/src/lab/registerUserDevice.js --insecure-skip-tls-verify
+k6 run k6_test_go/src/registerUserDevice.js --insecure-skip-tls-verify
 
-k6 run --http-debug="full" k6_test_go/src/lab/register_users.js --insecure-skip-tls-verify
+k6 run --http-debug="full" k6_test_go/src/register_users.js --insecure-skip-tls-verify
 */
