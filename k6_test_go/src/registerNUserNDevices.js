@@ -1,5 +1,5 @@
 /* 
-Title : Inserir um usuário e dispositivo
+Title : Inserir usuários e dispositivos
 Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
          "Caio Abreu Ferreira" <cferreira@senhasegura.com>
 Description : O objetivo deste programa é o de inserir um usuário e dispositivo
@@ -15,7 +15,7 @@ export let options = {
     scenarios: {
         unique_vus_each_iteration: {
             executor: 'per-vu-iterations',
-            vus: 1,
+            vus: 5,
             iterations: 1,
             maxDuration: '20m',
         },
@@ -27,59 +27,78 @@ const BASE_URL = 'https://192.168.1.15';
 const BOOTSTRAP_TOKEN = '0190bd74-17e5-73f3-a38a-266ce3d0a411';
 
 /*
+Função generateUUID()
+
+Função que gera UUID do dispositivo de forma randômica.
+*/
+function generateUUID() {
+    function getRandomHex(size) {
+        let result = '';
+        for (let i = 0; i < size; i++) {
+            result += Math.floor(Math.random() * 16).toString(16);
+        }
+        return result;
+    }
+    return `${getRandomHex(8)}-${getRandomHex(4)}-${getRandomHex(4)}-${getRandomHex(4)}-${getRandomHex(12)}`;
+}
+
+/*
 Função Default()
 
-Função que realiza o registro dos usuários.
+Função que realiza o registro de usuários e dispositivos.
 */
 export default function() {
-    // URL da Requisição
-    let registerUrl = `${BASE_URL}/api/client-manager/register`;
+    // Chama a função generateUUID()
+    let hardwareUUID = generateUUID();
+
+    // URL da requisição
+    let url = `${BASE_URL}/api/client-manager/register`;
 
     // Corpo da Requisição
-    let registerPayload = JSON.stringify({
-        "client_alias": "epmDevice",
+    let body = JSON.stringify({
+        "client_alias": `epmDevice${__VU}`,
         "client": {
             "binary_hash":"FF54F551B6E829A964310F6C7AC649A2149448C07CF9E1300D5EE9FFFD4C33F5",
             "version": "3.32.0.33",
-            "client_alias": "epmDevice"
+            "client_alias": `epmDevice${__VU}`
         },
         "device": {
             "architecture": "x86_64",
             "bios_info": "",
             "cpu_info": "",
-            "domain": "epmDevice",
-            "hardware_uuid": "5d1e6178-b0ec-4a9b-b691-10cd5639812f",
-            "hostname": "epmDevice",
+            "domain": `epmDevice${__VU}`,
+            "hardware_uuid": hardwareUUID,
+            "hostname": `epmDevice${__VU}`,
             "memory_info": "",
             "operational_system": "Windows 10",
             "vendor_model_info": "Microsoft"
         },
         "users": [
             {
-                "domain": "epmDevice",
-                "username": "epmUser"
+                "domain": `epmDevice${__VU}`,
+                "username": `epmUser${__VU}`
             }
         ]
     });
 
     // Cabeçalho da Requisição
-    let registerParams = {
+    let params = {
         headers: { 
             'Content-Type': 'application/json',
             'Bootstrap-Token': BOOTSTRAP_TOKEN,
         }
     };
 
-    // Envio da Requisição
-    let res = http.post(registerUrl, registerPayload, registerParams);
-            
+    // Envio da requisição
+    let res = http.post(url, body, params);
+    
     // Verificando a resposta da requisição
     check(res, {
         'is status 200': (r) => r.status === 200,
     });
 
     // Usuário e dispositivo inserido com sucesso
-    console.log(`Usuário e dispositivo criados`);
+    console.log(`Usuário epmUser${__VU} e dispositivo epmDevice${__VU} com UUID ${hardwareUUID}`);
 }
 
 /*
