@@ -37,38 +37,3 @@
 #### Suba as alterações para a branch main no repositório remoto
 
 ```$ git push origin main```
-
-# Cabeçalho (Modelo)
-
-```
-/* 
-Title : Credencials Check
-Author : "Janaína de Jesus Nascimento" <jnascimento@senhasegura.com>
-         "Caio Abreu Ferreira" <cferreira@senhasegura.com>
-Description : Este programa tem por objetivo o de exibir a quantidade de 
-              credenciais que estão associados a um usuário.=
-Options : 
-*/
-```
-
-# Funcionamento do senhasegura EPM Windows
-
-VAULT_EPM()
-
-- getClientIDandClientSecret()
-
-- getAccessToken()s
-
-- getUpdate()s
-
-- getParams()
-- countParams() - Interno
-
-- getSystemFileCommands()
-- countSystemFileCommands()
-
-- getPolicies()
-- countPolicies() - Interno
-
-- getCredentials()
-- countCredentials()
