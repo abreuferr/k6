@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - '9090:9090'      
+    volumes:
+      - 'prometheus_data:/prometheus'
+      - './prometheus.yml:/etc/prometheus/prometheus.yml:ro'  
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+       # 30 dias de armazenamento   
+      - '--storage.tsdb.retention.time=720h' 
+  
+  grafana:
+    image: grafana/grafana      
+    ports:
+      - '3000:3000'
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+    depends_on:
+      - prometheus
+    volumes:
+      - 'grafana_data:/var/lib/grafana'     
+  
+  node-exporter:   
+    image: prom/node-exporter
+    ports:
+      - '9100:9100'
+    volumes:
+      - 'node_exporter:/textfile_collector'      
+volumes:
+  netdataconfig:
+  netdatalib:
+  netdatacache: 
+  prometheus_data:  
+  grafana_data:
+  node_exporter:

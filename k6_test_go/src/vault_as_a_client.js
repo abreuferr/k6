@@ -20,8 +20,8 @@ export let options = {
 export function setup() {
 
     const oauth2_url = 'https://10.66.39.55/api/oauth2/token'; // Endpoint
-    const client_id = '177a58c6920eb26bce3185deb2d97438';
-    const client_secret = '27a4f8c8b34f798d83884fa1e1439ed87ede838a4c742220f96d79e3ff10dbe5'; 
+    const client_id = 'b902248573f36fd58de6eb3a82949503';
+    const client_secret = '79ca49eb169865402be2303f3e60f0c750a07586645424197066995d6bf4700e'; 
     const scope = 'orac_api'; 
 
     // Parâmetros da requisição POST para obter o token
@@ -167,7 +167,7 @@ export default function(data) {
 
     // Corpo da requisição, verificar na aba Body os parâmetros necessários
     let body = JSON.stringify({
-        "action": "getAllPolicies", 
+        "action": "getPolicies", 
         "username": `User${__VU}`,
         "domain": "labes-go-win",
         "client_alias": "go-windows"

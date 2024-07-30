@@ -6,144 +6,160 @@ Description : Simulação de um senhasegura EPM, credenciais e políticas
 Options : 
 */
 
-// Bibliotecas do k6 
-import http from 'k6/http';
-import { check } from 'k6';
+// Importa as funções do epmLibrary.js
+import { 
+            getClientIDandClientSecret,
+            getAccessToken,
+            getUpdate,
+            getParams,
+            countParams,
+            getSystemFileCommands,
+            countSystemFileCommands,
+            getPolicies,
+            countPolicies,
+            getCredentials,
+            countCredentials
+        } from './library/epmLibrary.js';
 
-// Configuração do K6
+/*
+Variáveis Globais()
+*/ 
+const BASE_URL = 'https://10.66.39.55';
+const BOOTSTRAP_TOKEN = '018c5a0f-acb1-73e7-8994-85e0b76ff146';
+
+// Configuração do teste K6
 export let options = {
     scenarios: {
         unique_vus_each_iteration: {
             executor: 'per-vu-iterations',
-            vus: 2,
+            vus: 1,
             iterations: 1,
             maxDuration: '20m',
         },
     },
 };
 
-// Definição de variável
-const BASE_URL = 'https://10.66.39.55';
-
-/* 
-Função getAllCredentials()
-
-Função utilizada para obter a(s) credencial(is) de acesso
-*/
-function getAllCredentials(domain, username, accessToken) {
-    // URL da requisição
-    let credentialsUrl = `${BASE_URL}/api/client-manager/vault/credentials`;
-
-    // Corpo da Requisição
-    let credentialsPayload = JSON.stringify({
-        "action": "getAllCredencials",
-        "domain": domain,
-        "username": username
-    });
-
-    // Cabeçalho da Requisição
-    let credentialsParams = {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-        },
-    };
-
-    // Envio da requisição para obter a(s) credencial(is) de acesso
-    let res = http.post(credentialsUrl, credentialsPayload, credentialsParams);
-
-    // Verificando a resposta da requisição
-    check(res, {
-        'getAllCredentials - is status 200': (r) => r.status === 200,
-    });
-
-    // Verifica a(s) credencial(is) de acesso retornada(s)
-    let credentials;
-    try {
-        credentials = JSON.parse(res.body);
-    } catch (error) {
-        console.error("Erro ao analisar JSON da resposta ao obter as credenciais:", error.message);
-        return;
-    }
-
-    // Retorna para a função Default() com a(s) credencial(is)
-    return credentials;
-}
-
-/* 
-Função getAllPolicies()
-
-Função utilizada para obter a(s) credencial(is) de acesso
-*/
-function getAllPolicies(domain, username, accessToken) {
-    // URL da requisição
-    let url = `${BASE_URL}/api/client-manager/pedm/policies`;
-
-    // Corpo da Requisição
-    let body = JSON.stringify({
-        "action": "getAllPolicies",
-        "domain": domain,
-        "username": username,
-        "client_alias": "go-windows"
-    });
-
-    // Cabeçalho da Requisição
-    let params = {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-        },
-    };
-
-    // Envio da requisição para obter a(s) politica(s) de acesso
-    let res = http.post(url, body, params);
-
-    // Verificando a resposta da requisição
-    check(res, {
-        'getAllPolicies - is status 200': (r) => r.status === 200,
-    });
-
-    // Verifica a(s) credencial(is) de acesso retornada(s)
-    let policies;
-    try {
-        policies = JSON.parse(res.body);
-    } catch (error) {
-        console.error("Erro ao analisar JSON da resposta ao obter as credenciais:", error.message);
-        return;
-    }
-
-    // Retorna para a função Default() com a(s) credencial(is)
-    return policies;
-}
-
+ 
 /* 
 Função Default()
 
-Função principal
+Função principal que realiza as requisições equivalente ao EPM Client.
 */
 export default function () {
 
-    // Utilizado pela função getAllCredentials()
+    /*
+        Variáveis Locais()
+    */ 
+
+    // Valores utilizados pela função getClientCredentials() e getAccessToken()
+    let clientAlias = "epmDevice";
+    let client = {
+        "binary_hash": "FF54F551B6E829A964310F6C7AC649A2149448C07CF9E1300D5EE9FFFD4C33F5",
+        "version": "3.32.0.33",
+        "client_alias": clientAlias
+    };
+
+    let device = {
+        "architecture": "x86_64",
+        "bios_info": "",
+        "cpu_info": "",
+        "domain": "epmDevice",
+        "hardware_uuid": "5d1e6178-b0ec-4a9b-b691-10cd5639812e",
+        "hostname": "epmDevice",
+        "memory_info": "",
+        "operational_system": "Windows 10",
+        "vendor_model_info": "Microsoft"
+    };
+
+    let users = [
+        {
+            "domain": "epmDevice",
+            "username": "epmUser"
+        }
+    ];
+
+    // Utilizado pela função getCredentials()
     let domain = "epmDevice";
-    let username = "epmUser";
+    let username = `epmUser${__VU}`;
+
+    // Utilizado pela função getUpdate()
+    let client_version = "3.32.0.33";
 
     /*
-    O aplicativo ¨vaultClientToken.js" deve ser executado para
-    obter o accessToken.
-    */
-    let accessToken = "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIwYjA0YTNlMmY5NjQxNWI4ZGJiYmYzMDY1NjlmYzlmZjIyMjE0MGMyNzFhY2M3ZWRiZmI5NjI2YzMyNGU3OTkyIiwiZXhwIjoxNzIxMjQ2MzMwLCJ0b2tlbl9pZCI6MTcsImlhdCI6MTcyMTI0MjczMCwiaXNzIjoic2VuaGFzZWd1cmEtYXBpLWF1dGgifQ.osByBBwibV6Pnn-Z-AcaVAOjSmWYDBO8vT7LU1vKf42DdxoDcZXFRPh_vWUMelLUuaTBmJlbX-efxzA_8d38IGLCIMD2EjZpaB72kB8UotjgQgU3Hj_OutNlVOQhgqx19L4qvB7tjYTu83iZJdnD2wPy0CsI3voKtS5V1dMB1Yl1UN8BEo09w3s2N_3oRMFaK8QgzS5UUmm2rAQ2W5XcfQqilDKDFlRRyltMy8p2Tzx6oWTEYF2l-3j7tK1c8_syFDdfxDwKPOSxx986Qq9V5QQ7iV3G7OHTHbEEzFdZ-F3rLQaqtZRKc1fNAAKVEPOx2253JV-byuTnZrMAsHQNrA";
+        Autenticação()
+    */    
 
-    // Obter credenciais
-    let credentials = getAllCredentials(domain, username, accessToken);
-    console.log(`credentials..: ${JSON.stringify(credentials, null, 2)}`);
+    // Obtém o clientId e clientSecret
+    //let { clientId, clientSecret } = getClientIDandClientSecret(BASE_URL, BOOTSTRAP_TOKEN, clientAlias, client, device, users);
+    //console.log(`clientId.....: ${clientId}`);
+    //console.log(`clientSecret.: ${clientSecret}`);
+
+    // Obtém o accessToken
+    //let accessToken = getAccessToken(BASE_URL, clientId, clientSecret);
+    //console.log(`accessToken..: ${accessToken}`);
+    let accessToken = "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIzZjE2OTFkYjEzODcwYTMzOTFlYTRmNzMyMmRjMDVhNjAzMjBlM2YwOGQ0MGIxNzU4OGM3Yjg0MmQ5NmQ5MmEzIiwiZXhwIjoxNzIxOTM2OTE0LCJ0b2tlbl9pZCI6MTcsImlhdCI6MTcyMTkzMzMxNCwiaXNzIjoic2VuaGFzZWd1cmEtYXBpLWF1dGgifQ.Gc82uf4oISXFgn5qFDGxK7XdBlPDPf9hXAQCpQFnTdT89llev1QGEsV8QtDJajUe_OAa3csK53vF8Nm-kjJLUwe-MIfmvxoOpwt1ijuBaAomN4r8A_zTyCQ--hfZ9IL9cL6hhZShJgLMg-eHpywriFjpUnXlx1r3stEhQiaqX5La2Zu-F0jD9sY0WVrCdWILu1iCUDw0QIXQEVxxNqI8eV192P7nN9Qcz7kCMK_XQB3A-oZV0tomQqwfnYgqMsPiSVNfSuktwZF0mirhdDOvOnh825ac578HGu44V0JP13WpiLjJIws_AxHGyoTqo0g_Q2-koSZryjm_Wkz7TKRCnw";
+
+    /*
+        Update()
+    */
+
+    // Obter update 
+    let update = getUpdate(BASE_URL, client_version, accessToken);
+    //console.log(`Update..: ${JSON.stringify(update)}`);
+
+    /*
+        Parâmetros()
+    */
+
+    // Obter Parâmetros
+    let params = getParams(BASE_URL, domain, username, accessToken);
+    //console.log(`Parâmetros..: ${JSON.stringify(params, null, 2)}`);
+
+    // Contar Parâmetros
+    //let paramsCount = countParams(params);
+    //console.log(`O usuário epmUser${__VU} possui o total de ${paramsCount} parâmetros`);
+
+    /*
+        Comandos do Sistema()
+    */
+
+    // Obter comandos do sistema
+    let system = getSystemFileCommands(BASE_URL, domain, username, accessToken);
+    //console.log(`System File Commands..: ${JSON.stringify(system, null, 2)}`);
+
+    // Contar comandos do sistema
+    //let systemCount = countSystemFileCommands(system);
+    //console.log(`O usuário epmUser${__VU} possui o total de ${systemCount} comandos do sistema`);
+
+    /*
+        Políticas()
+    */
 
     // Obter politicas
-    let policies = getAllPolicies(domain, username, accessToken);
-    console.log(`Politicas..: ${JSON.stringify(policies, null, 2)}`);
+    let policies = getPolicies(BASE_URL, domain, username, accessToken);
+    //console.log(`Politicas do usuário epmUser${__VU} ..: ${JSON.stringify(policies, null, 2)}`);
+
+    // Contar politicas
+    //let policiesCount = countPolicies(BASE_URL, domain, username, accessToken);
+    //console.log(`O usuário epmUser${__VU} possui o total de ${policiesCount} politicas`);
+
+    /*
+        Credenciais()
+    */
+
+    // Obter credenciais
+    let credentials = getCredentials(BASE_URL, domain, username, accessToken);
+    //console.log(`Credenciais..: ${JSON.stringify(credentials, null, 2)}`);
+   
+    // Contar credenciais
+    let credentialCount = countCredentials(credentials);
+    console.log(`O usuário epmUser${__VU} possui o total de ${credentialCount} credenciais`);
 }
 
 /*
 k6 run k6_test_go/src/epmClient.js --insecure-skip-tls-verify
+
+k6 run --log-output=none k6_test_go/src/epmClient.js --insecure-skip-tls-verify
 
 k6 run --http-debug="full" k6_test_go/src/epmClient.js --insecure-skip-tls-verify
 */
