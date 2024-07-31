@@ -1,0 +1,29 @@
+{
+    "epm": [
+        {
+            "hardware_uuid": "ac2a5ad1-3c40-4128-8677-58cd0575957d",
+            "hostname": "epmDevice1",
+            "username": "epmUser1"
+        },
+        {
+            "hardware_uuid": "58c678a2-d25d-4e1f-94d3-87e17ff78fc7",
+            "hostname": "epmDevice2",
+            "username": "epmUser2"
+        },
+        {
+            "hardware_uuid": "19f2df63-9cd0-4d2b-9cc0-6878afac3397",
+            "hostname": "epmDevice3",
+            "username": "epmUser3"
+        },
+        {
+            "hardware_uuid": "6b36c357-f824-4bc6-9c38-95f919ec4b09",
+            "hostname": "epmDevice4",
+            "username": "epmUser4"
+        },
+        {
+            "hardware_uuid": "904c24e7-0665-45de-ba9b-7e43e77ed076",
+            "hostname": "epmDevice5",
+            "username": "epmUser5"
+        }
+    ]
+}
