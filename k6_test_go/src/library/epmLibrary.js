@@ -17,8 +17,10 @@ Função utilizada para obter os valores de clientID e clientSecret.
 */
 export function getClientIDandClientSecret(BASE_URL, BOOTSTRAP_TOKEN, clientAlias, client, device, users) {
 
+    // URL da requisição
     let url = `${BASE_URL}/api/client-manager/register`;
 
+    // Corpo da Requisição
     let body = JSON.stringify({
         "client_alias": clientAlias,
         "client": client,
@@ -26,6 +28,7 @@ export function getClientIDandClientSecret(BASE_URL, BOOTSTRAP_TOKEN, clientAlia
         "users": users
     });
 
+    // Cabeçalho da Requisição
     let params = {
         responseTimeout: '100s',
         headers: {
@@ -34,6 +37,7 @@ export function getClientIDandClientSecret(BASE_URL, BOOTSTRAP_TOKEN, clientAlia
         },
     };
 
+    // Envio da requisição
     let res = http.post(url, body, params);
 
     check(res, {
@@ -46,6 +50,7 @@ export function getClientIDandClientSecret(BASE_URL, BOOTSTRAP_TOKEN, clientAlia
     let clientId = responseData.credentials.client_id;
     let clientSecret = responseData.credentials.client_secret;
 
+    // Retorna para a função Default()
     return { clientId, clientSecret };
 }
 
@@ -56,16 +61,20 @@ Função utilizada para obter o valor de accessToken.
 */
 export function getAccessToken(BASE_URL, clientId, clientSecret) {
 
+    // URL da requisição
     let url = `${BASE_URL}/api/oauth2/token`;
 
+    // Corpo da Requisição
     let body = `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`;
 
+    // Cabeçalho da Requisição
     let params = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     };
 
+    // Envio da requisição
     let res = http.post(url, body, params);
 
     check(res, {
@@ -85,6 +94,7 @@ export function getAccessToken(BASE_URL, clientId, clientSecret) {
         return;
     }
 
+    // Retorna para a função Default()
     return accessToken;
 }
 
@@ -94,12 +104,15 @@ Esta função realiza uma requisição para o cofre e verifica se há atualizaç
 */
 export function getUpdate(BASE_URL, client_version, accessToken) {
 
+    // URL da requisição
     let url = `${BASE_URL}/api/client-manager/client-update`;
 
+    // Corpo da Requisição
     let body = JSON.stringify({
         client_version: client_version 
     });
 
+    // Cabeçalho da Requisição
     let params = {
         responseTimeout: '100s',
         headers: {
@@ -108,6 +121,7 @@ export function getUpdate(BASE_URL, client_version, accessToken) {
         },
     };
 
+    // Envio da requisição
     let res = http.post(url, body, params);
 
     check(res, {
@@ -123,6 +137,7 @@ export function getUpdate(BASE_URL, client_version, accessToken) {
         return;
     }
 
+    // Retorna para a função Default()
     return data;
 }
 
@@ -133,13 +148,16 @@ Função utilizada para requisitar os parâmetros do sistema.
 */
 export function getParams(BASE_URL, domain, username, accessToken) {
 
+    // URL da requisição
     let url = `${BASE_URL}/api/client-manager/params`;
 
+    // Corpo da Requisição
     let body = JSON.stringify({
         "domain": domain,
         "username": username
     });
 
+    // Cabeçalho da Requisição
     let params = {
         responseTimeout: '100s',
         headers: {
@@ -148,6 +166,7 @@ export function getParams(BASE_URL, domain, username, accessToken) {
         },
     };
 
+    // Envio da requisição
     let res = http.post(url, body, params);
 
     check(res, {
@@ -162,6 +181,7 @@ export function getParams(BASE_URL, domain, username, accessToken) {
         return;
     }
 
+    // Retorna para a função Default()
     return data;
 }
 
@@ -181,6 +201,7 @@ export function countParams(params) {
         listParams.push("EnableModuleCredentials");
     }
 
+    // Retorna para a função Default()
     return countParams;
 }
 
@@ -191,14 +212,17 @@ Função utilizada para requisitar os comandos do sistema.
 */
 export function getSystemFileCommands(BASE_URL, domain, username, accessToken) {
 
+    // URL da requisição
     let url = `${BASE_URL}/api/client-manager/pedm/system-file-commands`;
 
+    // Corpo da Requisição
     let body = JSON.stringify({
         "action": "getAllCredencials",
         "domain": domain,
         "username": username
     });
 
+    // Cabeçalho da Requisição
     let params = {
         responseTimeout: '100s',
         headers: {
@@ -207,6 +231,7 @@ export function getSystemFileCommands(BASE_URL, domain, username, accessToken) {
         },
     };
 
+    // Envio da requisição
     let res = http.post(url, body, params);
 
     check(res, {
@@ -221,6 +246,7 @@ export function getSystemFileCommands(BASE_URL, domain, username, accessToken) {
         return;
     }
 
+    // Retorna para a função Default()
     return data;
 }
 
@@ -240,6 +266,7 @@ export function countSystemFileCommands(system_file_commands) {
         listSystem = jsonResponse.system_file_commands.slice(); 
     }
 
+    // Retorna para a função Default()
     return count;
 }
 
@@ -250,8 +277,10 @@ Função utilizada para requisitar as políticas.
 */
 export function getPolicies(BASE_URL, domain, username, accessToken) {
 
+    // URL da requisição
     let url = `${BASE_URL}/api/client-manager/pedm/policies`;
 
+    // Corpo da Requisição
     let body = JSON.stringify({
         "action": "getPolicies",
         "domain": domain,
@@ -259,6 +288,7 @@ export function getPolicies(BASE_URL, domain, username, accessToken) {
         "client_alias": "go-windows"
     });
 
+    // Cabeçalho da Requisição
     let params = {
         responseTimeout: '100s',
         headers: {
@@ -267,6 +297,7 @@ export function getPolicies(BASE_URL, domain, username, accessToken) {
         },
     };
 
+    // Envio da requisição
     let res = http.post(url, body, params);
 
     check(res, {
@@ -285,6 +316,7 @@ export function getPolicies(BASE_URL, domain, username, accessToken) {
     delete data.code;
     delete data.response;
 
+    // Retorna para a função Default()
     return data;
 }
 
@@ -312,6 +344,7 @@ export function countPolicies(policies) {
         });
     }
 
+    // Retorna para a função Default()
     return countPolicies;
 }
 
@@ -322,14 +355,17 @@ Função utilizada requisitar as credenciais.
 */
 export function getCredentials(BASE_URL, domain, username, accessToken) {
 
+    // URL da requisição
     let url = `${BASE_URL}/api/client-manager/vault/credentials`;
 
+    // Corpo da Requisição
     let body = JSON.stringify({
         "action": "getCredentials",
         "domain": domain,
         "username": username
     });
 
+    // Cabeçalho da Requisição
     let params = {
         responseTimeout: '100s',
         headers: {
@@ -338,6 +374,7 @@ export function getCredentials(BASE_URL, domain, username, accessToken) {
         },
     };
 
+    // Envio da requisição
     let res = http.post(url, body, params);
 
     check(res, {
@@ -352,10 +389,11 @@ export function getCredentials(BASE_URL, domain, username, accessToken) {
         return;
     }
 
-    // Remove dados não utilizados na respota do json.
+    // Remove dados não utilizados na resposta do json.
     delete data.code;
     delete data.response;
 
+    // Retorna para a função Default()
     return data;
 }
 
@@ -380,5 +418,6 @@ export function countCredentials(credentials) {
         });
     }
 
+    // Retorna para a função Default()
     return count;
 }
