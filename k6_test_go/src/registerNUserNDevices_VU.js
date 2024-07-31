@@ -56,17 +56,17 @@ export default function() {
 
     // Corpo da Requisição
     let body = JSON.stringify({
-        "client_alias": `epmDevice${__VU}`,
+        "client_alias": "epmClient",
         "client": {
             "binary_hash":"FF54F551B6E829A964310F6C7AC649A2149448C07CF9E1300D5EE9FFFD4C33F5",
             "version": "3.32.0.33",
-            "client_alias": `epmDevice${__VU}`
+            "client_alias": "epmClient"
         },
         "device": {
             "architecture": "x86_64",
             "bios_info": "",
             "cpu_info": "",
-            "domain": `epmDevice${__VU}`,
+            "domain": "senhasegura.local",
             "hardware_uuid": hardwareUUID,
             "hostname": `epmDevice${__VU}`,
             "memory_info": "",
@@ -75,7 +75,7 @@ export default function() {
         },
         "users": [
             {
-                "domain": `epmDevice${__VU}`,
+                "domain": "senhasegura.local",
                 "username": `epmUser${__VU}`
             }
         ]
@@ -88,6 +88,8 @@ export default function() {
             'Bootstrap-Token': BOOTSTRAP_TOKEN,
         }
     };
+
+    console.log(`epmUser${__VU} - epmDevice${__VU} - ${hardwareUUID}`);
 
     // Envio da requisição
     let res = http.post(url, body, params);
@@ -102,7 +104,7 @@ export default function() {
 }
 
 /*
-k6 run k6_test_go/src/registerUserDevice.js --insecure-skip-tls-verify
+k6 run k6_test_go/src/registerNUserNDevices.js --insecure-skip-tls-verify
 
-k6 run --http-debug="full" k6_test_go/src/register_users.js --insecure-skip-tls-verify
+k6 run --http-debug="full" k6_test_go/src/registerNUserNDevices.js --insecure-skip-tls-verify
 */
