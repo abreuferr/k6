@@ -7,8 +7,6 @@ Options :
 */
 
 // Bibliotecas do k6
-import { check, sleep } from 'k6';
-import http from 'k6/http';
 import { SharedArray } from 'k6/data';
 
 // Definição de variável
@@ -23,7 +21,7 @@ const epmInformation = new SharedArray('users with devices', function () {
 // Configuração do teste
 export const options = {
     vus: 1, // Número de usuários virtuais
-    iterations: epmInformation.length, // Número de iterações iguais ao número de dispositivos
+    iterations: epmInformation.length, // Número de iterações iguais ao número de registros
 };
 
 /*
@@ -41,51 +39,6 @@ export default function() {
     console.log(hostname.hardware_uuid)
     console.log(hostname.hostname)
     console.log(hostname.username)
-
-/*
-    let url = `${BASE_URL}/api/client-manager/register`;
-
-    let body = JSON.stringify({
-        "client_alias": "epmClient",
-        "client": {
-            "binary_hash":"FF54F551B6E829A964310F6C7AC649A2149448C07CF9E1300D5EE9FFFD4C33F5",
-            "version": "3.32.0.33",
-            "client_alias": "epmClient"
-        },
-        "device": {
-            "architecture": "x86_64",
-            "bios_info": "",
-            "cpu_info": "",
-            "domain": "senhasegura.local",
-            "hardware_uuid": "hardware_uuid",
-            "hostname": "hostname",
-            "memory_info": "",
-            "operational_system": "Windows 10",
-            "vendor_model_info": "Microsoft"
-        },
-        "users": [
-            {
-                "domain": "senhasegura.local",
-                "username": "username"
-            }
-        ]
-    });
-
-    let params = {
-        headers: { 
-            'Content-Type': 'application/json',
-            'Bootstrap-Token': BOOTSTRAP_TOKEN,
-        }
-    };
-
-    let res = http.post(url, body, params);
-    
-    check(res, {
-        'is status 200': (r) => r.status === 200,
-    });
-
-    console.log(`Usuário epmUser${__VU} e dispositivo epmDevice${__VU} com UUID ${hardwareUUID}`);
-*/
 }
 
 /*
