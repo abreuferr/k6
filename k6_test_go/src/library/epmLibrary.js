@@ -10,6 +10,9 @@ Options :
 import http from 'k6/http';
 import { check } from 'k6';
 
+
+//import file from 'k6/x/file';
+
 /*
 Função getClientIDandClientSecret()
 
@@ -98,7 +101,8 @@ export function getAccessToken(BASE_URL, clientId, clientSecret) {
     return accessToken;
 }
 
-/* Função getUpdate()
+/* 
+Função getUpdate()
 
 Esta função realiza uma requisição para o cofre e verifica se há atualizações para o EPM Client.
 */
@@ -389,7 +393,7 @@ export function getCredentials(BASE_URL, domain, username, accessToken) {
         return;
     }
 
-    // Remove dados não utilizados na resposta do json.
+    // Remove dados não utilizados na respota do json.
     delete data.code;
     delete data.response;
 
@@ -420,4 +424,212 @@ export function countCredentials(credentials) {
 
     // Retorna para a função Default()
     return count;
+}
+
+/* 
+Função startSession()
+
+Função utilizada iniciar o envio de sessões para o servidor.
+*/
+export function startSession(BASE_URL,username, domain, clientAlias, ip, accessToken) {
+
+    let now = new Date();
+    
+    let year = now.getFullYear();
+    let month = String(now.getMonth() + 1).padStart(2, '0'); // Adiciona 1 porque os meses são indexados de 0
+    let day = String(now.getDate()).padStart(2, '0');
+    let hours = String(now.getHours()).padStart(2, '0');
+    let minutes = String(now.getMinutes()).padStart(2, '0');
+    let seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    let started_at = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    
+
+    // URL da requisição
+    let url = `${BASE_URL}/api/client-manager/pedm/video/start`;
+
+    // Corpo da Requisição
+    let body = JSON.stringify({
+        "action": "startSession",
+        "username": username,
+        "domain": domain,
+        "client_alias": clientAlias,
+        "ip": ip,
+        "started_at": started_at
+    });
+
+    // Cabeçalho da Requisição
+    let params = {
+        responseTimeout: '100s',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+    };
+
+    // Envio da requisição
+    let res = http.post(url, body, params);
+
+    check(res, {
+        'Start Session               | status 200 |': (r) => r.status === 200,
+        'sessionId is present': (r) => r.json('sessionId') !== undefined
+    });
+
+    let data;
+    try {
+        data = JSON.parse(res.body);
+    } catch (error) {
+        console.error("Erro ao analisar JSON da resposta ao iniciar sessão:", error.message);
+        return;
+    }
+
+    // Retorna o Session_id que é usado nas funções uploadSession e fisinhSession.
+    return res.json('sessionId');
+}
+
+/*
+Função uploadSession()
+
+Função para enviar um arquivo de vídeo inteiro para o servidor.
+*/
+export function uploadSession(BASE_URL, username, domain, clientAlias, session_id, file_chunk, content, ip, md5, input_log, accessToken) {
+
+    let url = `${BASE_URL}/api/client-manager/pedm/video/upload`;
+
+    // Corpo da Requisição
+    let body = JSON.stringify({
+        username,
+        domain,
+        client_alias: clientAlias,
+        session_id,
+        file_chunk,
+        content,
+        ip,
+        md5,
+        input_log: input_log || ""  
+    });
+
+    // Cabeçalho da Requisição
+    let params = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        }
+    };
+
+    // Envio da requisição
+    let res = http.post(url, body, params);
+    console.log(`Response status for chunk ${file_chunk}: ${res.status}`);
+
+    check(res, {
+        'Upload Video                | status 201 |': (r) => r.status === 201
+    });
+
+   // return JSON.parse(res.body || '{}');
+
+    let data;
+    try {
+        data = JSON.parse(res.body);
+    } catch (error) {
+        console.error("Erro ao analisar JSON da resposta ao enviar o vídeo:", error.message);
+        return;
+    }
+
+    // Retorna para a função Default()
+    return data;
+}
+
+/* 
+Função finishSession()
+
+Função utilizada finalizar o envio de gravações para o servidor.
+*/
+export function finishSession(BASE_URL,username, domain, clientAlias, cmd, ip, session_id, finished_at, exited_at, accessToken) {
+
+    // URL da requisição
+    let url = `${BASE_URL}/api/client-manager/pedm/video/finish`;
+
+    // Corpo da Requisição
+    let body = JSON.stringify({
+        "action": "finishSession",
+        "username": username,
+        "domain": domain,
+        "client_alias": clientAlias,
+        "cmd": cmd, 
+        "ip": ip,
+        "session_id": session_id,
+        "finished_at": finished_at,
+        "exited_at": exited_at
+    });
+
+    // Cabeçalho da Requisição
+    let params = {
+        responseTimeout: '100s',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+    };
+
+    // Envio da requisição
+    let res = http.post(url, body, params);
+
+    check(res, {
+        'Finish Session              | status 201 |': (r) => r.status === 201,
+    });
+
+    let data;
+    try {
+        data = JSON.parse(res.body);
+    } catch (error) {
+        console.error("Erro ao analisar JSON da resposta ao finalizar o envio da sessão:", error.message);
+        return;
+    }
+
+    // Retorna para a função Default()
+    return data;
+}
+
+/* 
+Função postEvents()
+
+Função utilizada para enviar eventos para o servidor.
+*/
+export function postEvent(BASE_URL,input_mode,fileContents,accessToken) {
+
+    // URL da requisição
+    let url = `${BASE_URL}/api/client-manager/events`;
+
+    // Corpo da Requisição
+    let body = JSON.stringify({input_mode},fileContents);
+
+    // Cabeçalho da Requisição
+    let params = {
+        responseTimeout: '100s',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+    };
+
+    // Envio da requisição
+    let res = http.post(url, JSON.stringify(body), params);
+
+    check(res, {
+        'Evento              | status 200 |': (r) => r.status === 200,
+    });
+
+    let data;
+    try {
+        data = JSON.parse(res.body);
+    } catch (error) {
+        console.error("Erro ao analisar JSON da resposta ao finalizar o envio do evento:", error.message);
+        return;
+    }
+    // Remove dados não utilizados na respota do json.
+    //delete data.code;
+    //delete data.response;
+
+    // Retorna para a função Default()
+    return data;
 }

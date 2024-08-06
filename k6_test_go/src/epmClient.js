@@ -97,7 +97,7 @@ export default function () {
     // Obtém o accessToken
     //let accessToken = getAccessToken(BASE_URL, clientId, clientSecret);
     //console.log(`accessToken..: ${accessToken}`);
-    let accessToken = "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIzZjE2OTFkYjEzODcwYTMzOTFlYTRmNzMyMmRjMDVhNjAzMjBlM2YwOGQ0MGIxNzU4OGM3Yjg0MmQ5NmQ5MmEzIiwiZXhwIjoxNzIxOTM2OTE0LCJ0b2tlbl9pZCI6MTcsImlhdCI6MTcyMTkzMzMxNCwiaXNzIjoic2VuaGFzZWd1cmEtYXBpLWF1dGgifQ.Gc82uf4oISXFgn5qFDGxK7XdBlPDPf9hXAQCpQFnTdT89llev1QGEsV8QtDJajUe_OAa3csK53vF8Nm-kjJLUwe-MIfmvxoOpwt1ijuBaAomN4r8A_zTyCQ--hfZ9IL9cL6hhZShJgLMg-eHpywriFjpUnXlx1r3stEhQiaqX5La2Zu-F0jD9sY0WVrCdWILu1iCUDw0QIXQEVxxNqI8eV192P7nN9Qcz7kCMK_XQB3A-oZV0tomQqwfnYgqMsPiSVNfSuktwZF0mirhdDOvOnh825ac578HGu44V0JP13WpiLjJIws_AxHGyoTqo0g_Q2-koSZryjm_Wkz7TKRCnw";
+    let accessToken = "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIzZjE2OTFkYjEzODcwYTMzOTFlYTRmNzMyMmRjMDVhNjAzMjBlM2YwOGQ0MGIxNzU4OGM3Yjg0MmQ5NmQ5MmEzIiwiZXhwIjoxNzIyODY2MzM3LCJ0b2tlbl9pZCI6MTcsImlhdCI6MTcyMjg2MjczNywiaXNzIjoic2VuaGFzZWd1cmEtYXBpLWF1dGgifQ.QtOYmDSzZwNAiQ5J_Smzw-cVScE9ztnUZ2nH9HAJlxS2nO_hOp3PcuaG50_bwQzOZUoKzldAAIJ1D5tnjmHC-gASiS9wwQ4Wib-i0aSDhfkssxKKIOGqZZMLbPKSzlSaF-RUPh02_iCcW-lqvUDoAMjGPAeSBeNb7v0jOMARqRe2LsofJU2VIw0mwmF1uSDUZlMPa4mLkru8nKHoachYV-V8DiKDM4sNif99B_DhdtmkHb8S9WGrRP4WJUBvgZvOR-5UmY_a9vaDuVaVpSTB52lmSuDecUCUE0DlKiq-XbjAdxekjOzGNutwPnqhGOKpMeHoIxjzxHaVxiSWDkqA0g";
 
     /*
         Update()
@@ -149,11 +149,12 @@ export default function () {
 
     // Obter credenciais
     let credentials = getCredentials(BASE_URL, domain, username, accessToken);
-    //console.log(`Credenciais..: ${JSON.stringify(credentials, null, 2)}`);
+    console.log(`Credenciais..: ${JSON.stringify(credentials, null, 2)}`);
    
     // Contar credenciais
-    let credentialCount = countCredentials(credentials);
-    console.log(`O usuário epmUser${__VU} possui o total de ${credentialCount} credenciais`);
+    //let credentialCount = countCredentials(credentials);
+    //console.log(`O usuário epmUser${__VU} possui o total de ${credentialCount} credenciais`);
+
 }
 
 /*

@@ -1,0 +1,14 @@
+[  
+   {
+    "timestamp": false,
+    "type": 2,
+    "username": "epmUser1",
+    "domain": "epmDevice",
+    "ip": "::123",
+    "description": "Go Windows: 2",
+    "data": null,
+    "event_date": "2024-08-06T12:00:07-03:00",
+    "justification": null,
+    "validate_error": "Invalid timestamp"
+    }
+]
